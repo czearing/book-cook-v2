@@ -46,12 +46,12 @@ export const Showcase: StoryObj = {
       </section>
 
       {/* 4. Active Mode (Large Serif) */}
-      {/* <section>
+      <section>
         <SectionLabel>Focus Mode</SectionLabel>
         <FocusStep>
           Add the tomatoes and let simmer gently for 10 minutes.
         </FocusStep>
-      </section> */}
+      </section>
     </div>
   ),
 };
