@@ -1,0 +1,38 @@
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+
+  /* Standard size for consistency */
+  width: 24px;
+  height: 24px;
+
+  color: #d1d5db; /* Unchecked Gray */
+  transition: all 0.2s ease;
+  border-radius: 4px;
+
+  /* Focus ring handled by parent or :focus-visible if we added tabIndex */
+  outline: none;
+}
+
+.checked {
+  color: #007aff; /* Brand Blue */
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Hover effect */
+.checkbox:hover:not(.checked):not(.disabled) {
+  color: #9ca3af;
+}
+
+/* Active click squish */
+.checkbox:active:not(.disabled) {
+  transform: scale(0.92);
+}
