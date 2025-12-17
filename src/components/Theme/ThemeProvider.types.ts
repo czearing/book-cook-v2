@@ -20,7 +20,7 @@ export type ThemeProviderProps = {
   /**
    * Function to update the current theme.
    */
-  setTheme: (theme: Theme) => void;
+  setTheme?: (theme: Theme) => void;
 };
 
 /**
@@ -34,5 +34,5 @@ export interface ThemeContextType {
   /**
    * Function to update the application's theme.
    */
-  setTheme: (theme: Theme) => void;
+  setTheme?: (theme: Theme) => void;
 }
