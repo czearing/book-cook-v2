@@ -15,10 +15,20 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
       disabled = false,
       className,
       children,
+      onClick,
       ...rest
     } = props;
 
     const Icon = checked ? CheckSquareIcon : SquareIcon;
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      // Allow toggling with Space bar
+      if (e.key === " " && !disabled) {
+        e.preventDefault();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onClick?.(e as any);
+      }
+    };
 
     return (
       <div
@@ -26,6 +36,10 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
         role="checkbox"
         aria-checked={checked}
         aria-disabled={disabled}
+        // 1. Make it focusable (0 = in tab order, undefined = removed if disabled)
+        tabIndex={disabled ? undefined : 0}
+        onClick={!disabled ? onClick : undefined}
+        onKeyDown={handleKeyDown}
         className={clsx(
           styles.checkbox,
           checked && styles.checked,
