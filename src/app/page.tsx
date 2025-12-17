@@ -9,14 +9,14 @@ import {
 } from "@phosphor-icons/react";
 
 // Adjust these paths to match your folder structure
-import { Button } from "@/components/Button";
-import { Stack } from "@/components/Stack";
 import {
+  Button,
+  Stack,
   RecipeTitle,
   MetaLabel,
   SectionLabel,
   BodyText,
-} from "@/components/Typography";
+} from "@/components";
 
 export default function RecipePage() {
   return (

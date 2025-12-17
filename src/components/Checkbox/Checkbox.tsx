@@ -1,3 +1,4 @@
+import * as React from "react";
 import { forwardRef } from "react";
 import { SquareIcon, CheckSquareIcon } from "@phosphor-icons/react";
 import { clsx } from "clsx";
@@ -11,44 +12,58 @@ import type { CheckboxProps } from "./Checkbox.types";
 export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
   (props, ref) => {
     const {
-      checked = false,
+      checked, // Do NOT default this value
+      defaultChecked = false,
       disabled = false,
       className,
-      children,
       onClick,
       ...rest
     } = props;
 
-    const Icon = checked ? CheckSquareIcon : SquareIcon;
+    // 1. Determine if the component is controlled or uncontrolled
+    const isControlled = checked !== undefined;
+    const [internalChecked, setInternalChecked] =
+      React.useState(defaultChecked);
+
+    // 2. The source of truth is either the controlled prop or internal state
+    const isChecked = isControlled ? checked : internalChecked;
+
+    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+      // 3. If uncontrolled, update our own state
+      if (!isControlled) {
+        setInternalChecked(!internalChecked);
+      }
+      // 4. Always call the parent's onClick handler if it exists
+      onClick?.(e);
+    };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-      // Allow toggling with Space bar
       if (e.key === " " && !disabled) {
         e.preventDefault();
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        onClick?.(e as any);
+        handleClick(e as any); // Simulate a click event
       }
     };
+
+    const Icon = isChecked ? CheckSquareIcon : SquareIcon;
 
     return (
       <div
         ref={ref}
         role="checkbox"
-        aria-checked={checked}
+        aria-checked={isChecked}
         aria-disabled={disabled}
-        // 1. Make it focusable (0 = in tab order, undefined = removed if disabled)
         tabIndex={disabled ? undefined : 0}
-        onClick={!disabled ? onClick : undefined}
+        onClick={!disabled ? handleClick : undefined}
         onKeyDown={handleKeyDown}
         className={clsx(
           styles.checkbox,
-          checked && styles.checked,
+          isChecked && styles.checked,
           disabled && styles.disabled,
           className
         )}
         {...rest}
       >
-        <Icon weight={checked ? "fill" : "regular"} size={24} />
+        <Icon weight={isChecked ? "fill" : "regular"} size={24} />
       </div>
     );
   }

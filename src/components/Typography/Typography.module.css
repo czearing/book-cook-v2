@@ -4,7 +4,7 @@
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.2;
-  color: #111;
+  color: var(--ui-TextPrimary);
   margin: 0;
 }
 
@@ -14,7 +14,7 @@
   font-weight: 500;
   line-height: 1.4;
   letter-spacing: -0.01em;
-  color: #111;
+  color: var(--ui-TextPrimary);
   margin: 0;
 }
 
@@ -23,7 +23,7 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
-  color: #37352f;
+  color: var(--ui-TextSecondary);
   font-variant-numeric: lining-nums tabular-nums;
   margin: 0;
 }
@@ -34,7 +34,7 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #787774;
+  color: var(--ui-TextLabel);
   margin: 0;
   user-select: none;
   line-height: 25px;
@@ -44,7 +44,7 @@
   font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
-  color: #9ea5b0;
+  color: var(--ui-TextCaption);
   font-variant-numeric: tabular-nums;
   margin: 0;
 }

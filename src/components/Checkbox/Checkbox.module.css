@@ -9,8 +9,8 @@
   width: 24px;
   height: 24px;
 
-  color: #d1d5db; /* Unchecked Gray */
-  transition: all 0.2s ease;
+  color: var(--ui-ControlBorder);
+  transition: var(--animation-transition);
   border-radius: 4px;
 
   /* Focus ring handled by parent or :focus-visible if we added tabIndex */
@@ -19,22 +19,22 @@
 
 .checkbox:focus-visible {
   z-index: 1;
-  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #007aff;
+  box-shadow: 0 0 0 2px var(--ui-Canvas), 0 0 0 4px var(--brand-Primary);
 }
 
 .checked {
-  color: #007aff; /* Brand Blue */
+  color: var(--brand-Primary);
 }
 
 .disabled {
-  opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
+  color: var(--ui-ControlDisabled);
 }
 
 /* Hover effect */
 .checkbox:hover:not(.checked):not(.disabled) {
-  color: #9ca3af;
+  color: var(--ui-ControlBorderHover);
 }
 
 /* Active click squish */

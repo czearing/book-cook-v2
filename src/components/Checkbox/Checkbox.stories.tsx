@@ -1,4 +1,3 @@
-import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { Checkbox } from "./Checkbox";
@@ -12,16 +11,11 @@ const meta: Meta<typeof Checkbox> = {
 export default meta;
 type Story = StoryObj<typeof Checkbox>;
 
-const UncontrolledCheckbox = ({ initial = false }) => {
-  const [checked, setChecked] = useState(initial);
-  return <Checkbox checked={checked} onClick={() => setChecked(!checked)} />;
-};
-
 export const Interactive: Story = {
   render: () => (
     <Stack direction="row" gap="md">
-      <UncontrolledCheckbox initial={false} />
-      <UncontrolledCheckbox initial={true} />
+      <Checkbox defaultChecked={false} />
+      <Checkbox defaultChecked={true} />
     </Stack>
   ),
 };
@@ -29,8 +23,8 @@ export const Interactive: Story = {
 export const Disabled: Story = {
   render: () => (
     <Stack direction="row" gap="md">
-      <Checkbox checked={false} disabled />
-      <Checkbox checked={true} disabled />
+      <Checkbox defaultChecked={false} disabled />
+      <Checkbox defaultChecked={true} disabled />
     </Stack>
   ),
 };
