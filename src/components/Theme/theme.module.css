@@ -8,8 +8,12 @@
 
   /* UI Colors */
   --ui-Canvas: #fdfcff;
+  --ui-ControlHover: #f3f4f6;
+  --ui-ControlPressed: #e5e7eb;
+  --ui-ControlBackgroundDisabled: #f3f4f6;
   --ui-ControlBorder: #6b7280;
   --ui-ControlBorderHover: #4b5563;
+  --ui-ControlBorderPressed: #1f2937;
   --ui-ControlDisabled: #9ca3af;
   --ui-TextPrimary: #111111;
   --ui-TextSecondary: #37352f;
@@ -27,8 +31,12 @@
 
   /* UI Colors */
   --ui-Canvas: #0b0a0f;
+  --ui-ControlHover: #1f2937;
+  --ui-ControlPressed: #374151;
+  --ui-ControlBackgroundDisabled: #1f2937;
   --ui-ControlBorder: #9ca3af;
   --ui-ControlBorderHover: #d1d5db;
+  --ui-ControlBorderPressed: #f3f4f6;
   --ui-ControlDisabled: #4b5563;
   --ui-TextPrimary: #fdfcff;
   --ui-TextSecondary: #e2e0ee;
