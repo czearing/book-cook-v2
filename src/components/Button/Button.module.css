@@ -18,10 +18,11 @@
   line-height: 1.2;
 
   transition:
-    background-color 0.15s ease-out,
-    border-color 0.15s ease-out,
-    transform 0.15s ease-out,
-    box-shadow 0.15s ease-out;
+    background-color var(--motion-default),
+    border-color var(--motion-default),
+    color var(--motion-default),
+    transform var(--motion-default),
+    box-shadow var(--motion-default);
 }
 
 /* Focus States */
@@ -77,15 +78,15 @@
 
 .variantDestructive {
   background-color: transparent;
-  color: #eb5757;
+  color: var(--danger-Primary);
 }
 .variantDestructive:hover:not(:disabled) {
-  background-color: rgba(235, 87, 87, 0.1);
+  background-color: var(--danger-Hover);
 }
 .variantDestructive:focus-visible {
   box-shadow:
-    0 0 0 2px #ffffff,
-    0 0 0 4px #eb5757;
+    0 0 0 2px var(--ui-Canvas),
+    0 0 0 4px var(--danger-Primary);
 }
 
 /* Sizes */
@@ -167,12 +168,6 @@
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   color: inherit;
-}
-.variantPrimary .spinner {
-  color: #fff;
-}
-.variantSecondary .spinner {
-  color: #37352f;
 }
 
 @keyframes spin {

@@ -6,6 +6,13 @@
   --brand-Disabled: #d6d1e8;
   --brand-BackgroundDisabled: #fbfbff;
 
+  /* Danger Colors*/
+  --danger-Primary: #eb5757;
+  --danger-Hover: #cf4545;
+  --danger-Pressed: #b33838;
+  --danger-Disabled: #f5bebe;
+  --danger-BackgroundDisabled: #fffbfb;
+
   /* UI Colors */
   --ui-Canvas: #fdfcff;
   --ui-ControlHover: #f3f4f6;
@@ -28,6 +35,13 @@
   --brand-Pressed: #8d7fd9;
   --brand-Disabled: #3d3855;
   --brand-BackgroundDisabled: #141122;
+
+  /* Danger Colors*/
+  --danger-Primary: #eb5757;
+  --danger-Hover: #cf4545;
+  --danger-Pressed: #b33838;
+  --danger-Disabled: #7e3535;
+  --danger-BackgroundDisabled: #2b1f1f;
 
   /* UI Colors */
   --ui-Canvas: #0b0a0f;

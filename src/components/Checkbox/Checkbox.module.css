@@ -10,7 +10,12 @@
   height: 24px;
 
   color: var(--ui-ControlBorder);
-  transition: var(--animation-transition);
+  transition:
+    color var(--motion-default),
+    background-color var(--motion-default),
+    border-color var(--motion-default),
+    box-shadow var(--motion-default),
+    transform var(--motion-default);
   border-radius: 4px;
 
   /* Focus ring handled by parent or :focus-visible if we added tabIndex */
@@ -19,7 +24,9 @@
 
 .checkbox:focus-visible {
   z-index: 1;
-  box-shadow: 0 0 0 2px var(--ui-Canvas), 0 0 0 4px var(--brand-Primary);
+  box-shadow:
+    0 0 0 2px var(--ui-Canvas),
+    0 0 0 4px var(--brand-Primary);
 }
 
 .checked {
