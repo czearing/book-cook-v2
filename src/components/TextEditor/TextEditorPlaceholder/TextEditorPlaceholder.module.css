@@ -1,0 +1,13 @@
+.placeholder {
+  position: relative;
+}
+
+.placeholder::before {
+  content: "Press '/' for commands...";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--ui-TextCaption);
+  pointer-events: none;
+  opacity: 0.5;
+}

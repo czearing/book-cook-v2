@@ -28,7 +28,8 @@
     "react-dom": "^19.2.1",
     "react-dropzone": "^14.3.8",
     "sonner": "^2.0.7",
-    "@phosphor-icons/react": "^2.1.10"
+    "@phosphor-icons/react": "^2.1.10",
+    "@lexical/react": "^0.39.0"
   },
   "devDependencies": {
     "@storybook/addon-docs": "^10.1.7",
