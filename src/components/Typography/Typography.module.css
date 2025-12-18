@@ -41,7 +41,6 @@
   text-transform: uppercase;
   color: var(--ui-TextLabel);
   margin: 0;
-  user-select: none;
   line-height: 25px;
   margin-top: 32px;
   margin-bottom: 8px;
