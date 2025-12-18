@@ -49,6 +49,26 @@
   margin: 0;
 }
 
+.bold {
+  font-weight: 600;
+  color: var(--ui-TextPrimary);
+}
+
+.italic {
+  font-style: italic;
+}
+
+.underline {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+  color: var(--ui-TextCaption);
+}
+
 /* Responsive */
 @media (min-width: 768px) {
   .recipeTitle { font-size: 48px; }

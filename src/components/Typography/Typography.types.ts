@@ -25,5 +25,28 @@ export interface TypographyProps<T extends ElementType = ElementType> {
 }
 
 export interface TextProps extends TypographyProps {
+  /**
+   * The variant style to apply to the Typography component
+   */
   variant?: TextVariant;
+
+  /**
+   * Whether the text should be bold.
+   */
+  bold?: boolean;
+
+  /**
+   * Whether the text should be italic.
+   */
+  italic?: boolean;
+
+  /**
+   * Whether the text should be underlined.
+   */
+  underline?: boolean;
+
+  /**
+   * Whether the text should have a strikethrough.
+   */
+  strikethrough?: boolean;
 }

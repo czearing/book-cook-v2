@@ -1,42 +1,61 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { $getSelection, $isRangeSelection } from "lexical";
 
 import styles from "./TextEditorPlaceholder.module.css";
 
+type PlaceholderState = { key: string; type: "empty" | "slash" };
+
 export function TextEditorPlaceholder() {
   const [editor] = useLexicalComposerContext();
+  const state = useRef<PlaceholderState | null>(null);
 
   useEffect(() => {
     return editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
-        const root = editor.getRootElement();
-        if (!root) {
-          return;
-        }
-
-        root.querySelectorAll(`.${styles.placeholder}`).forEach((el) => {
-          el.classList.remove(styles.placeholder);
-        });
-
         const selection = $getSelection();
-        if (!$isRangeSelection(selection) || !selection.isCollapsed()) {
+        let current: PlaceholderState | null = null;
+
+        // 1. Logic: Determine if we are on an empty line OR a slash line
+        if ($isRangeSelection(selection) && selection.isCollapsed()) {
+          const element = selection.anchor.getNode().getTopLevelElement();
+
+          if (element?.getType() === "paragraph") {
+            const text = element.getTextContent();
+            if (text === "") {
+              current = { key: element.getKey(), type: "empty" };
+            }
+            if (text === "/") {
+              current = { key: element.getKey(), type: "slash" };
+            }
+          }
+        }
+
+        // 2. Diff: Exit early if state hasn't changed (O(1) Check)
+        const prev = state.current;
+        if (current?.key === prev?.key && current?.type === prev?.type) {
           return;
         }
 
-        const node = selection.anchor.getNode();
-        const element = node.getTopLevelElement();
-
-        if (
-          element?.getType() === "paragraph" &&
-          element.getTextContentSize() === 0
-        ) {
+        // 3. Clean up old state
+        if (prev) {
           editor
-            .getElementByKey(element.getKey())
-            ?.classList.add(styles.placeholder);
+            .getElementByKey(prev.key)
+            ?.classList.remove(styles.empty, styles.slash);
         }
+
+        // 4. Apply new state
+        if (current) {
+          editor
+            .getElementByKey(current.key)
+            ?.classList.add(
+              current.type === "empty" ? styles.empty : styles.slash
+            );
+        }
+
+        state.current = current;
       });
     });
   }, [editor]);

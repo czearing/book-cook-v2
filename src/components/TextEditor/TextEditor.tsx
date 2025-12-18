@@ -9,19 +9,25 @@ import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPl
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 
+import styles from "./TextEditor.module.css";
 import { TextEditorPlaceholder } from "./TextEditorPlaceholder/TextEditorPlaceholder";
 import { SlashMenu } from "./TextEditorSlashMenu/TextEditorSlashMenu";
-import styles from "../Typography/Typography.module.css";
+import typography from "../Typography/Typography.module.css";
 
 const editorTheme = {
-  paragraph: styles.bodyText,
+  paragraph: typography.bodyText,
   heading: {
-    h1: styles.recipeTitle,
-    h2: styles.sectionLabel,
-    h3: styles.focusStep,
+    h1: typography.recipeTitle,
+    h2: typography.sectionLabel,
+    h3: typography.focusStep,
   },
-
-  quote: styles.focusStep,
+  text: {
+    bold: typography.bold,
+    italic: typography.italic,
+    underline: typography.underline,
+    strikethrough: typography.strikethrough,
+  },
+  quote: typography.focusStep,
 };
 
 const recipeTransformers = [HEADING, QUOTE, ...TEXT_FORMAT_TRANSFORMERS];
@@ -39,14 +45,16 @@ export function TextEditor() {
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <TextEditorPlaceholder />
-      <SlashMenu />
-      <RichTextPlugin
-        contentEditable={<ContentEditable />}
-        ErrorBoundary={LexicalErrorBoundary}
-      />
-      <HistoryPlugin />
-      <MarkdownShortcutPlugin transformers={recipeTransformers} />
+      <div className={styles.container}>
+        <TextEditorPlaceholder />
+        <SlashMenu />
+        <RichTextPlugin
+          contentEditable={<ContentEditable className={styles.input} />}
+          ErrorBoundary={LexicalErrorBoundary}
+        />
+        <HistoryPlugin />
+        <MarkdownShortcutPlugin transformers={recipeTransformers} />
+      </div>
     </LexicalComposer>
   );
 }

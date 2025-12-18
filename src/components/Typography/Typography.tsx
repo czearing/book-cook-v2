@@ -15,12 +15,33 @@ const variants = {
  * A versatile Typography component for rendering text with various styles and HTML elements.
  */
 export const Text: React.FC<TextProps> = (props) => {
-  const { variant = "bodyText", as, className, ...rest } = props;
+  const {
+    variant = "bodyText",
+    as,
+    className,
+    bold,
+    italic,
+    underline,
+    strikethrough,
+    ...rest
+  } = props;
 
   const config = variants[variant];
   const Component = as ?? config.tag;
 
-  return <Component className={clsx(config.style, className)} {...rest} />;
+  return (
+    <Component
+      className={clsx(
+        config.style,
+        bold && styles.bold,
+        italic && styles.italic,
+        underline && styles.underline,
+        strikethrough && styles.strikethrough,
+        className
+      )}
+      {...rest}
+    />
+  );
 };
 
 export const RecipeTitle = (props: TypographyProps) => (

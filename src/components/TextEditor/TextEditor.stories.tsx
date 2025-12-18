@@ -9,5 +9,9 @@ const meta: Meta = {
 export default meta;
 
 export const Showcase: StoryObj = {
-  render: () => <TextEditor />,
+  render: () => (
+    <div style={{ height: "90vh" }}>
+      <TextEditor />
+    </div>
+  ),
 };
