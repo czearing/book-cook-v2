@@ -12,3 +12,30 @@
   height: 100%;
   outline: none;
 }
+
+.ol {
+  padding: 0;
+  margin: 0;
+  padding-left: 24px;
+  list-style-type: decimal;
+  color: var(--ui-TextSecondary);
+}
+
+.ul {
+  padding: 0;
+  margin: 0;
+  padding-left: 24px;
+  list-style-type: disc;
+  color: var(--ui-TextSecondary);
+}
+
+.listItem {
+  margin: 6px 0;
+  line-height: 1.5;
+  font-family: var(--font-sans);
+  font-size: 16px;
+}
+
+.nestedListItem {
+  list-style-type: none;
+}

@@ -5,7 +5,8 @@
   letter-spacing: -0.02em;
   line-height: 1.2;
   color: var(--ui-TextPrimary);
-  margin: 0;
+  margin-top: 48px;
+  margin-bottom: 8px;
 }
 
 .focusStep {
@@ -16,6 +17,8 @@
   letter-spacing: -0.01em;
   color: var(--ui-TextPrimary);
   margin: 0;
+  margin-top: 24px;
+  margin-bottom: 4px;
 }
 
 .bodyText {
@@ -26,6 +29,8 @@
   color: var(--ui-TextSecondary);
   font-variant-numeric: lining-nums tabular-nums;
   margin: 0;
+  margin-top: 0;
+  margin-bottom: 6px;
 }
 
 .sectionLabel {
@@ -38,6 +43,8 @@
   margin: 0;
   user-select: none;
   line-height: 25px;
+  margin-top: 32px;
+  margin-bottom: 8px;
 }
 
 .metaLabel {
@@ -71,6 +78,10 @@
 
 /* Responsive */
 @media (min-width: 768px) {
-  .recipeTitle { font-size: 48px; }
-  .focusStep { font-size: 32px; }
+  .recipeTitle {
+    font-size: 48px;
+  }
+  .focusStep {
+    font-size: 32px;
+  }
 }
