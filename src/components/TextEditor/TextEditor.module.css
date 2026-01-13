@@ -4,6 +4,10 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  --editor-menu-size: 24px;
+  --editor-menu-gap: 12px;
+  --editor-gutter: calc(var(--editor-menu-size) + var(--editor-menu-gap));
 }
 
 .input {
@@ -11,10 +15,13 @@
   width: 100%;
   height: 100%;
   outline: none;
-  /* Add padding-left here so text doesn't overlap the button */
-  padding-left: 32px;
+  min-width: 0;
+  overflow-x: hidden;
+  /* Reserve space for the 24px menu + 8px gap. */
+  padding-left: var(--editor-gutter);
   padding-right: 12px;
   padding-top: 12px;
+  box-sizing: border-box;
 }
 .ol {
   padding: 0;

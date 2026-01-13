@@ -39,6 +39,7 @@ const preview: Preview = {
             minHeight: "100vh",
             width: "100%",
             padding: "1rem",
+            boxSizing: "border-box",
             backgroundColor: "var(--ui-Canvas)",
             color: "var(--ui-TextPrimary)",
           }}
