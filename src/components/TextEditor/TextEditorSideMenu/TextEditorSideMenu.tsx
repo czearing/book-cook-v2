@@ -19,7 +19,8 @@ export const TextEditorSideMenu = () => {
     let currentBlock: HTMLElement | null = null;
 
     const hide = () => {
-      menu.style.opacity = "0";
+      menu.dataset.visible = "false";
+      menu.dataset.animate = "false";
       currentBlock = null;
     };
 
@@ -72,7 +73,10 @@ export const TextEditorSideMenu = () => {
       const top = hit.rect.top - containerRect.top;
 
       menu.style.transform = `translate3d(0, ${Math.round(top)}px, 0)`;
-      menu.style.opacity = "1";
+      menu.dataset.visible = "true";
+      menu.dataset.animate = "false";
+      void menu.offsetWidth;
+      menu.dataset.animate = "true";
     };
 
     const onMove = (e: MouseEvent) => {
@@ -84,6 +88,8 @@ export const TextEditorSideMenu = () => {
       hide();
     };
 
+    menu.dataset.visible = "false";
+    menu.dataset.animate = "false";
     container.addEventListener("mousemove", onMove);
     container.addEventListener("mouseleave", hide);
     const unregisterRootListener = editor.registerRootListener(

@@ -7,8 +7,25 @@
   z-index: 20;
   opacity: 0;
   pointer-events: none;
-  will-change: transform;
-  transition: opacity 0.15s ease;
+  will-change: opacity;
+  transition: opacity var(--motion-default);
+}
+
+.menu[data-visible="true"] {
+  opacity: 1;
+}
+
+.menu[data-animate="true"] {
+  animation: fadeInMenu var(--motion-default);
+}
+
+@keyframes fadeInMenu {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .btn {
@@ -16,7 +33,7 @@
   border: none;
   background: transparent;
   cursor: pointer;
-  color: #9ca3af;
+  color: var(--ui-TextLabel);
   font-size: 20px;
   padding: 0;
   width: 100%;
@@ -26,7 +43,6 @@
 }
 
 .btn:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-  color: #37352f;
+  background-color: var(--ui-ControlHover);
   border-radius: 4px;
 }
