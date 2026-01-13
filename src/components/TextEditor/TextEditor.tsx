@@ -21,6 +21,7 @@ import { SelectAllPlugin } from "./plugins";
 import styles from "./TextEditor.module.css";
 import type { TextEditorProps } from "./TextEditor.types";
 import { TextEditorPlaceholder } from "./TextEditorPlaceholder/TextEditorPlaceholder";
+import { TextEditorSideMenu } from "./TextEditorSideMenu/TextEditorSideMenu";
 import { SlashMenu } from "./TextEditorSlashMenu/TextEditorSlashMenu";
 import typography from "../Typography/Typography.module.css";
 
@@ -75,6 +76,7 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <div className={styles.container}>
+        <TextEditorSideMenu />
         <SelectAllPlugin />
         <TextEditorPlaceholder />
         <SlashMenu />

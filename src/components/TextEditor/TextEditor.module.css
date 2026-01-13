@@ -1,5 +1,5 @@
 .container {
-  position: relative;
+  position: relative; /* Essential for the absolute positioning of the menu */
   height: 100%;
   width: 100%;
   display: flex;
@@ -11,8 +11,11 @@
   width: 100%;
   height: 100%;
   outline: none;
+  /* Add padding-left here so text doesn't overlap the button */
+  padding-left: 32px;
+  padding-right: 12px;
+  padding-top: 12px;
 }
-
 .ol {
   padding: 0;
   margin: 0;

@@ -1,0 +1,32 @@
+.menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  z-index: 20;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+  transition: opacity 0.15s ease;
+}
+
+.btn {
+  pointer-events: auto;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #9ca3af;
+  font-size: 20px;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  line-height: 24px;
+}
+
+.btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #37352f;
+  border-radius: 4px;
+}
