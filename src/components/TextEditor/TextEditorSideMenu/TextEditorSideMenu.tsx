@@ -2,6 +2,50 @@ import { useEffect, useRef } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
 import styles from "./TextEditorSideMenu.module.css";
+import { TextEditorAddButton } from "./TextEditorAddButton";
+
+const CANDIDATE_SELECTOR = ":scope > *:not(ul):not(ol), li";
+const CLOSEST_THRESHOLD = 12;
+
+type Hit = { block: HTMLElement; rect: DOMRect };
+
+// Hit-test blocks by Y, preferring the smallest line rect for list items.
+const findBlockAtY = (root: HTMLElement, y: number): Hit | null => {
+  const candidates = root.querySelectorAll<HTMLElement>(CANDIDATE_SELECTOR);
+  let match: Hit | null = null;
+  let closest: Hit | null = null;
+  let closestDistance = Infinity;
+
+  for (const block of candidates) {
+    for (const rect of block.getClientRects()) {
+      if (y >= rect.top && y <= rect.bottom) {
+        if (!match || rect.height < match.rect.height) {
+          match = { block, rect };
+        }
+      }
+    }
+    const rect = block.getBoundingClientRect();
+    const distance = Math.abs(y - rect.top);
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closest = { block, rect };
+    }
+  }
+  if (match) return match;
+  return closestDistance < CLOSEST_THRESHOLD ? closest : null;
+};
+
+// Toggle visibility and reliably re-trigger the fade animation.
+const setMenuVisible = (menu: HTMLElement, visible: boolean) => {
+  menu.dataset.visible = visible ? "true" : "false";
+  if (!visible) {
+    menu.dataset.animate = "false";
+    return;
+  }
+  menu.dataset.animate = "false";
+  void menu.offsetWidth;
+  menu.dataset.animate = "true";
+};
 
 export const TextEditorSideMenu = () => {
   const [editor] = useLexicalComposerContext();
@@ -19,64 +63,22 @@ export const TextEditorSideMenu = () => {
     let currentBlock: HTMLElement | null = null;
 
     const hide = () => {
-      menu.dataset.visible = "false";
-      menu.dataset.animate = "false";
+      setMenuVisible(menu, false);
       currentBlock = null;
     };
 
-    const findBlockAtY = (y: number) => {
-      const candidates = root.querySelectorAll<HTMLElement>(
-        ":scope > *:not(ul):not(ol), li"
-      );
-
-      let match: { block: HTMLElement; rect: DOMRect } | null = null;
-      for (const block of candidates) {
-        for (const rect of block.getClientRects()) {
-          if (y >= rect.top && y <= rect.bottom) {
-            if (!match || rect.height < match.rect.height) {
-              match = { block, rect };
-            }
-          }
-        }
-      }
-      if (match) {
-        return match;
-      }
-
-      let closest: { block: HTMLElement; rect: DOMRect; distance: number } | null =
-        null;
-      for (const block of candidates) {
-        const rect = block.getBoundingClientRect();
-        const distance = Math.abs(y - rect.top);
-        if (!closest || distance < closest.distance) {
-          closest = { block, rect, distance };
-        }
-      }
-      return closest && closest.distance < 12
-        ? { block: closest.block, rect: closest.rect }
-        : null;
-    };
-
     const update = (y: number) => {
-      const hit = findBlockAtY(y);
+      const hit = findBlockAtY(root, y);
       if (!hit) {
         hide();
         return;
       }
-
-      if (hit.block === currentBlock) {
-        return;
-      }
+      if (hit.block === currentBlock) return;
 
       currentBlock = hit.block;
-      const containerRect = container.getBoundingClientRect();
-      const top = hit.rect.top - containerRect.top;
-
+      const top = hit.rect.top - container.getBoundingClientRect().top;
       menu.style.transform = `translate3d(0, ${Math.round(top)}px, 0)`;
-      menu.dataset.visible = "true";
-      menu.dataset.animate = "false";
-      void menu.offsetWidth;
-      menu.dataset.animate = "true";
+      setMenuVisible(menu, true);
     };
 
     const onMove = (e: MouseEvent) => {
@@ -84,18 +86,13 @@ export const TextEditorSideMenu = () => {
       rafId = requestAnimationFrame(() => update(e.clientY));
     };
 
-    const onType = () => {
-      hide();
-    };
-
-    menu.dataset.visible = "false";
-    menu.dataset.animate = "false";
+    setMenuVisible(menu, false);
     container.addEventListener("mousemove", onMove);
     container.addEventListener("mouseleave", hide);
     const unregisterRootListener = editor.registerRootListener(
       (rootElement, prevRootElement) => {
-        rootElement?.addEventListener("keydown", onType);
-        prevRootElement?.removeEventListener("keydown", onType);
+        rootElement?.addEventListener("keydown", hide);
+        prevRootElement?.removeEventListener("keydown", hide);
       }
     );
 
@@ -109,9 +106,7 @@ export const TextEditorSideMenu = () => {
 
   return (
     <div ref={ref} aria-hidden="true" className={styles.menu}>
-      <button type="button" className={styles.btn} onClick={() => undefined}>
-        +
-      </button>
+      <TextEditorAddButton />
     </div>
   );
 };

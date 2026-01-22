@@ -13,6 +13,7 @@ import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
@@ -21,7 +22,6 @@ import { SelectAllPlugin } from "./plugins";
 import styles from "./TextEditor.module.css";
 import type { TextEditorProps } from "./TextEditor.types";
 import { TextEditorPlaceholder } from "./TextEditorPlaceholder/TextEditorPlaceholder";
-import { TextEditorSideMenu } from "./TextEditorSideMenu/TextEditorSideMenu";
 import { SlashMenu } from "./TextEditorSlashMenu/TextEditorSlashMenu";
 import typography from "../Typography/Typography.module.css";
 
@@ -57,18 +57,28 @@ const recipeTransformers = [
   ...TEXT_FORMAT_TRANSFORMERS,
 ];
 
+const normalizeMarkdown = (markdown: string) =>
+  markdown.replace(/^(#{1,6} .+)\n{2,}/gm, "$1\n");
+
 /**
  * The TextEditor component provides a rich text editor using the Lexical framework.
  */
 export const TextEditor: React.FC<TextEditorProps> = (props) => {
-  const { text } = props;
+  const { text, viewingMode = "editor" } = props;
+  const isEditable = viewingMode === "editor";
 
   const initialConfig = {
     namespace: "RecipeEditor",
     nodes: [HeadingNode, QuoteNode, ListNode, ListItemNode],
     theme: editorTheme,
+    editable: isEditable,
     editorState: () => {
-      $convertFromMarkdownString(text, recipeTransformers);
+      $convertFromMarkdownString(
+        normalizeMarkdown(text),
+        recipeTransformers,
+        undefined,
+        true
+      );
     },
     onError: (error: Error) => console.error(error),
   };
@@ -76,16 +86,20 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <div className={styles.container}>
-        <TextEditorSideMenu />
-        <SelectAllPlugin />
-        <TextEditorPlaceholder />
-        <SlashMenu />
+        {isEditable && <SelectAllPlugin />}
+        {isEditable && <TextEditorPlaceholder />}
+        {isEditable && <SlashMenu />}
         <RichTextPlugin
-          contentEditable={<ContentEditable className={styles.input} />}
+          contentEditable={
+            <ContentEditable className={styles.input} readOnly={!isEditable} />
+          }
           ErrorBoundary={LexicalErrorBoundary}
         />
         <HistoryPlugin />
-        <MarkdownShortcutPlugin transformers={recipeTransformers} />
+        {isEditable && <ListPlugin />}
+        {isEditable && (
+          <MarkdownShortcutPlugin transformers={recipeTransformers} />
+        )}
       </div>
     </LexicalComposer>
   );

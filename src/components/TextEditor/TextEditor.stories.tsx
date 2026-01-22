@@ -40,10 +40,18 @@ const meta: Meta = {
 
 export default meta;
 
-export const Showcase: StoryObj = {
+export const Editable: StoryObj = {
   render: () => (
     <div style={{ height: "90vh" }}>
       <TextEditor text={startingText} />
+    </div>
+  ),
+};
+
+export const Viewer: StoryObj = {
+  render: () => (
+    <div style={{ height: "90vh" }}>
+      <TextEditor text={startingText} viewingMode="viewer" />
     </div>
   ),
 };
