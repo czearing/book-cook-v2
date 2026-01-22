@@ -1,0 +1,21 @@
+.emoji {
+  width: 80px;
+  height: 80px;
+  color: var(--ui-TextPrimary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 78px;
+  line-height: 1;
+  margin-top: -40px;
+  filter: drop-shadow(0 2px 6px var(--ui-ControlBorder));
+}
+
+@media (max-width: 720px) {
+  .emoji {
+    width: 64px;
+    height: 64px;
+    font-size: 56px;
+    margin-top: -32px;
+  }
+}

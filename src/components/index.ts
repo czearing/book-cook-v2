@@ -4,3 +4,4 @@ export * from "./Button";
 export * from "./Checkbox";
 export * from "./Theme";
 export * from "./TextEditor";
+export * from "./RecipeView";

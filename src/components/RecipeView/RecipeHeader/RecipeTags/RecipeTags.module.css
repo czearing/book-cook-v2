@@ -1,0 +1,12 @@
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--ui-ControlHover);
+  color: var(--ui-TextSecondary);
+}

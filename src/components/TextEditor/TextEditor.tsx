@@ -9,11 +9,13 @@ import {
   UNORDERED_LIST,
   $convertFromMarkdownString,
 } from "@lexical/markdown";
+import { useEffect, useRef } from "react";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
@@ -28,7 +30,7 @@ import typography from "../Typography/Typography.module.css";
 const editorTheme = {
   paragraph: typography.bodyText,
   heading: {
-    h1: typography.recipeTitle,
+    h1: typography.sectionHeading,
     h2: typography.sectionHeading,
     h3: typography.subsectionHeading,
   },
@@ -64,8 +66,13 @@ const normalizeMarkdown = (markdown: string) =>
  * The TextEditor component provides a rich text editor using the Lexical framework.
  */
 export const TextEditor: React.FC<TextEditorProps> = (props) => {
-  const { text, viewingMode = "editor" } = props;
+  const { text, viewingMode = "editor", onDirty } = props;
   const isEditable = viewingMode === "editor";
+  const dirtyRef = useRef(false);
+
+  useEffect(() => {
+    dirtyRef.current = false;
+  }, [text, viewingMode]);
 
   const initialConfig = {
     namespace: "RecipeEditor",
@@ -97,6 +104,15 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
         />
         <HistoryPlugin />
         {isEditable && <ListPlugin />}
+        {isEditable && onDirty && (
+          <OnChangePlugin
+            onChange={() => {
+              if (dirtyRef.current) return;
+              dirtyRef.current = true;
+              onDirty();
+            }}
+          />
+        )}
         {isEditable && (
           <MarkdownShortcutPlugin transformers={recipeTransformers} />
         )}
