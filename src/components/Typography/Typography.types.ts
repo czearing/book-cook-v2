@@ -2,9 +2,11 @@ import type { ElementType, ReactNode } from "react";
 
 type TextVariant =
   | "recipeTitle"
+  | "pageTitle"
+  | "sectionHeading"
+  | "subsectionHeading"
   | "focusStep"
   | "bodyText"
-  | "sectionLabel"
   | "metaLabel";
 
 export interface TypographyProps<T extends ElementType = ElementType> {

@@ -1,7 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { Stack } from "./Stack";
-import { RecipeTitle, BodyText, SectionLabel, MetaLabel } from "../Typography";
+import {
+  RecipeTitle,
+  BodyText,
+  SectionHeading,
+  MetaLabel,
+} from "../Typography";
 
 const meta: Meta<typeof Stack> = {
   title: "Components/Stack",
@@ -38,7 +43,7 @@ export const Default: Story = {
   },
   render: (args) => (
     <Stack {...args}>
-      <SectionLabel>Category</SectionLabel>
+      <SectionHeading>Category</SectionHeading>
       <RecipeTitle>Classic Tiramisu</RecipeTitle>
       <BodyText>
         Coffee-flavoured Italian dessert. It is made of ladyfingers dipped in
@@ -67,7 +72,7 @@ export const RecipeHeader: Story = {
 
       {/* Description */}
       <Stack gap="xs">
-        <SectionLabel>Description</SectionLabel>
+        <SectionHeading>Description</SectionHeading>
         <BodyText>
           An authentic Roman dish made with eggs, hard cheese, cured pork, and
           black pepper.

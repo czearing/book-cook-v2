@@ -14,7 +14,7 @@ import {
   Stack,
   RecipeTitle,
   MetaLabel,
-  SectionLabel,
+  SectionHeading,
   BodyText,
 } from "@/components";
 
@@ -99,7 +99,7 @@ export default function RecipePage() {
 
         {/* 5. Description */}
         <Stack gap="sm">
-          <SectionLabel>Description</SectionLabel>
+          <SectionHeading>Description</SectionHeading>
           <BodyText>
             A vibrant, nutrient-packed pasta dish that comes together in under
             20 minutes. The sauce is creamy without any heavy cream, using

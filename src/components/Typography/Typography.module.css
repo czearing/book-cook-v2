@@ -6,6 +6,30 @@
   color: var(--ui-TextPrimary);
 }
 
+.pageTitle {
+  font-family: var(--font-sans);
+  font-size: 1.875em;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ui-TextPrimary);
+}
+
+.sectionHeading {
+  font-family: var(--font-sans);
+  font-size: 1.5em;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ui-TextPrimary);
+}
+
+.subsectionHeading {
+  font-family: var(--font-sans);
+  font-size: 1.25em;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ui-TextPrimary);
+}
+
 .focusStep {
   font-family: var(--font-sans);
   font-size: 28px;
@@ -19,15 +43,6 @@
   line-height: 1.5;
   color: var(--ui-TextSecondary);
   font-variant-numeric: lining-nums tabular-nums;
-}
-
-.sectionLabel {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ui-TextLabel);
 }
 
 .metaLabel {

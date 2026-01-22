@@ -29,8 +29,8 @@ const editorTheme = {
   paragraph: typography.bodyText,
   heading: {
     h1: typography.recipeTitle,
-    h2: typography.sectionLabel,
-    h3: typography.sectionLabel,
+    h2: typography.sectionHeading,
+    h3: typography.subsectionHeading,
   },
   text: {
     bold: typography.bold,
@@ -38,7 +38,7 @@ const editorTheme = {
     underline: typography.underline,
     strikethrough: typography.strikethrough,
   },
-  quote: typography.sectionLabel,
+  quote: typography.bodyText,
   list: {
     ol: styles.ol,
     ul: styles.ul,

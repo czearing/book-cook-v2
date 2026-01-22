@@ -5,9 +5,11 @@ import type { TextProps, TypographyProps } from "./Typography.types";
 
 const variants = {
   recipeTitle: { style: styles.recipeTitle, tag: "h1" },
+  pageTitle: { style: styles.pageTitle, tag: "h1" },
+  sectionHeading: { style: styles.sectionHeading, tag: "h2" },
+  subsectionHeading: { style: styles.subsectionHeading, tag: "h3" },
   focusStep: { style: styles.focusStep, tag: "p" },
   bodyText: { style: styles.bodyText, tag: "p" },
-  sectionLabel: { style: styles.sectionLabel, tag: "h2" },
   metaLabel: { style: styles.metaLabel, tag: "span" },
 } as const;
 
@@ -47,14 +49,20 @@ export const Text: React.FC<TextProps> = (props) => {
 export const RecipeTitle = (props: TypographyProps) => (
   <Text variant="recipeTitle" {...props} />
 );
+export const PageTitle = (props: TypographyProps) => (
+  <Text variant="pageTitle" {...props} />
+);
+export const SectionHeading = (props: TypographyProps) => (
+  <Text variant="sectionHeading" {...props} />
+);
+export const SubsectionHeading = (props: TypographyProps) => (
+  <Text variant="subsectionHeading" {...props} />
+);
 export const FocusStep = (props: TypographyProps) => (
   <Text variant="focusStep" {...props} />
 );
 export const BodyText = (props: TypographyProps) => (
   <Text variant="bodyText" {...props} />
-);
-export const SectionLabel = (props: TypographyProps) => (
-  <Text variant="sectionLabel" {...props} />
 );
 export const MetaLabel = (props: TypographyProps) => (
   <Text variant="metaLabel" {...props} />
