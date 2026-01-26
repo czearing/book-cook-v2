@@ -25,6 +25,7 @@ export const useTagEditorState = (
   useEffect(() => {
     if (!isEditing) return;
     const onOutside = (event: MouseEvent) => {
+      if (activeTag) return;
       if (wrapperRef.current?.contains(event.target as Node)) return;
       setIsEditing(false);
       setIsAdding(false);
@@ -33,7 +34,7 @@ export const useTagEditorState = (
     };
     document.addEventListener("pointerdown", onOutside);
     return () => document.removeEventListener("pointerdown", onOutside);
-  }, [draftTags, isEditing, onTagsChange, tags]);
+  }, [activeTag, draftTags, isEditing, onTagsChange, tags]);
 
   const addTag = () => {
     const next = normalizeTag(inputValue);

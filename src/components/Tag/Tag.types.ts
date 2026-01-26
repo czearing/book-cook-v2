@@ -10,6 +10,14 @@ export type TagProps = {
    */
   onClick?: () => void;
   /**
+   * Optional leading icon.
+   */
+  startIcon?: ReactNode;
+  /**
+   * Accessible label for the leading icon.
+   */
+  startIconAriaLabel?: string;
+  /**
    * Optional trailing icon.
    */
   endIcon?: ReactNode;

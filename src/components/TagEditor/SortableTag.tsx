@@ -1,4 +1,4 @@
-import { XIcon } from "@phosphor-icons/react";
+import { DotsSixVerticalIcon, XIcon } from "@phosphor-icons/react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { clsx } from "clsx";
@@ -15,16 +15,20 @@ export const SortableTag = ({
 }: SortableTagProps) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
     useSortable({ id: tag, disabled: !isEditing });
+  const adjustedTransform = transform
+    ? { ...transform, scaleX: 1, scaleY: 1 }
+    : transform;
 
   return (
     <div
       ref={setNodeRef}
-      style={{ transform: CSS.Transform.toString(transform), transition }}
+      style={{ transform: CSS.Transform.toString(adjustedTransform), transition }}
       className={clsx(styles.tagItem, isDragging && styles.dragging)}
     >
       <span className={styles.tagItemInner} {...attributes} {...listeners}>
         <Tag
           onClick={!isEditing ? () => onTagClick?.(tag) : undefined}
+          startIcon={isEditing ? <DotsSixVerticalIcon size={12} /> : undefined}
           endIcon={isEditing ? <XIcon size={12} /> : undefined}
           endIconAriaLabel={`Remove ${tag}`}
           onEndIconClick={() => onRemove(tag)}

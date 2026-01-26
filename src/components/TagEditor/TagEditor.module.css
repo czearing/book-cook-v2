@@ -5,6 +5,7 @@
   gap: 8px;
   flex-wrap: wrap;
   --tag-height: 24px;
+  overflow: visible;
 }
 
 .controls {
@@ -46,11 +47,14 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  flex: 0 0 auto;
 }
 
 .tagItemInner {
   display: inline-flex;
   align-items: center;
+  flex: 0 0 auto;
+  width: max-content;
 }
 
 .addInput {
@@ -67,7 +71,7 @@
 
 .addButton {
   border: none;
-  background: var(--ui-ControlHover);
+  background: transparent;
   color: var(--ui-TextSecondary);
   border-radius: 6px;
   padding: 2px 8px;
@@ -80,34 +84,61 @@
 }
 
 .addButton:hover {
-  background: var(--ui-ControlPressed);
+  background: var(--ui-ControlHover);
   color: var(--ui-TextPrimary);
 }
 
-.editing .tagItemInner,
-.editing .addButton {
-  animation: tagWiggle 0.6s ease-in-out infinite;
+.editing .tagItemInner {
+  animation: tagWiggle 0.4s ease-in-out infinite;
+  transform-origin: center;
 }
+
+.editing .tagItem:nth-child(3n) .tagItemInner {
+  animation-delay: 0.06s;
+}
+
+.editing .tagItem:nth-child(3n + 1) .tagItemInner {
+  animation-delay: 0.12s;
+}
+
 
 .dragging {
   opacity: 0.35;
 }
 
 .dragOverlay {
-  transform: scale(1.03);
+  pointer-events: none;
+  display: inline-flex;
+  width: max-content;
+  overflow: visible;
+}
+
+.draggingList .tagItemInner {
+  animation: none;
 }
 
 @keyframes tagWiggle {
-  0%,
-  100% {
+  0% {
     transform: rotate(0deg);
   }
   25% {
     transform: rotate(-1deg);
   }
-  75% {
+  50% {
     transform: rotate(1deg);
   }
+  75% {
+    transform: rotate(-1deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.editing .tagItemInner:hover,
+.editing .tagItemInner:focus-within,
+.editing .tagItemInner:active {
+  animation: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

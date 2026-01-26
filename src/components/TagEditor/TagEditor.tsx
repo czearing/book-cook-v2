@@ -7,7 +7,7 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
-import { PencilSimpleIcon, PlusIcon } from "@phosphor-icons/react";
+import { DotsSixVerticalIcon, PencilSimpleIcon, PlusIcon, XIcon } from "@phosphor-icons/react";
 import { clsx } from "clsx";
 
 import { SortableTag } from "./SortableTag";
@@ -41,11 +41,12 @@ export const TagEditor = ({
     handleDragCancelEvent,
     handleDragEndEvent,
   } = useTagEditorState(tags, onTagsChange);
+  const dragIcon = isEditing ? <DotsSixVerticalIcon size={iconSizeSm} /> : undefined;
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } })
   );
   const controlsVisible = showEditControl || tags.length === 0;
-  const activeSensors = isEditing ? sensors : [];
+  const isDragging = Boolean(activeTag);
 
   const handleEditClick = () => {
     if (!isEditing) {
@@ -61,10 +62,14 @@ export const TagEditor = ({
   return (
     <div
       ref={wrapperRef}
-      className={clsx(styles.wrapper, isEditing && styles.editing)}
+      className={clsx(
+        styles.wrapper,
+        isEditing && styles.editing,
+        isDragging && styles.draggingList
+      )}
     >
       <DndContext
-        sensors={activeSensors}
+        sensors={sensors}
         collisionDetection={closestCenter}
         onDragStart={handleDragStartEvent}
         onDragCancel={handleDragCancelEvent}
@@ -81,10 +86,16 @@ export const TagEditor = ({
             />
           ))}
         </SortableContext>
-        <DragOverlay>
+        <DragOverlay adjustScale={false}>
           {activeTag ? (
             <span className={styles.dragOverlay}>
-              <Tag>{activeTag}</Tag>
+              <Tag
+                startIcon={dragIcon}
+                endIcon={isEditing ? <XIcon size={iconSizeSm} /> : undefined}
+                endIconAriaLabel={`Remove ${activeTag}`}
+              >
+                {activeTag}
+              </Tag>
             </span>
           ) : null}
         </DragOverlay>

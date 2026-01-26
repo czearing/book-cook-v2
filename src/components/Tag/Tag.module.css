@@ -8,6 +8,7 @@
   cursor: default;
   gap: 6px;
   min-height: 24px;
+  width: max-content;
 }
 
 .interactive {
@@ -22,6 +23,13 @@
   color: var(--ui-TextSecondary);
   font-size: 13px;
   line-height: 1.2;
+}
+
+.startIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ui-TextCaption);
 }
 
 .interactive:hover .text {
