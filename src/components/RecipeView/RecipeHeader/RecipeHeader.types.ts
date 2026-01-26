@@ -9,4 +9,12 @@ export type RecipeHeaderProps = {
    * Controls whether the title is editable.
    */
   viewingMode: NonNullable<RecipeViewProps["viewingMode"]>;
+  /**
+   * Called when a tag is clicked in view mode.
+   */
+  onTagClick?: (tag: string) => void;
+  /**
+   * Called when tags are updated in edit mode.
+   */
+  onTagsChange?: (tags: string[]) => void;
 };

@@ -6,15 +6,15 @@ import {
   UserIcon,
 } from "@phosphor-icons/react";
 
-import { RecipeTitle } from "../../Typography";
-import { useRecipeViewSaveState } from "../RecipeViewSaveStateContext";
 import { RecipeEmoji } from "./RecipeEmoji";
+import styles from "./RecipeHeader.module.css";
+import type { RecipeHeaderProps } from "./RecipeHeader.types";
 import { RecipePropertyRow } from "./RecipePropertyRow";
 import { RecipeStats } from "./RecipeStats";
 import { RecipeTags } from "./RecipeTags";
+import { useRecipeViewSaveState } from "../RecipeViewSaveStateContext";
 
-import styles from "./RecipeHeader.module.css";
-import type { RecipeHeaderProps } from "./RecipeHeader.types";
+import { RecipeTitle } from "../../Typography";
 
 const formatDate = (value: string) => {
   const date = new Date(value);
@@ -28,7 +28,12 @@ const formatDate = (value: string) => {
   }).format(date);
 };
 
-export const RecipeHeader = ({ recipe, viewingMode }: RecipeHeaderProps) => {
+export const RecipeHeader = ({
+  recipe,
+  viewingMode,
+  onTagClick,
+  onTagsChange,
+}: RecipeHeaderProps) => {
   const isEditable = viewingMode === "editor";
   const titleRef = useRef<HTMLHeadingElement>(null);
   const saveState = useRecipeViewSaveState();
@@ -47,7 +52,9 @@ export const RecipeHeader = ({ recipe, viewingMode }: RecipeHeaderProps) => {
       <div
         className={styles.cover}
         style={
-          recipe.imageURL ? { backgroundImage: `url(${recipe.imageURL})` } : undefined
+          recipe.imageURL
+            ? { backgroundImage: `url(${recipe.imageURL})` }
+            : undefined
         }
         role="img"
         aria-label={recipe.title}
@@ -76,7 +83,12 @@ export const RecipeHeader = ({ recipe, viewingMode }: RecipeHeaderProps) => {
             </RecipePropertyRow>
             {recipe.tags.length > 0 && (
               <RecipePropertyRow icon={<TagIcon size={14} />} label="Tags">
-                <RecipeTags tags={recipe.tags} />
+                <RecipeTags
+                  tags={recipe.tags}
+                  editable={isEditable}
+                  onTagClick={onTagClick}
+                  onTagsChange={onTagsChange}
+                />
               </RecipePropertyRow>
             )}
           </div>
@@ -88,7 +100,10 @@ export const RecipeHeader = ({ recipe, viewingMode }: RecipeHeaderProps) => {
               {formatDate(recipe.createdAt)}
             </RecipePropertyRow>
             {(recipe.viewCount ?? 0) > 0 || (recipe.savedCount ?? 0) > 0 ? (
-              <RecipePropertyRow icon={<ChartBarIcon size={14} />} label="Stats">
+              <RecipePropertyRow
+                icon={<ChartBarIcon size={14} />}
+                label="Stats"
+              >
                 <RecipeStats
                   viewCount={recipe.viewCount}
                   savedCount={recipe.savedCount}

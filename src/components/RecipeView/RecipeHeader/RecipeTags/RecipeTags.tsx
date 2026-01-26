@@ -1,14 +1,20 @@
-import { BodyText } from "../../../Typography";
+import { TagEditor } from "../../../TagEditor";
 
 import styles from "./RecipeTags.module.css";
 import type { RecipeTagsProps } from "./RecipeTags.types";
 
-export const RecipeTags = ({ tags }: RecipeTagsProps) => (
+export const RecipeTags = ({
+  tags,
+  onTagClick,
+  onTagsChange,
+  editable,
+}: RecipeTagsProps) => (
   <div className={styles.tagList}>
-    {tags.map((tag) => (
-      <BodyText as="span" key={tag} className={styles.tag}>
-        {tag}
-      </BodyText>
-    ))}
+    <TagEditor
+      tags={tags}
+      onTagClick={onTagClick}
+      onTagsChange={onTagsChange}
+      editable={editable}
+    />
   </div>
 );

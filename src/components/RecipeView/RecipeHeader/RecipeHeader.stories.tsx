@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
+import { useState } from "react";
+
 import { RecipeHeader } from "./RecipeHeader";
 import type { Recipe } from "../RecipeView.types";
 import { RecipeViewSaveStateProvider } from "../RecipeViewSaveStateContext";
@@ -37,7 +39,18 @@ export const Editable: StoryObj = {
       initialTitle={sampleRecipe.title}
       initialData={sampleRecipe.data}
     >
-      <RecipeHeader recipe={sampleRecipe} viewingMode="editor" />
+      <EditableHeader />
     </RecipeViewSaveStateProvider>
   ),
+};
+
+const EditableHeader = () => {
+  const [tags, setTags] = useState(sampleRecipe.tags);
+  return (
+    <RecipeHeader
+      recipe={{ ...sampleRecipe, tags }}
+      viewingMode="editor"
+      onTagsChange={setTags}
+    />
+  );
 };
