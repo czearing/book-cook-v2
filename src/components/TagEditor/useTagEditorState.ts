@@ -36,36 +36,35 @@ export const useTagEditorState = (
     return () => document.removeEventListener("pointerdown", onOutside);
   }, [activeTag, draftTags, isEditing, onTagsChange, tags]);
 
-  const addTag = () => {
+  const addTag = useCallback(() => {
     const next = normalizeTag(inputValue);
     if (!next) return;
-    if (draftTags.some((tag) => tag.toLowerCase() === next.toLowerCase())) {
-      setInputValue("");
-      setIsAdding(false);
-      return;
-    }
-    setDraftTags([...draftTags, next]);
+    setDraftTags((items) => {
+      if (items.some((tag) => tag.toLowerCase() === next.toLowerCase())) {
+        return items;
+      }
+      return [...items, next];
+    });
     setInputValue("");
     setIsAdding(false);
-  };
+  }, [inputValue]);
 
-  const removeTag = (value: string) => {
-    setDraftTags(draftTags.filter((item) => item !== value));
-  };
+  const removeTag = useCallback((value: string) => {
+    setDraftTags((items) => items.filter((item) => item !== value));
+  }, []);
 
-  const startAdd = () => setIsAdding(true);
+  const startAdd = useCallback(() => setIsAdding(true), []);
 
-  const cancelAdd = () => {
+  const cancelAdd = useCallback(() => {
     setIsAdding(false);
     setInputValue("");
-  };
+  }, []);
 
-  const toggleEdit = () => setIsEditing((prev) => !prev);
+  const toggleEdit = useCallback(() => setIsEditing((prev) => !prev), []);
 
   const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setInputValue(event.target.value);
-    },
+    (event: React.ChangeEvent<HTMLInputElement>) =>
+      setInputValue(event.target.value),
     []
   );
 
@@ -117,18 +116,12 @@ export const useTagEditorState = (
   return {
     wrapperRef,
     isEditing,
-    setIsEditing,
     toggleEdit,
     draftTags,
-    setDraftTags,
     inputValue,
-    setInputValue,
     isAdding,
-    setIsAdding,
-    addTag,
     removeTag,
     startAdd,
-    cancelAdd,
     handleInputChange,
     handleInputKeyDown,
     activeTag,
