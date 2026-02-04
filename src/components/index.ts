@@ -4,6 +4,7 @@ export * from "./Button";
 export * from "./Checkbox";
 export * from "./Tag";
 export * from "./TagEditor";
+export * from "./Toast";
 export * from "./Theme";
 export * from "./TextEditor";
 export * from "./RecipeView";
