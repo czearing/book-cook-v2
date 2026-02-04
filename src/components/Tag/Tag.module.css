@@ -8,7 +8,7 @@
   cursor: default;
   gap: 6px;
   min-height: 24px;
-  width: max-content;
+  white-space: nowrap;
 }
 
 .interactive {

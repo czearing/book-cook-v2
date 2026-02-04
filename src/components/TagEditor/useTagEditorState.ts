@@ -24,6 +24,13 @@ export const useTagEditorState = (
 
   useEffect(() => {
     if (!isEditing) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setIsEditing(false);
+      setIsAdding(false);
+      setInputValue("");
+      if (onTagsChange && !isSame(draftTags, tags)) onTagsChange(draftTags);
+    };
     const onOutside = (event: MouseEvent) => {
       if (activeTag) return;
       if (wrapperRef.current?.contains(event.target as Node)) return;
@@ -32,8 +39,12 @@ export const useTagEditorState = (
       setInputValue("");
       if (onTagsChange && !isSame(draftTags, tags)) onTagsChange(draftTags);
     };
+    document.addEventListener("keydown", onKeyDown);
     document.addEventListener("pointerdown", onOutside);
-    return () => document.removeEventListener("pointerdown", onOutside);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onOutside);
+    };
   }, [activeTag, draftTags, isEditing, onTagsChange, tags]);
 
   const addTag = useCallback(() => {
@@ -91,6 +102,15 @@ export const useTagEditorState = (
     });
   }, []);
 
+  const moveTag = useCallback((fromIndex: number, toIndex: number) => {
+    setDraftTags((items) => {
+      if (fromIndex < 0 || toIndex < 0) return items;
+      if (fromIndex >= items.length || toIndex >= items.length) return items;
+      if (fromIndex === toIndex) return items;
+      return arrayMove(items, fromIndex, toIndex);
+    });
+  }, []);
+
   const handleDragStartEvent = useCallback(
     ({ active }: DragStartEvent) => {
       if (!isEditing) {
@@ -125,6 +145,7 @@ export const useTagEditorState = (
     handleInputChange,
     handleInputKeyDown,
     activeTag,
+    moveTag,
     handleDragStartEvent,
     handleDragCancelEvent,
     handleDragEndEvent,

@@ -1,14 +1,21 @@
 import {
   DndContext,
   DragOverlay,
+  KeyboardSensor,
   PointerSensor,
+  TouchSensor,
   closestCenter,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  rectSortingStrategy,
+  sortableKeyboardCoordinates,
+} from "@dnd-kit/sortable";
 import { DotsSixVerticalIcon, PencilSimpleIcon, PlusIcon, XIcon } from "@phosphor-icons/react";
 import { clsx } from "clsx";
+import { useCallback, useEffect, useState } from "react";
 
 import { SortableTag } from "./SortableTag";
 import styles from "./TagEditor.module.css";
@@ -37,16 +44,52 @@ export const TagEditor = ({
     handleInputChange,
     handleInputKeyDown,
     activeTag,
+    moveTag,
     handleDragStartEvent,
     handleDragCancelEvent,
     handleDragEndEvent,
   } = useTagEditorState(tags, onTagsChange);
   const dragIcon = isEditing ? <DotsSixVerticalIcon size={iconSizeSm} /> : undefined;
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 4 } })
+    useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 120, tolerance: 6 } }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
   );
   const controlsVisible = showEditControl || tags.length === 0;
   const isDragging = Boolean(activeTag);
+  const dragOverlayStyle = activeTag
+    ? { width: "max-content", height: "max-content" }
+    : undefined;
+  const [focusedIndex, setFocusedIndex] = useState(0);
+
+  useEffect(() => {
+    if (!isEditing) {
+      setFocusedIndex(0);
+      return;
+    }
+    setFocusedIndex((prev) =>
+      Math.max(0, Math.min(prev, Math.max(0, draftTags.length - 1)))
+    );
+  }, [draftTags.length, isEditing]);
+
+  const focusTag = useCallback((index: number) => {
+    setFocusedIndex(index);
+    const target = document.querySelector<HTMLElement>(
+      `[data-tag-index="${index}"]`
+    );
+    if (target) {
+      target.focus();
+      return;
+    }
+    requestAnimationFrame(() => {
+      const fallback = document.querySelector<HTMLElement>(
+        `[data-tag-index="${index}"]`
+      );
+      fallback?.focus();
+    });
+  }, []);
 
   const handleEditClick = () => {
     if (!isEditing) {
@@ -67,6 +110,8 @@ export const TagEditor = ({
         isEditing && styles.editing,
         isDragging && styles.draggingList
       )}
+      role="listbox"
+      aria-orientation="horizontal"
     >
       <DndContext
         sensors={sensors}
@@ -76,27 +121,36 @@ export const TagEditor = ({
         onDragEnd={handleDragEndEvent}
       >
         <SortableContext items={draftTags} strategy={rectSortingStrategy}>
-          {draftTags.map((tag) => (
+          {draftTags.map((tag, index) => (
             <SortableTag
               key={tag}
               tag={tag}
+              index={index}
+              total={draftTags.length}
+              onMove={moveTag}
+              isFocused={focusedIndex === index}
+              onFocus={setFocusedIndex}
+              onFocusTag={focusTag}
               isEditing={isEditing}
               onTagClick={onTagClick}
               onRemove={removeTag}
             />
           ))}
         </SortableContext>
-        <DragOverlay adjustScale={false}>
+        <DragOverlay
+          adjustScale={false}
+          dropAnimation={null}
+          className={styles.dragOverlay}
+          style={dragOverlayStyle}
+        >
           {activeTag ? (
-            <span className={styles.dragOverlay}>
-              <Tag
-                startIcon={dragIcon}
-                endIcon={isEditing ? <XIcon size={iconSizeSm} /> : undefined}
-                endIconAriaLabel={`Remove ${activeTag}`}
-              >
-                {activeTag}
-              </Tag>
-            </span>
+            <Tag
+              startIcon={dragIcon}
+              endIcon={isEditing ? <XIcon size={iconSizeSm} /> : undefined}
+              endIconAriaLabel={`Remove ${activeTag}`}
+            >
+              {activeTag}
+            </Tag>
           ) : null}
         </DragOverlay>
       </DndContext>
