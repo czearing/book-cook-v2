@@ -3,7 +3,8 @@ import type { DragCancelEvent, DragEndEvent, DragStartEvent } from "@dnd-kit/cor
 import { arrayMove } from "@dnd-kit/sortable";
 
 const normalizeTag = (value: string) => value.trim();
-const isSame = (a: string[], b: string[]) => a.join("|") === b.join("|");
+const areTagsEqual = (a: string[], b: string[]) =>
+  a.length === b.length && a.every((value, index) => value === b[index]);
 
 export const useTagEditorState = (
   tags: string[],
@@ -22,22 +23,30 @@ export const useTagEditorState = (
     }
   }, [tags, isEditing]);
 
+  const commitDraftTags = useCallback(() => {
+    if (!onTagsChange) return;
+    if (!areTagsEqual(draftTags, tags)) {
+      onTagsChange(draftTags);
+    }
+  }, [draftTags, onTagsChange, tags]);
+
+  const exitEditing = useCallback(() => {
+    setIsEditing(false);
+    setIsAdding(false);
+    setInputValue("");
+    commitDraftTags();
+  }, [commitDraftTags]);
+
   useEffect(() => {
     if (!isEditing) return;
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
-      setIsEditing(false);
-      setIsAdding(false);
-      setInputValue("");
-      if (onTagsChange && !isSame(draftTags, tags)) onTagsChange(draftTags);
+      exitEditing();
     };
     const onOutside = (event: MouseEvent) => {
       if (activeTag) return;
       if (wrapperRef.current?.contains(event.target as Node)) return;
-      setIsEditing(false);
-      setIsAdding(false);
-      setInputValue("");
-      if (onTagsChange && !isSame(draftTags, tags)) onTagsChange(draftTags);
+      exitEditing();
     };
     document.addEventListener("keydown", onKeyDown);
     document.addEventListener("pointerdown", onOutside);
@@ -45,7 +54,7 @@ export const useTagEditorState = (
       document.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("pointerdown", onOutside);
     };
-  }, [activeTag, draftTags, isEditing, onTagsChange, tags]);
+  }, [activeTag, exitEditing, isEditing]);
 
   const addTag = useCallback(() => {
     const next = normalizeTag(inputValue);
