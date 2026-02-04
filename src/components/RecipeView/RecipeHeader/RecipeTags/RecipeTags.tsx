@@ -1,7 +1,8 @@
-import { TagEditor } from "../../../TagEditor";
 
 import styles from "./RecipeTags.module.css";
 import type { RecipeTagsProps } from "./RecipeTags.types";
+
+import { TagEditor } from "../../../TagEditor";
 
 export const RecipeTags = ({
   tags,

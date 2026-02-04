@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { ListNode, ListItemNode } from "@lexical/list";
 import {
   HEADING,
@@ -9,14 +10,13 @@ import {
   UNORDERED_LIST,
   $convertFromMarkdownString,
 } from "@lexical/markdown";
-import { useEffect, useRef } from "react";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
-import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 
@@ -107,7 +107,7 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
         {isEditable && onDirty && (
           <OnChangePlugin
             onChange={() => {
-              if (dirtyRef.current) return;
+              if (dirtyRef.current) {return;}
               dirtyRef.current = true;
               onDirty();
             }}

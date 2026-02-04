@@ -60,7 +60,7 @@ export const Editable: StoryObj = {
 
 const SaveStateIndicator = () => {
   const saveState = useRecipeViewSaveState();
-  if (!saveState) return null;
+  if (!saveState) {return null;}
 
   return (
     <div

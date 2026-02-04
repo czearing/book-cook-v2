@@ -7,6 +7,7 @@ import {
   CookingPotIcon,
   MagicWandIcon,
 } from "@phosphor-icons/react";
+import Image from "next/image";
 
 // Adjust these paths to match your folder structure
 import {
@@ -52,9 +53,12 @@ export default function RecipePage() {
       </Stack>
 
       {/* 2. Hero Image */}
-      <img
+      <Image
         src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80"
         alt="Recipe"
+        width={800}
+        height={200}
+        sizes="(max-width: 400px) 100vw, 400px"
         style={{
           width: "100%",
           height: 200,

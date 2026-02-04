@@ -1,7 +1,8 @@
-import { BodyText, MetaLabel } from "../../../Typography";
 
 import styles from "./RecipePropertyRow.module.css";
 import type { RecipePropertyRowProps } from "./RecipePropertyRow.types";
+
+import { BodyText, MetaLabel } from "../../../Typography";
 
 export const RecipePropertyRow = ({
   icon,

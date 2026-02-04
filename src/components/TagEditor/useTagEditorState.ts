@@ -24,7 +24,7 @@ export const useTagEditorState = (
   }, [tags, isEditing]);
 
   const commitDraftTags = useCallback(() => {
-    if (!onTagsChange) return;
+    if (!onTagsChange) {return;}
     if (!areTagsEqual(draftTags, tags)) {
       onTagsChange(draftTags);
     }
@@ -38,14 +38,14 @@ export const useTagEditorState = (
   }, [commitDraftTags]);
 
   useEffect(() => {
-    if (!isEditing) return;
+    if (!isEditing) {return;}
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") return;
+      if (event.key !== "Escape") {return;}
       exitEditing();
     };
     const onOutside = (event: MouseEvent) => {
-      if (activeTag) return;
-      if (wrapperRef.current?.contains(event.target as Node)) return;
+      if (activeTag) {return;}
+      if (wrapperRef.current?.contains(event.target as Node)) {return;}
       exitEditing();
     };
     document.addEventListener("keydown", onKeyDown);
@@ -58,7 +58,7 @@ export const useTagEditorState = (
 
   const addTag = useCallback(() => {
     const next = normalizeTag(inputValue);
-    if (!next) return;
+    if (!next) {return;}
     setDraftTags((items) => {
       if (items.some((tag) => tag.toLowerCase() === next.toLowerCase())) {
         return items;
@@ -102,20 +102,20 @@ export const useTagEditorState = (
   );
 
   const handleDragEnd = useCallback(({ active, over }: DragEndEvent) => {
-    if (!over || active.id === over.id) return;
+    if (!over || active.id === over.id) {return;}
     setDraftTags((items) => {
       const fromIndex = items.indexOf(String(active.id));
       const toIndex = items.indexOf(String(over.id));
-      if (fromIndex < 0 || toIndex < 0) return items;
+      if (fromIndex < 0 || toIndex < 0) {return items;}
       return arrayMove(items, fromIndex, toIndex);
     });
   }, []);
 
   const moveTag = useCallback((fromIndex: number, toIndex: number) => {
     setDraftTags((items) => {
-      if (fromIndex < 0 || toIndex < 0) return items;
-      if (fromIndex >= items.length || toIndex >= items.length) return items;
-      if (fromIndex === toIndex) return items;
+      if (fromIndex < 0 || toIndex < 0) {return items;}
+      if (fromIndex >= items.length || toIndex >= items.length) {return items;}
+      if (fromIndex === toIndex) {return items;}
       return arrayMove(items, fromIndex, toIndex);
     });
   }, []);

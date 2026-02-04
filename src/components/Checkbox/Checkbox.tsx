@@ -41,7 +41,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === " " && !disabled) {
         e.preventDefault();
-        handleClick(e as any); // Simulate a click event
+        handleClick(e as unknown as React.MouseEvent<HTMLDivElement>); // Simulate a click event
       }
     };
 

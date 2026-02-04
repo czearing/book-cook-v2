@@ -1,11 +1,11 @@
-import { DotsSixVerticalIcon, XIcon } from "@phosphor-icons/react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { DotsSixVerticalIcon, XIcon } from "@phosphor-icons/react";
 import { clsx } from "clsx";
 
-import { Tag } from "../Tag";
-import styles from "./TagEditor.module.css";
 import type { SortableTagProps } from "./SortableTag.types";
+import styles from "./TagEditor.module.css";
+import { Tag } from "../Tag";
 
 export const SortableTag = ({
   tag,
@@ -27,14 +27,14 @@ export const SortableTag = ({
   const { onKeyDown: onSortableKeyDown, ...sortableListeners } =
     listeners ?? {};
   const handleFocusMove = (nextIndex: number) => {
-    if (nextIndex === index) return;
+    if (nextIndex === index) {return;}
     onFocusTag(nextIndex);
   };
   const handleKeyDown = (event: React.KeyboardEvent<HTMLSpanElement>) => {
-    if (!isEditing) return;
+    if (!isEditing) {return;}
     const isForward = event.key === "ArrowRight" || event.key === "ArrowDown";
     const isBackward = event.key === "ArrowLeft" || event.key === "ArrowUp";
-    if (!isForward && !isBackward) return;
+    if (!isForward && !isBackward) {return;}
     event.preventDefault();
     const nextIndex = Math.max(
       0,

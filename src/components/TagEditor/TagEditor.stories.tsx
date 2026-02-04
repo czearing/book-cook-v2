@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
+import type { Meta, StoryObj } from "@storybook/react";
 
 import { TagEditor } from "./TagEditor";
 
@@ -10,17 +10,19 @@ const meta: Meta = {
 
 export default meta;
 
+const EditableStory = () => {
+  const [tags, setTags] = useState(["Spicy", "Weeknight", "Comfort Food"]);
+  return (
+    <TagEditor
+      tags={tags}
+      onTagsChange={setTags}
+      onTagClick={() => undefined}
+    />
+  );
+};
+
 export const Editable: StoryObj = {
-  render: () => {
-    const [tags, setTags] = useState(["Spicy", "Weeknight", "Comfort Food"]);
-    return (
-      <TagEditor
-        tags={tags}
-        onTagsChange={setTags}
-        onTagClick={() => undefined}
-      />
-    );
-  },
+  render: () => <EditableStory />,
 };
 
 export const ReadOnly: StoryObj = {

@@ -1,7 +1,8 @@
-import { BodyText } from "../../../Typography";
 
 import styles from "./RecipeStats.module.css";
 import type { RecipeStatsProps } from "./RecipeStats.types";
+
+import { BodyText } from "../../../Typography";
 
 export const RecipeStats = ({ viewCount, savedCount }: RecipeStatsProps) => (
   <div className={styles.statsRow}>

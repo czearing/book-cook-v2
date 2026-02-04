@@ -44,7 +44,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ...rest
     } = props;
 
-    const isDisabled = disabled || isLoading;
+    const isDisabled = Boolean(disabled) || isLoading;
 
     return (
       <Component

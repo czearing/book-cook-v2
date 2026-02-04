@@ -1,6 +1,6 @@
+import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { useState } from "react";
 
 import { RecipeHeader } from "./RecipeHeader";
 import type { Recipe } from "../RecipeView.types";

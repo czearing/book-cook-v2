@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
-import styles from "./TextEditorSideMenu.module.css";
 import { TextEditorAddButton } from "./TextEditorAddButton";
+import styles from "./TextEditorSideMenu.module.css";
 
 const CANDIDATE_SELECTOR = ":scope > *:not(ul):not(ol), li";
 const CLOSEST_THRESHOLD = 12;
@@ -31,7 +31,7 @@ const findBlockAtY = (root: HTMLElement, y: number): Hit | null => {
       closest = { block, rect };
     }
   }
-  if (match) return match;
+  if (match) {return match;}
   return closestDistance < CLOSEST_THRESHOLD ? closest : null;
 };
 
@@ -73,7 +73,7 @@ export const TextEditorSideMenu = () => {
         hide();
         return;
       }
-      if (hit.block === currentBlock) return;
+      if (hit.block === currentBlock) {return;}
 
       currentBlock = hit.block;
       const top = hit.rect.top - container.getBoundingClientRect().top;

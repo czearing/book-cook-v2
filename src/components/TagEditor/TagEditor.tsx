@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useState } from "react";
 import {
   DndContext,
   DragOverlay,
@@ -15,7 +16,6 @@ import {
 } from "@dnd-kit/sortable";
 import { DotsSixVerticalIcon, PencilSimpleIcon, PlusIcon, XIcon } from "@phosphor-icons/react";
 import { clsx } from "clsx";
-import { useCallback, useEffect, useState } from "react";
 
 import { SortableTag } from "./SortableTag";
 import styles from "./TagEditor.module.css";
@@ -57,7 +57,7 @@ export const TagEditor = ({
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-  const controlsVisible = showEditControl || tags.length === 0;
+  const controlsVisible = Boolean(showEditControl) || tags.length === 0;
   const isDragging = Boolean(activeTag);
   const dragOverlayStyle = activeTag
     ? { width: "max-content", height: "max-content" }
