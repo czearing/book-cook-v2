@@ -8,3 +8,4 @@ export * from "./Toast";
 export * from "./Theme";
 export * from "./TextEditor";
 export * from "./RecipeView";
+export * from "./RecipeCard";

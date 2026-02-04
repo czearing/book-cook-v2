@@ -3,15 +3,13 @@
 }
 
 .toast {
-  --toast-accent: var(--brand-Primary);
-
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 12px 14px;
   background: var(--ui-Canvas);
   border: 1px solid var(--ui-ControlBorder);
-  border-left: 3px solid var(--toast-accent);
+  border-left: 3px solid var(--brand-Primary);
   border-radius: 10px;
   color: var(--ui-TextPrimary);
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
