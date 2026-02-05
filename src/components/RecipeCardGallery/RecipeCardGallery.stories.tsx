@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { RecipeCardCarousel } from "./RecipeCardCarousel";
+import { RecipeCardGallery } from "./RecipeCardGallery";
 import type { Recipe } from "../RecipeView/RecipeView.types";
 
 const baseRecipe: Recipe = {
@@ -79,7 +79,6 @@ const imagePool = [
   "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=900&q=80",
   "https://images.unsplash.com/photo-1528712306091-ed0763094c98?w=900&q=80",
   "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=900&q=80",
-  "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=900&q=80",
 ];
 
 const titlePool = [
@@ -89,10 +88,14 @@ const titlePool = [
   "Baked Gnocchi with Burrata",
   "Chili Crunch Noodles",
   "Maple Dijon Chicken",
+  "Slow-Roasted Tomato and Garlic Confit Pasta with Basil Breadcrumbs",
+  "Sheet-Pan Za'atar Chicken with Crispy Chickpeas and Lemon Yogurt",
   "Miso Glazed Eggplant",
   "Garlic Butter Shrimp",
+  "One-Pot Creamy Coconut Lentil Curry with Spinach and Lime",
   "Coconut Lentil Curry",
   "Roasted Tomato Pasta",
+  "Herby Farro Salad with Roasted Squash, Feta, and Maple Vinaigrette",
 ];
 
 const emojiPool = ["🐟", "🍋", "🌮", "🍝", "🥡", "🍗", "🍆", "🦐", "🥥", "🍅"];
@@ -114,18 +117,18 @@ const makeManyRecipes = (count: number): Recipe[] =>
     };
   });
 
-const meta: Meta<typeof RecipeCardCarousel> = {
-  title: "Components/RecipeCardCarousel",
-  component: RecipeCardCarousel,
+const meta: Meta<typeof RecipeCardGallery> = {
+  title: "Components/RecipeCardGallery",
+  component: RecipeCardGallery,
 };
 
 export default meta;
 
-type Story = StoryObj<typeof RecipeCardCarousel>;
+type Story = StoryObj<typeof RecipeCardGallery>;
 
 export const Default: Story = {
   args: {
-    title: "Recently viewed",
+    title: "Featured recipes",
     recipes: sampleRecipes,
   },
 };
@@ -134,6 +137,13 @@ export const Clickable: Story = {
   args: {
     recipes: sampleRecipes,
     onRecipeClick: () => undefined,
+  },
+};
+
+export const NoMeta: Story = {
+  args: {
+    recipes: sampleRecipes,
+    showMeta: false,
   },
 };
 
@@ -146,6 +156,6 @@ export const Empty: Story = {
 export const LargeDataset: Story = {
   args: {
     title: "All recipes",
-    recipes: makeManyRecipes(160),
+    recipes: makeManyRecipes(180),
   },
 };
