@@ -152,6 +152,11 @@
   background-color: var(--ui-ControlBackgroundDisabled);
 }
 
+.variantGhost.disabled {
+  border-color: transparent;
+  background-color: transparent;
+}
+
 .loading {
   color: transparent !important;
 }

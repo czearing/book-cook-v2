@@ -1,0 +1,57 @@
+.carousel {
+  width: 100%;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 4px 8px;
+}
+
+.title {
+  margin: 0;
+}
+
+.viewport {
+  overflow: hidden;
+  padding-inline: 4px;
+  touch-action: pan-y;
+}
+
+.viewport:focus-visible {
+  outline: 2px solid var(--brand-Primary);
+  outline-offset: 2px;
+}
+
+.track {
+  display: flex;
+  gap: 16px;
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+}
+
+.item {
+  flex: 0 0 clamp(220px, 70vw, 280px);
+  width: clamp(220px, 70vw, 280px);
+  min-width: 0;
+}
+
+.item > * {
+  width: 100%;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .controls :global(button) {
+    transition: none;
+  }
+}

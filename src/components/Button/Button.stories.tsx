@@ -102,3 +102,22 @@ export const StartCooking: Story = {
     </div>
   ),
 };
+
+export const Disabled: Story = {
+  render: () => (
+    <Stack direction="row" gap="sm">
+      <Button variant="primary" disabled>
+        Primary
+      </Button>
+      <Button variant="secondary" disabled>
+        Secondary
+      </Button>
+      <Button variant="ghost" disabled>
+        Ghost
+      </Button>
+      <Button variant="destructive" disabled>
+        Destructive
+      </Button>
+    </Stack>
+  ),
+};
