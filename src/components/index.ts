@@ -7,6 +7,7 @@ export * from "./TagEditor";
 export * from "./Toast";
 export * from "./Theme";
 export * from "./TextEditor";
+export * from "./Avatar";
 export * from "./RecipeView";
 export * from "./RecipeCard";
 export * from "./RecipeCardCarousel";

@@ -19,9 +19,7 @@ export const RecipeCardCarousel = ({
   ariaLabel,
   emblaOptions,
 }: RecipeCardCarouselProps) => {
-  if (recipes.length === 0) {
-    return null;
-  }
+  const hasRecipes = recipes.length > 0;
 
   const options = useMemo(
     () => ({
@@ -37,13 +35,17 @@ export const RecipeCardCarousel = ({
   const [canScrollNext, setCanScrollNext] = useState(false);
 
   const updateScrollState = useCallback(() => {
-    if (!emblaApi) return;
+    if (!emblaApi) {
+      return;
+    }
     setCanScrollPrev(emblaApi.canScrollPrev());
     setCanScrollNext(emblaApi.canScrollNext());
   }, [emblaApi]);
 
   useEffect(() => {
-    if (!emblaApi) return;
+    if (!emblaApi) {
+      return;
+    }
     updateScrollState();
     emblaApi.on("select", updateScrollState);
     emblaApi.on("reInit", updateScrollState);
@@ -58,7 +60,9 @@ export const RecipeCardCarousel = ({
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
-      if (!emblaApi) return;
+      if (!emblaApi) {
+        return;
+      }
       if (event.key === "ArrowLeft") {
         event.preventDefault();
         emblaApi.scrollPrev();
@@ -74,7 +78,9 @@ export const RecipeCardCarousel = ({
       if (event.key === "End") {
         event.preventDefault();
         const lastIndex = emblaApi.scrollSnapList().length - 1;
-        if (lastIndex >= 0) emblaApi.scrollTo(lastIndex);
+        if (lastIndex >= 0) {
+          emblaApi.scrollTo(lastIndex);
+        }
       }
     },
     [emblaApi]
@@ -82,6 +88,11 @@ export const RecipeCardCarousel = ({
 
   const controlsVisible = recipes.length > 1 && (canScrollPrev || canScrollNext);
   const resolvedAriaLabel = ariaLabel ?? title ?? "Recipe carousel";
+  const showHeader = Boolean(title) || controlsVisible;
+
+  if (!hasRecipes) {
+    return null;
+  }
 
   return (
     <div
@@ -90,7 +101,7 @@ export const RecipeCardCarousel = ({
       aria-roledescription="carousel"
       aria-label={resolvedAriaLabel}
     >
-      {(title || controlsVisible) && (
+      {showHeader && (
         <div className={styles.header}>
           {title ? (
             <SubsectionHeading className={styles.title}>

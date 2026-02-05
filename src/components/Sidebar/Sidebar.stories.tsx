@@ -1,5 +1,3 @@
-import type { Meta, StoryObj } from "@storybook/react";
-
 import {
   BookOpenIcon,
   CalendarBlankIcon,
@@ -9,6 +7,7 @@ import {
   MagnifyingGlassIcon,
   PlusCircleIcon,
 } from "@phosphor-icons/react";
+import type { Meta, StoryObj } from "@storybook/react";
 
 import { Sidebar, SidebarItem } from "./Sidebar";
 import { MetaLabel, SectionHeading } from "../Typography";
