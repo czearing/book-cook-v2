@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
 export interface SidebarProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -29,29 +29,14 @@ export interface SidebarProps extends HTMLAttributes<HTMLDivElement> {
    */
   width?: number | string;
   /**
-   * Minimum width when resizing (px).
-   * @default 200
-   */
-  minWidth?: number;
-  /**
-   * Maximum width when resizing (px).
-   * @default 360
-   */
-  maxWidth?: number;
-  /**
-   * Allow resizing the sidebar width by dragging.
-   * @default true
-   */
-  resizable?: boolean;
-  /**
-   * Callback when the width changes via resizing.
-   */
-  onWidthChange?: (width: number) => void;
-  /**
    * Width of the collapsed sidebar.
    * @default 72
    */
   collapsedWidth?: number | string;
+  /**
+   * User profile details shown at the bottom of the sidebar.
+   */
+  profile?: SidebarProfile;
   /**
    * Show the collapse/expand toggle.
    * @default true
@@ -59,18 +44,25 @@ export interface SidebarProps extends HTMLAttributes<HTMLDivElement> {
   showToggle?: boolean;
 }
 
-export interface SidebarItemProps
-  extends ButtonHTMLAttributes<HTMLButtonElement> {
+export type SidebarProfile = {
   /**
-   * Icon shown in the sidebar item.
+   * Display name for the user.
    */
-  icon: ReactNode;
+  name: string;
   /**
-   * Label shown in the sidebar item.
+   * Optional click handler for the profile area.
    */
-  label: string;
+  onClick?: () => void;
   /**
-   * Whether the item is active.
+   * Accessible label for the profile action.
    */
-  active?: boolean;
-}
+  ariaLabel?: string;
+  /**
+   * Optional profile image URL.
+   */
+  imageURL?: string;
+  /**
+   * Optional secondary line of text under the name.
+   */
+  meta?: string;
+};

@@ -1,0 +1,13 @@
+.section {
+  padding: 8px 8px 4px;
+  margin: 8px 4px 4px;
+  user-select: none;
+  padding-left: calc(8px + var(--sidebar-item-indent, 0px));
+}
+
+.sectionLabel {
+  font-size: 11px;
+  color: var(--ui-TextCaption);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}

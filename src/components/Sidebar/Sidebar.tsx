@@ -1,26 +1,12 @@
-import {
-  type CSSProperties,
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { type CSSProperties, type KeyboardEvent, useEffect, useState } from "react";
 import { CaretLeftIcon, CaretRightIcon } from "@phosphor-icons/react";
 import { clsx } from "clsx";
 
+import { Avatar } from "../Avatar";
+import { BodyText, MetaLabel } from "../Typography";
+import { SidebarContext } from "./SidebarContext";
 import styles from "./Sidebar.module.css";
-import type { SidebarItemProps, SidebarProps } from "./Sidebar.types";
-
-type SidebarContextValue = {
-  collapsed: boolean;
-};
-
-const SidebarContext = createContext<SidebarContextValue>({
-  collapsed: false,
-});
-
-const useSidebarContext = () => useContext(SidebarContext);
+import type { SidebarProps } from "./Sidebar.types";
 
 const toCssSize = (value: number | string) =>
   typeof value === "number" ? `${value}px` : value;
@@ -58,23 +44,15 @@ export const Sidebar = ({
   onCollapsedChange,
   collapseBreakpoint = 900,
   width = 280,
-  minWidth = 200,
-  maxWidth = 360,
-  resizable = true,
-  onWidthChange,
   collapsedWidth = 72,
+  profile,
   showToggle = true,
   style,
   ...rest
 }: SidebarProps) => {
   const isControlled = typeof collapsedProp === "boolean";
-  const isResizable = resizable && typeof width === "number";
   const [collapsedState, setCollapsedState] = useState(defaultCollapsed);
   const isCompact = useMediaQuery(`(max-width: ${collapseBreakpoint}px)`);
-  const [resizableWidth, setResizableWidth] = useState(
-    typeof width === "number" ? width : 280
-  );
-  const [isResizing, setIsResizing] = useState(false);
 
   useEffect(() => {
     if (!isControlled && isCompact) {
@@ -82,23 +60,12 @@ export const Sidebar = ({
     }
   }, [isCompact, isControlled]);
 
-  useEffect(() => {
-    if (typeof width === "number") {
-      setResizableWidth(width);
-    }
-  }, [width]);
-
   const collapsed = isControlled ? collapsedProp : collapsedState;
-  const resolvedWidth = isResizable ? resizableWidth : width;
-  const resolvedStyle = useMemo(
-    () =>
-      ({
-        ...style,
-        "--sidebar-width": toCssSize(resolvedWidth),
-        "--sidebar-collapsed-width": toCssSize(collapsedWidth),
-      }) as CSSProperties,
-    [collapsedWidth, resolvedWidth, style]
-  );
+  const resolvedStyle = {
+    ...style,
+    "--sidebar-width": toCssSize(width),
+    "--sidebar-collapsed-width": toCssSize(collapsedWidth),
+  } as CSSProperties;
 
   const handleToggle = () => {
     const next = !collapsed;
@@ -108,115 +75,81 @@ export const Sidebar = ({
     onCollapsedChange?.(next);
   };
 
-  const handleResizeStart = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!isResizable || collapsed) {
+  const profileOnClick = profile?.onClick;
+  const handleProfileKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (!profileOnClick) {
       return;
     }
-    event.preventDefault();
-    const handle = event.currentTarget;
-    handle.setPointerCapture(event.pointerId);
-    const startX = event.clientX;
-    const startWidth = resizableWidth;
-    setIsResizing(true);
-
-    const handleMove = (moveEvent: PointerEvent) => {
-      const delta = moveEvent.clientX - startX;
-      const nextWidth = Math.min(
-        Math.max(startWidth + delta, minWidth),
-        maxWidth
-      );
-      setResizableWidth(nextWidth);
-      onWidthChange?.(nextWidth);
-    };
-
-    const cleanup = () => {
-      handle.removeEventListener("pointermove", handleMove);
-      handle.removeEventListener("pointerup", handleUp);
-      handle.removeEventListener("pointercancel", handleUp);
-      handle.removeEventListener("lostpointercapture", handleUp);
-    };
-
-    const handleUp = () => {
-      setIsResizing(false);
-      if (handle.hasPointerCapture(event.pointerId)) {
-        handle.releasePointerCapture(event.pointerId);
-      }
-      cleanup();
-    };
-
-    handle.addEventListener("pointermove", handleMove);
-    handle.addEventListener("pointerup", handleUp);
-    handle.addEventListener("pointercancel", handleUp);
-    handle.addEventListener("lostpointercapture", handleUp);
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      profileOnClick();
+    }
   };
 
   return (
     <SidebarContext.Provider value={{ collapsed }}>
       <div
         className={clsx(styles.sidebar, className)}
-        data-collapsed={collapsed ? "true" : "false"}
-        data-resizing={isResizing ? "true" : "false"}
+        data-sidebar-collapsed={collapsed ? "true" : "false"}
         style={resolvedStyle}
         {...rest}
       >
-        {showToggle && (
+        {(showToggle || profile) && (
           <div className={styles.header}>
-            <button
-              type="button"
-              onClick={handleToggle}
-              className={styles.toggleButton}
-              aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            >
-              {collapsed ? (
-                <CaretRightIcon size={16} />
-              ) : (
-                <CaretLeftIcon size={16} />
-              )}
-            </button>
+            {profile && (
+              <div
+                className={clsx(
+                  styles.profile,
+                  profile.onClick && styles.profileInteractive
+                )}
+                {...(profile.onClick
+                  ? {
+                      role: "button",
+                      tabIndex: 0,
+                      onClick: profileOnClick,
+                      onKeyDown: handleProfileKeyDown,
+                      "aria-label": profile.ariaLabel ?? profile.name,
+                    }
+                  : {})}
+              >
+                <Avatar
+                  name={profile.name}
+                  imageURL={profile.imageURL}
+                  size="sm"
+                />
+                <div
+                  className={styles.profileText}
+                  data-sidebar-collapsible="true"
+                >
+                  <BodyText as="span" className={styles.profileName}>
+                    {profile.name}
+                  </BodyText>
+                  {profile.meta && (
+                    <MetaLabel as="span" className={styles.profileMeta}>
+                      {profile.meta}
+                    </MetaLabel>
+                  )}
+                </div>
+              </div>
+            )}
+            {showToggle && (
+              <button
+                type="button"
+                onClick={handleToggle}
+                className={styles.toggleButton}
+                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+              >
+                {collapsed ? (
+                  <CaretRightIcon size={16} />
+                ) : (
+                  <CaretLeftIcon size={16} />
+                )}
+              </button>
+            )}
           </div>
         )}
         <div className={styles.content}>{children}</div>
-        {isResizable && !collapsed && (
-          <div
-            className={styles.resizeHandle}
-            onPointerDown={handleResizeStart}
-            role="separator"
-            aria-orientation="vertical"
-            aria-valuemin={minWidth}
-            aria-valuemax={maxWidth}
-            aria-valuenow={Math.round(resizableWidth)}
-          />
-        )}
       </div>
     </SidebarContext.Provider>
-  );
-};
-
-export const SidebarItem = ({
-  icon,
-  label,
-  active,
-  className,
-  type,
-  ...rest
-}: SidebarItemProps) => {
-  const { collapsed } = useSidebarContext();
-
-  return (
-    <button
-      type={type ?? "button"}
-      className={clsx(styles.item, active && styles.itemActive, className)}
-      aria-label={collapsed ? label : undefined}
-      aria-current={active ? "page" : undefined}
-      title={collapsed ? label : undefined}
-      {...rest}
-    >
-      <span className={styles.itemIcon} aria-hidden="true">
-        {icon}
-      </span>
-      <span className={styles.itemLabel} aria-hidden={collapsed}>
-        {label}
-      </span>
-    </button>
   );
 };
