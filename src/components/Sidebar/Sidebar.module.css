@@ -5,10 +5,10 @@
   max-width: var(--sidebar-width, 280px);
   height: 100%;
   min-height: 100vh;
-  padding: 12px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   background: var(--ui-Canvas);
   border-right: 1px solid var(--ui-ControlBorder);
   box-sizing: border-box;
@@ -23,7 +23,7 @@
   width: var(--sidebar-collapsed-width, 72px);
   min-width: var(--sidebar-collapsed-width, 72px);
   max-width: var(--sidebar-collapsed-width, 72px);
-  padding: 12px 8px;
+  padding: 10px 6px;
 }
 
 .header {
@@ -31,16 +31,16 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  min-height: 40px;
+  min-height: 36px;
 }
 
 .toggleButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
   margin-left: auto;
   border: 1px solid transparent;
   background: transparent;
@@ -62,13 +62,13 @@
   outline: none;
   box-shadow:
     0 0 0 2px var(--ui-Canvas),
-    0 0 0 4px var(--brand-Primary);
+    0 0 0 4px var(--ui-ControlBorderHover);
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 10px;
   flex: 1;
   min-height: 0;
   overflow-y: auto;

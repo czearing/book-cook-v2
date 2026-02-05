@@ -1,13 +1,134 @@
 .section {
-  padding: 8px 8px 4px;
-  margin: 8px 4px 4px;
+  margin: 0;
   user-select: none;
-  padding-left: calc(8px + var(--sidebar-item-indent, 0px));
 }
 
-.sectionLabel {
-  font-size: 11px;
+.sectionItem {
+  margin: 0;
+}
+
+.sectionTrigger.sectionTrigger {
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: transparent;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--ui-TextSecondary);
+  gap: 6px;
+  min-height: 30px;
+  padding-left: calc(6px + var(--sidebar-section-indent, 0px));
+}
+
+.sectionTrigger:hover {
+  background: var(--ui-ControlHover);
+  color: var(--ui-TextPrimary);
+}
+
+.sectionTrigger[data-state="open"] {
+  color: var(--ui-TextPrimary);
+}
+
+.sectionTrigger:not(.sectionTriggerItem) > span {
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: inherit;
+}
+
+.sectionTriggerItem.sectionTriggerItem {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  width: 100%;
+  padding: 4px 6px;
+  border-radius: 6px;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--ui-TextSecondary);
+  gap: 6px;
+  min-height: 30px;
+  margin: 0 2px;
+  text-align: left;
+}
+
+.sectionTriggerItem[data-state="open"] {
+  background: transparent;
+  color: var(--ui-TextPrimary);
+}
+
+.sectionTriggerItem > span {
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: inherit;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.sectionTrigger:not(.sectionTriggerItem) svg {
+  width: 14px;
+  height: 14px;
+}
+
+.sectionIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   color: var(--ui-TextCaption);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+}
+
+.sectionTriggerItem:hover .sectionIcon {
+  color: var(--ui-TextSecondary);
+}
+
+.sectionTriggerItem[data-state="open"] .sectionIcon {
+  color: var(--ui-TextPrimary);
+}
+
+.sectionText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sectionEnd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ui-TextCaption);
+}
+
+.sectionTriggerItem:hover .sectionEnd {
+  color: var(--ui-TextSecondary);
+}
+
+.sectionTriggerItem[data-state="open"] .sectionEnd {
+  color: var(--ui-TextPrimary);
+}
+
+.sectionTriggerItem > svg {
+  width: 14px;
+  height: 14px;
+  color: var(--ui-TextCaption);
+}
+
+.sectionTriggerItem:hover > svg {
+  color: var(--ui-TextSecondary);
+}
+
+.sectionTriggerItem[data-state="open"] > svg {
+  color: var(--ui-TextPrimary);
+}
+
+.sectionContent {
+  padding-left: var(--sidebar-section-indent, 0px);
+}
+
+.sectionContent > div {
+  padding: 0;
+  gap: 1px;
 }

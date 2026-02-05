@@ -2,12 +2,12 @@
   display: grid;
   grid-template-columns: 20px 1fr auto;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
-  min-height: 32px;
-  padding: 6px 8px;
-  margin: 0 4px;
-  border-radius: 8px;
+  min-height: 30px;
+  padding: 4px 6px;
+  margin: 0;
+  border-radius: 6px;
   border: none;
   background: transparent;
   color: var(--ui-TextSecondary);
@@ -16,7 +16,7 @@
   transition:
     background var(--sidebar-motion),
     color var(--sidebar-motion);
-  padding-left: calc(8px + var(--sidebar-item-indent, 0px));
+  padding-left: calc(6px + var(--sidebar-item-indent, 0px));
 }
 
 .item[data-collapsed="true"] {
@@ -33,7 +33,7 @@
   outline: none;
   box-shadow:
     0 0 0 2px var(--ui-Canvas),
-    0 0 0 4px var(--brand-Primary);
+    0 0 0 4px var(--ui-ControlBorderHover);
 }
 
 .itemActive {
