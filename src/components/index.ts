@@ -11,3 +11,4 @@ export * from "./RecipeView";
 export * from "./RecipeCard";
 export * from "./RecipeCardCarousel";
 export * from "./RecipeCardGallery";
+export * from "./Sidebar";

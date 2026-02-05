@@ -1,0 +1,178 @@
+.sidebar {
+  --sidebar-motion: 0.12s ease;
+  width: var(--sidebar-width, 280px);
+  min-width: var(--sidebar-width, 280px);
+  max-width: var(--sidebar-width, 280px);
+  height: 100%;
+  min-height: 100vh;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--ui-Canvas);
+  border-right: 1px solid var(--ui-ControlBorder);
+  box-sizing: border-box;
+  position: relative;
+  transition:
+    width var(--sidebar-motion),
+    min-width var(--sidebar-motion),
+    max-width var(--sidebar-motion);
+}
+
+.sidebar[data-collapsed="true"] {
+  width: var(--sidebar-collapsed-width, 72px);
+  min-width: var(--sidebar-collapsed-width, 72px);
+  max-width: var(--sidebar-collapsed-width, 72px);
+  padding: 12px 8px;
+}
+
+.sidebar[data-resizing="true"] {
+  user-select: none;
+  cursor: col-resize;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.toggleButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ui-TextSecondary);
+  cursor: pointer;
+  transition:
+    background var(--sidebar-motion),
+    color var(--sidebar-motion),
+    border-color var(--sidebar-motion);
+}
+
+.toggleButton:hover {
+  background: var(--ui-ControlHover);
+  color: var(--ui-TextPrimary);
+  border-color: var(--ui-ControlBorder);
+}
+
+.toggleButton:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--ui-Canvas),
+    0 0 0 4px var(--brand-Primary);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--ui-TextSecondary);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background var(--sidebar-motion),
+    color var(--sidebar-motion);
+}
+
+.item:hover {
+  background: var(--ui-ControlHover);
+  color: var(--ui-TextPrimary);
+}
+
+.item:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--ui-Canvas),
+    0 0 0 4px var(--brand-Primary);
+}
+
+.itemActive {
+  background: var(--ui-ControlPressed);
+  color: var(--ui-TextPrimary);
+}
+
+.itemIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.itemLabel {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition:
+    opacity var(--sidebar-motion),
+    transform var(--sidebar-motion);
+}
+
+.sidebar[data-collapsed="true"] .item {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+.sidebar[data-collapsed="true"] .itemLabel {
+  opacity: 0;
+  transform: translateX(-6px);
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.sidebar[data-collapsed="true"] [data-sidebar-collapsible="true"] {
+  opacity: 0;
+  transform: translateX(-6px);
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+[data-sidebar-collapsible="true"] {
+  transition:
+    opacity var(--sidebar-motion),
+    transform var(--sidebar-motion);
+}
+
+.resizeHandle {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  width: 8px;
+  height: 100%;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.resizeHandle::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 3px;
+  width: 2px;
+  height: 100%;
+  background: transparent;
+  transition: background var(--sidebar-motion);
+}
+
+.resizeHandle:hover::after {
+  background: var(--ui-ControlBorder);
+}
