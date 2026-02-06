@@ -5,9 +5,11 @@ import styles from "./SidebarSection.module.css";
 import type { SidebarSectionProps } from "./SidebarSection.types";
 
 import { Accordion } from "../../Accordion";
+import { useSidebarContext } from "../SidebarContext";
 
 export const SidebarSection = ({
   label,
+  value,
   children,
   depth = 0,
   variant = "section",
@@ -20,6 +22,7 @@ export const SidebarSection = ({
   style,
   ...rest
 }: SidebarSectionProps) => {
+  const { getSectionOpen, setSectionOpen } = useSidebarContext();
   const resolvedDepth = Math.max(0, depth);
   const indentStyle =
     resolvedDepth > 0
@@ -27,12 +30,14 @@ export const SidebarSection = ({
           "--sidebar-section-indent": `${resolvedDepth * 14}px`,
         } as CSSProperties)
       : undefined;
-  const sectionValue = label;
+  const sectionValue = value ?? label;
   const isControlled = typeof open === "boolean";
   const isItemVariant = variant === "item";
   const resolvedValue = isControlled ? (open ? sectionValue : "") : undefined;
+  const storedOpen = isControlled ? undefined : getSectionOpen(sectionValue);
+  const shouldBeOpen = storedOpen ?? defaultOpen;
   const resolvedDefaultValue =
-    !isControlled && defaultOpen ? sectionValue : undefined;
+    !isControlled && shouldBeOpen ? sectionValue : undefined;
   const title = isItemVariant ? (
     <>
       {icon && (
@@ -54,7 +59,11 @@ export const SidebarSection = ({
     if (typeof value !== "string") {
       return;
     }
-    onOpenChange?.(value === sectionValue);
+    const nextOpen = value === sectionValue;
+    if (!isControlled) {
+      setSectionOpen(sectionValue, nextOpen);
+    }
+    onOpenChange?.(nextOpen);
   };
 
   return (
@@ -70,7 +79,7 @@ export const SidebarSection = ({
       collapsible
       value={resolvedValue}
       defaultValue={resolvedDefaultValue}
-      onValueChange={onOpenChange ? handleValueChange : undefined}
+      onValueChange={handleValueChange}
       className={clsx(styles.section, isItemVariant && styles.sectionItem, className)}
       triggerClassName={clsx(
         styles.sectionTrigger,

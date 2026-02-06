@@ -1,15 +1,24 @@
 .sidebar {
   --sidebar-motion: 0.12s ease;
+  --sidebar-item-bleed: 4px;
+  --sidebar-surface: #f9f9f8;
+  --sidebar-surface-bottom: #f6f6f4;
+  --sidebar-surface-accent: rgba(0, 0, 0, 0.03);
+  --sidebar-hover: rgba(0, 0, 0, 0.05);
+  --sidebar-avatar-bg: rgba(0, 0, 0, 0.08);
+  --ui-ControlHover: var(--sidebar-hover);
   width: var(--sidebar-width, 280px);
   min-width: var(--sidebar-width, 280px);
   max-width: var(--sidebar-width, 280px);
-  height: 100%;
-  min-height: 100vh;
+  height: 100dvh;
+  min-height: 100dvh;
   padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background: var(--ui-Canvas);
+  background:
+    linear-gradient(180deg, var(--sidebar-surface) 0%, var(--sidebar-surface-bottom) 100%);
+  box-shadow: inset 0 1px 0 var(--sidebar-surface-accent);
   border-right: 1px solid var(--ui-ControlBorder);
   box-sizing: border-box;
   position: relative;
@@ -23,7 +32,18 @@
   width: var(--sidebar-collapsed-width, 72px);
   min-width: var(--sidebar-collapsed-width, 72px);
   max-width: var(--sidebar-collapsed-width, 72px);
-  padding: 10px 6px;
+  padding: 10px 0;
+  --sidebar-item-bleed: 0px;
+}
+
+.sidebar[data-sidebar-collapsed="true"] .header {
+  justify-content: center;
+  padding: 0;
+  width: 100%;
+}
+
+.sidebar[data-sidebar-collapsed="true"] .toggleButton {
+  margin-left: 0;
 }
 
 .header {
@@ -35,34 +55,7 @@
 }
 
 .toggleButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 8px;
   margin-left: auto;
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--ui-TextSecondary);
-  cursor: pointer;
-  transition:
-    background var(--sidebar-motion),
-    color var(--sidebar-motion),
-    border-color var(--sidebar-motion);
-}
-
-.toggleButton:hover {
-  background: var(--ui-ControlHover);
-  color: var(--ui-TextPrimary);
-  border-color: var(--ui-ControlBorder);
-}
-
-.toggleButton:focus-visible {
-  outline: none;
-  box-shadow:
-    0 0 0 2px var(--ui-Canvas),
-    0 0 0 4px var(--ui-ControlBorderHover);
 }
 
 .content {
@@ -72,6 +65,12 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+}
+
+.sidebar[data-sidebar-collapsed="true"] .content {
+  align-items: center;
+  gap: 8px;
+  width: 100%;
 }
 .sidebar[data-sidebar-collapsed="true"] [data-sidebar-collapsible="true"] {
   opacity: 0;
@@ -97,17 +96,40 @@
   border-radius: 10px;
 }
 
-.profileInteractive {
-  cursor: pointer;
-  transition: background var(--sidebar-motion);
+.profileFooter {
+  margin-top: auto;
 }
 
-.profileInteractive:hover {
-  background: var(--ui-ControlHover);
+.profileButton {
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: var(--ui-TextSecondary);
+  --ui-ControlHover: var(--sidebar-avatar-bg);
+  transition:
+    background var(--sidebar-motion),
+    color var(--sidebar-motion);
+}
+
+.profileButton:hover {
+  background: var(--sidebar-hover);
+  color: var(--ui-TextPrimary);
+}
+
+.profileButton:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--ui-Canvas),
+    0 0 0 4px var(--ui-ControlBorderHover);
 }
 
 .sidebar[data-sidebar-collapsed="true"] .profile {
   justify-content: center;
+  gap: 0;
+  margin: 0;
+  padding: 4px 0;
 }
 
 .profileText {
@@ -118,7 +140,6 @@
 }
 
 .profileName {
-  font-weight: 600;
   color: var(--ui-TextPrimary);
   white-space: nowrap;
   overflow: hidden;
@@ -126,6 +147,10 @@
 }
 
 .profileMeta {
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 400;
+  color: var(--ui-TextCaption);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

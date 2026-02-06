@@ -16,15 +16,15 @@
   color: var(--ui-TextSecondary);
   gap: 6px;
   min-height: 30px;
-  padding-left: calc(6px + var(--sidebar-section-indent, 0px));
+  margin: 0 calc(-1 * var(--sidebar-item-bleed, 0px));
+  padding-left: calc(
+    6px + var(--sidebar-section-indent, 0px) + var(--sidebar-item-bleed, 0px)
+  );
+  padding-right: calc(6px + var(--sidebar-item-bleed, 0px));
 }
 
 .sectionTrigger:hover {
-  background: var(--ui-ControlHover);
-  color: var(--ui-TextPrimary);
-}
-
-.sectionTrigger[data-state="open"] {
+  background: var(--sidebar-hover, var(--ui-ControlHover));
   color: var(--ui-TextPrimary);
 }
 
@@ -47,13 +47,12 @@
   color: var(--ui-TextSecondary);
   gap: 6px;
   min-height: 30px;
-  margin: 0 2px;
+  margin: 0 calc(-1 * var(--sidebar-item-bleed, 0px));
   text-align: left;
-}
-
-.sectionTriggerItem[data-state="open"] {
-  background: transparent;
-  color: var(--ui-TextPrimary);
+  padding-left: calc(
+    6px + var(--sidebar-section-indent, 0px) + var(--sidebar-item-bleed, 0px)
+  );
+  padding-right: calc(6px + var(--sidebar-item-bleed, 0px));
 }
 
 .sectionTriggerItem > span {
@@ -81,14 +80,6 @@
   color: var(--ui-TextCaption);
 }
 
-.sectionTriggerItem:hover .sectionIcon {
-  color: var(--ui-TextSecondary);
-}
-
-.sectionTriggerItem[data-state="open"] .sectionIcon {
-  color: var(--ui-TextPrimary);
-}
-
 .sectionText {
   white-space: nowrap;
   overflow: hidden;
@@ -102,26 +93,20 @@
   color: var(--ui-TextCaption);
 }
 
-.sectionTriggerItem:hover .sectionEnd {
-  color: var(--ui-TextSecondary);
-}
-
-.sectionTriggerItem[data-state="open"] .sectionEnd {
-  color: var(--ui-TextPrimary);
-}
-
 .sectionTriggerItem > svg {
   width: 14px;
   height: 14px;
   color: var(--ui-TextCaption);
 }
 
-.sectionTriggerItem:hover > svg {
-  color: var(--ui-TextSecondary);
+.sectionTrigger.sectionTrigger[data-state="open"] > svg {
+  color: var(--ui-TextCaption);
+  transform: none;
 }
 
-.sectionTriggerItem[data-state="open"] > svg {
-  color: var(--ui-TextPrimary);
+.sectionTriggerItem.sectionTriggerItem[data-state="open"] > svg {
+  color: var(--ui-TextCaption);
+  transform: none;
 }
 
 .sectionContent {
@@ -129,6 +114,17 @@
 }
 
 .sectionContent > div {
-  padding: 0;
+  padding: 4px 2px;
   gap: 1px;
+}
+.sectionTriggerItem:hover .sectionIcon {
+  color: var(--ui-TextSecondary);
+}
+
+.sectionTriggerItem:hover .sectionEnd {
+  color: var(--ui-TextSecondary);
+}
+
+.sectionTriggerItem:hover > svg {
+  color: var(--ui-TextSecondary);
 }

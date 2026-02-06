@@ -27,7 +27,7 @@ export const SidebarItem = ({
   return (
     <button
       type={type ?? "button"}
-      className={clsx(styles.item, active && styles.itemActive, className)}
+      className={clsx(styles.item, className)}
       style={indentStyle}
       data-collapsed={collapsed ? "true" : "false"}
       aria-label={collapsed ? label : undefined}

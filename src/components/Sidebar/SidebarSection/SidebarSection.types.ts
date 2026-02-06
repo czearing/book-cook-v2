@@ -6,6 +6,11 @@ export interface SidebarSectionProps extends HTMLAttributes<HTMLDivElement> {
    */
   label: string;
   /**
+   * Optional value used to uniquely identify the section.
+   * Defaults to the label when not provided.
+   */
+  value?: string;
+  /**
    * Optional indentation level for nested sections.
    */
   depth?: number;
