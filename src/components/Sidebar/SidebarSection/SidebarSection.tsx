@@ -80,7 +80,7 @@ export const SidebarSection = ({
       value={resolvedValue}
       defaultValue={resolvedDefaultValue}
       onValueChange={handleValueChange}
-      className={clsx(styles.section, isItemVariant && styles.sectionItem, className)}
+      className={clsx(styles.section, className)}
       triggerClassName={clsx(
         styles.sectionTrigger,
         isItemVariant && styles.sectionTriggerItem

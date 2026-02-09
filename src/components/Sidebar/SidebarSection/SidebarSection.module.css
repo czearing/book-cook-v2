@@ -1,18 +1,10 @@
 .section {
-  margin: 0;
   user-select: none;
-}
-
-.sectionItem {
-  margin: 0;
 }
 
 .sectionTrigger.sectionTrigger {
   padding: 4px 6px;
   border-radius: 6px;
-  background: transparent;
-  text-transform: none;
-  letter-spacing: normal;
   color: var(--ui-TextSecondary);
   gap: 6px;
   min-height: 30px;
@@ -24,7 +16,7 @@
 }
 
 .sectionTrigger:hover {
-  background: var(--sidebar-hover, var(--ui-ControlHover));
+  background: var(--ui-ControlHover);
   color: var(--ui-TextPrimary);
 }
 
@@ -42,8 +34,6 @@
   width: 100%;
   padding: 4px 6px;
   border-radius: 6px;
-  text-transform: none;
-  letter-spacing: normal;
   color: var(--ui-TextSecondary);
   gap: 6px;
   min-height: 30px;
@@ -64,8 +54,6 @@
   line-height: 1.5;
   font-weight: 400;
   color: inherit;
-  text-transform: none;
-  letter-spacing: normal;
 }
 
 .sectionTrigger:not(.sectionTriggerItem) svg {
@@ -77,7 +65,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--ui-TextCaption);
+  color: currentColor;
 }
 
 .sectionText {
@@ -90,22 +78,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--ui-TextCaption);
+  color: currentColor;
 }
 
 .sectionTriggerItem > svg {
   width: 14px;
   height: 14px;
-  color: var(--ui-TextCaption);
-}
-
-.sectionTrigger.sectionTrigger[data-state="open"] > svg {
-  color: var(--ui-TextCaption);
-  transform: none;
-}
-
-.sectionTriggerItem.sectionTriggerItem[data-state="open"] > svg {
-  color: var(--ui-TextCaption);
+  color: currentColor;
   transform: none;
 }
 
@@ -116,15 +95,4 @@
 .sectionContent > div {
   padding: 4px 2px;
   gap: 1px;
-}
-.sectionTriggerItem:hover .sectionIcon {
-  color: var(--ui-TextSecondary);
-}
-
-.sectionTriggerItem:hover .sectionEnd {
-  color: var(--ui-TextSecondary);
-}
-
-.sectionTriggerItem:hover > svg {
-  color: var(--ui-TextSecondary);
 }

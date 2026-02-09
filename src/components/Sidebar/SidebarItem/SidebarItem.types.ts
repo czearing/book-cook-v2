@@ -22,4 +22,12 @@ export interface SidebarItemProps
    * Optional trailing content (badge, chevron, etc).
    */
   endAdornment?: ReactNode;
+  /**
+   * Whether the item should render as icon-only (no label shown).
+   */
+  iconOnly?: boolean;
+  /**
+   * Whether the label area should stack content vertically.
+   */
+  labelStacked?: boolean;
 }

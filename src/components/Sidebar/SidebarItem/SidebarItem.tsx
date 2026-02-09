@@ -3,6 +3,7 @@ import { clsx } from "clsx";
 
 import { BodyText } from "../../Typography";
 import { useSidebarContext } from "../SidebarContext";
+import { Tooltip } from "../../Tooltip";
 import styles from "./SidebarItem.module.css";
 import type { SidebarItemProps } from "./SidebarItem.types";
 
@@ -12,8 +13,11 @@ export const SidebarItem = ({
   active,
   depth = 0,
   endAdornment,
+  iconOnly = false,
+  labelStacked = false,
   className,
   type,
+  children,
   ...rest
 }: SidebarItemProps) => {
   const { collapsed } = useSidebarContext();
@@ -24,37 +28,63 @@ export const SidebarItem = ({
           CSSProperties)
       : undefined;
 
-  return (
+  const button = (
     <button
       type={type ?? "button"}
       className={clsx(styles.item, className)}
       style={indentStyle}
       data-collapsed={collapsed ? "true" : "false"}
-      aria-label={collapsed ? label : undefined}
+      data-icon-only={iconOnly ? "true" : "false"}
+      aria-label={collapsed || iconOnly ? label : undefined}
       aria-current={active ? "page" : undefined}
-      title={collapsed ? label : undefined}
       {...rest}
     >
       <span className={styles.itemIcon} aria-hidden="true">
         {icon}
       </span>
-      <BodyText
-        as="span"
-        className={styles.itemLabel}
-        aria-hidden={collapsed}
-        data-sidebar-collapsible="true"
-      >
-        {label}
-      </BodyText>
-      {endAdornment && (
-        <span
-          className={styles.itemEnd}
-          aria-hidden={collapsed}
-          data-sidebar-collapsible="true"
-        >
-          {endAdornment}
-        </span>
+      {!iconOnly && (
+        <>
+          {children ? (
+            <span
+              className={clsx(
+                styles.itemLabel,
+                labelStacked && styles.itemLabelStacked
+              )}
+              aria-hidden={collapsed}
+              data-sidebar-collapsible="true"
+            >
+              {children}
+            </span>
+          ) : (
+            <BodyText
+              as="span"
+              className={clsx(
+                styles.itemLabel,
+                labelStacked && styles.itemLabelStacked
+              )}
+              aria-hidden={collapsed}
+              data-sidebar-collapsible="true"
+            >
+              {label}
+            </BodyText>
+          )}
+          {endAdornment && (
+            <span
+              className={styles.itemEnd}
+              aria-hidden={collapsed}
+              data-sidebar-collapsible="true"
+            >
+              {endAdornment}
+            </span>
+          )}
+        </>
       )}
     </button>
+  );
+
+  return (
+    <Tooltip content={label} side="right" align="center" disabled={!collapsed}>
+      {button}
+    </Tooltip>
   );
 };

@@ -20,25 +20,25 @@ export const Tooltip = ({
   withArrow = true,
   className,
 }: TooltipProps) => {
-  if (disabled || content == null) {
-    return children;
-  }
+  const shouldRenderContent = !disabled && content != null;
 
   return (
     <TooltipPrimitive.Provider delayDuration={delay}>
       <TooltipPrimitive.Root>
         <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
-        <TooltipPrimitive.Portal>
-          <TooltipPrimitive.Content
-            side={side}
-            align={align}
-            sideOffset={offset}
-            className={clsx(styles.content, className)}
-          >
-            {content}
-            {withArrow && <TooltipPrimitive.Arrow className={styles.arrow} />}
-          </TooltipPrimitive.Content>
-        </TooltipPrimitive.Portal>
+        {shouldRenderContent && (
+          <TooltipPrimitive.Portal>
+            <TooltipPrimitive.Content
+              side={side}
+              align={align}
+              sideOffset={offset}
+              className={clsx(styles.content, className)}
+            >
+              {content}
+              {withArrow && <TooltipPrimitive.Arrow className={styles.arrow} />}
+            </TooltipPrimitive.Content>
+          </TooltipPrimitive.Portal>
+        )}
       </TooltipPrimitive.Root>
     </TooltipPrimitive.Provider>
   );
