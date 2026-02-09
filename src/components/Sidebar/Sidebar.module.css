@@ -1,13 +1,13 @@
 .sidebar {
   --sidebar-motion: 0.12s ease;
-  --sidebar-item-bleed: 4px;
   --sidebar-surface: #f9f9f8;
   --sidebar-surface-bottom: #f6f6f4;
   --sidebar-surface-accent: rgba(0, 0, 0, 0.03);
-  --sidebar-border: var(--ui-ControlBorder);
+  --sidebar-border: #e6e8ee;
   --sidebar-collapsed-item-size: 40px;
   --sidebar-padding-block: 8px;
   --sidebar-padding-inline: 8px;
+  --sidebar-focus-ring: inset 0 0 0 1px var(--ui-ControlBorderHover);
   width: var(--sidebar-width, 280px);
   min-width: var(--sidebar-width, 280px);
   max-width: var(--sidebar-width, 280px);
@@ -44,7 +44,6 @@
   min-width: var(--sidebar-collapsed-width, 72px);
   max-width: var(--sidebar-collapsed-width, 72px);
   --sidebar-padding-inline: 0px;
-  --sidebar-item-bleed: 0px;
 }
 
 .sidebar[data-sidebar-collapsed="true"] .header {
@@ -73,7 +72,7 @@
   gap: 10px;
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .sidebar[data-sidebar-collapsed="true"] .content {

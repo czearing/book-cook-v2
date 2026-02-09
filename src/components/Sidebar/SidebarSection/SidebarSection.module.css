@@ -8,16 +8,18 @@
   color: var(--ui-TextSecondary);
   gap: 6px;
   min-height: 30px;
-  margin: 0 calc(-1 * var(--sidebar-item-bleed, 0px));
-  padding-left: calc(
-    6px + var(--sidebar-section-indent, 0px) + var(--sidebar-item-bleed, 0px)
-  );
-  padding-right: calc(6px + var(--sidebar-item-bleed, 0px));
+  padding-left: calc(6px + var(--sidebar-section-indent, 0px));
+  padding-right: 6px;
 }
 
 .sectionTrigger:hover {
   background: var(--ui-ControlHover);
   color: var(--ui-TextPrimary);
+}
+
+.sectionTrigger.sectionTrigger:focus-visible {
+  outline: none;
+  box-shadow: var(--sidebar-focus-ring, inset 0 0 0 1px var(--ui-ControlBorderHover));
 }
 
 .sectionTrigger:not(.sectionTriggerItem) > span {
@@ -37,12 +39,14 @@
   color: var(--ui-TextSecondary);
   gap: 6px;
   min-height: 30px;
-  margin: 0 calc(-1 * var(--sidebar-item-bleed, 0px));
   text-align: left;
-  padding-left: calc(
-    6px + var(--sidebar-section-indent, 0px) + var(--sidebar-item-bleed, 0px)
-  );
-  padding-right: calc(6px + var(--sidebar-item-bleed, 0px));
+  padding-left: calc(6px + var(--sidebar-section-indent, 0px));
+  padding-right: 6px;
+}
+
+.sectionTriggerItem.sectionTriggerItem:focus-visible {
+  outline: none;
+  box-shadow: var(--sidebar-focus-ring, inset 0 0 0 1px var(--ui-ControlBorderHover));
 }
 
 .sectionTriggerItem > span {

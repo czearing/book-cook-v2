@@ -33,9 +33,9 @@ export const AppSidebar = () => {
       />
       <SidebarItem
         icon={<CompassIcon size={18} />}
-        label="Discover"
-        active={activeItem === "Discover"}
-        onClick={() => setActiveItem("Discover")}
+        label="Recipes"
+        active={activeItem === "Recipes"}
+        onClick={() => setActiveItem("Recipes")}
       />
       <SidebarSection label="Library">
         <SidebarSection

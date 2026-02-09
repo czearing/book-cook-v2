@@ -6,7 +6,6 @@
   width: 100%;
   min-height: 30px;
   padding: 4px 6px;
-  margin: 0 calc(-1 * var(--sidebar-item-bleed, 0px));
   border-radius: 6px;
   border: none;
   background: transparent;
@@ -16,10 +15,8 @@
   transition:
     background var(--sidebar-motion),
     color var(--sidebar-motion);
-  padding-left: calc(
-    6px + var(--sidebar-item-indent, 0px) + var(--sidebar-item-bleed, 0px)
-  );
-  padding-right: calc(6px + var(--sidebar-item-bleed, 0px));
+  padding-left: calc(6px + var(--sidebar-item-indent, 0px));
+  padding-right: 6px;
 }
 
 .item[data-collapsed="true"],
@@ -46,7 +43,7 @@
 
 .item:focus-visible {
   outline: none;
-  box-shadow: inset 0 0 0 1px var(--ui-ControlBorderHover);
+  box-shadow: var(--sidebar-focus-ring, inset 0 0 0 1px var(--ui-ControlBorderHover));
 }
 
 .itemIcon {
