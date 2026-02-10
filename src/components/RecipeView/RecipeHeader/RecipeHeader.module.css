@@ -17,7 +17,12 @@
   max-width: 900px;
   width: 100%;
   margin: 0 auto;
-  padding: 0 24px 8px;
+  --header-x-padding: 24px;
+  --header-left-padding: var(--header-x-padding);
+  --header-right-padding: var(--header-x-padding);
+  padding: 0 var(--header-x-padding) 8px;
+  padding-left: var(--header-left-padding);
+  padding-right: var(--header-right-padding);
   display: flex;
   flex-direction: column;
 }
@@ -54,9 +59,18 @@
   outline: none;
 }
 
+.editorAligned {
+  --header-left-padding: calc(
+    var(--header-x-padding) + var(--editor-gutter, 0px)
+  );
+  --header-right-padding: calc(
+    var(--header-x-padding) + var(--editor-gutter, 0px)
+  );
+}
+
 @media (max-width: 720px) {
   .main {
-    padding: 0 16px 8px;
+    --header-x-padding: 16px;
   }
 
   .cover {

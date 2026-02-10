@@ -92,7 +92,11 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <div className={styles.container}>
+      <div
+        className={`${styles.container} ${
+          isEditable ? styles.editable : styles.readOnly
+        }`}
+      >
         {isEditable && <SelectAllPlugin />}
         {isEditable && <TextEditorPlaceholder />}
         {isEditable && <SlashMenu />}

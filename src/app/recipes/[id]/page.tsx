@@ -1,21 +1,18 @@
 import { notFound } from "next/navigation";
 
-import { RecipeEditor } from "./RecipeEditor";
-import { getRecipeById, recipeGalleryRecipes } from "../recipeData";
+import { RecipePageClient } from "./RecipePageClient";
+import { fetchRecipeById } from "@/clientToServer/queries/recipes.server";
 import type { RecipePageProps } from "./page.types";
 
-export const dynamicParams = false;
-
-export const generateStaticParams = () =>
-  recipeGalleryRecipes.map((recipe) => ({ id: recipe._id }));
+export const dynamic = "force-dynamic";
 
 export default async function RecipePage({ params }: RecipePageProps) {
   const { id } = await params;
-  const recipe = getRecipeById(id);
+  const recipe = await fetchRecipeById(id);
 
   if (!recipe) {
     notFound();
   }
 
-  return <RecipeEditor recipe={recipe} />;
+  return <RecipePageClient id={id} initialRecipe={recipe} />;
 }

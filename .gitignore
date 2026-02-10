@@ -12,6 +12,7 @@ lib-commonjs
 screenshots
 .cache
 out
+data
 
 # next.js build output
 .next

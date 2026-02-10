@@ -18,12 +18,22 @@
   cursor: pointer;
 }
 
-.interactive:hover {
-  border-color: var(--ui-ControlBorderHover);
+@media (hover: hover) and (pointer: fine) {
+  .interactive:hover {
+    border-color: var(--ui-ControlBorderHover);
+  }
 }
 
 .interactive:active {
-  border-color: var(--ui-ControlBorderPressed);
+  border-color: var(--ui-ControlHover);
+}
+
+.interactive:focus {
+  outline: none;
+}
+
+.interactive:focus:not(:focus-visible) {
+  border-color: var(--ui-ControlHover);
 }
 
 .interactive:focus-visible {

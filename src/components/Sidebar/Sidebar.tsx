@@ -19,7 +19,15 @@ const toCssSize = (value: number | string) =>
   typeof value === "number" ? `${value}px` : value;
 
 const useMediaQuery = (query: string) => {
-  const [matches, setMatches] = useState(false);
+  const getMatches = () => {
+    if (typeof window === "undefined") {
+      return false;
+    }
+
+    return window.matchMedia(query).matches;
+  };
+
+  const [matches, setMatches] = useState(getMatches);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -27,9 +35,12 @@ const useMediaQuery = (query: string) => {
     }
 
     const mediaQueryList = window.matchMedia(query);
-    const handleChange = () => setMatches(mediaQueryList.matches);
+    const setMatchesIfNeeded = (next: boolean) => {
+      setMatches((prev) => (prev === next ? prev : next));
+    };
+    const handleChange = () => setMatchesIfNeeded(mediaQueryList.matches);
 
-    handleChange();
+    setMatchesIfNeeded(mediaQueryList.matches);
 
     if ("addEventListener" in mediaQueryList) {
       mediaQueryList.addEventListener("change", handleChange);
@@ -57,16 +68,21 @@ export const Sidebar = ({
   style,
   ...rest
 }: SidebarProps) => {
+  const [isHydrated, setIsHydrated] = useState(false);
   const isControlled = typeof collapsedProp === "boolean";
-  const [collapsedState, setCollapsedState] = useState(defaultCollapsed);
+  const isCompact = useMediaQuery(`(max-width: ${collapseBreakpoint}px)`);
+  const [collapsedState, setCollapsedState] = useState(() => defaultCollapsed);
   const [sectionOpenState, setSectionOpenState] = useState<
     Record<string, boolean>
   >({});
-  const isCompact = useMediaQuery(`(max-width: ${collapseBreakpoint}px)`);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   useEffect(() => {
     if (!isControlled) {
-      setCollapsedState(isCompact);
+      setCollapsedState((prev) => (prev === isCompact ? prev : isCompact));
     }
   }, [isCompact, isControlled]);
 
@@ -99,11 +115,32 @@ export const Sidebar = ({
     onCollapsedChange?.(next);
   };
 
+  const profileFooter = profile ? (
+    <SidebarItem
+      icon={<Avatar name={profile.name} imageURL={profile.imageURL} size="sm" />}
+      label={profile.name}
+      labelStacked
+      onClick={profile.onClick}
+      className={clsx(styles.profileItem, styles.profileFooter)}
+    >
+      <BodyText as="span" className={styles.profileName}>
+        {profile.name}
+      </BodyText>
+      {profile.meta && (
+        <BodyText as="span" className={styles.profileMeta}>
+          {profile.meta}
+        </BodyText>
+      )}
+    </SidebarItem>
+  ) : null;
+
   return (
     <SidebarContext.Provider value={contextValue}>
       <div
         className={clsx(styles.sidebar, className)}
         data-sidebar-collapsed={collapsed ? "true" : "false"}
+        data-sidebar-hydrated={isHydrated ? "true" : "false"}
+        data-sidebar="true"
         style={resolvedStyle}
         {...rest}
       >
@@ -117,30 +154,9 @@ export const Sidebar = ({
               className={styles.toggleButton}
             />
           </div>
-        )}
+          )}
         <div className={styles.content}>{children}</div>
-        {profile && (() => {
-          const profileButton = (
-            <SidebarItem
-              icon={<Avatar name={profile.name} imageURL={profile.imageURL} size="sm" />}
-              label={profile.name}
-              labelStacked
-              onClick={profile.onClick}
-              className={clsx(styles.profileItem, styles.profileFooter)}
-            >
-              <BodyText as="span" className={styles.profileName}>
-                {profile.name}
-              </BodyText>
-              {profile.meta && (
-                <BodyText as="span" className={styles.profileMeta}>
-                  {profile.meta}
-                </BodyText>
-              )}
-            </SidebarItem>
-          );
-
-          return profileButton;
-        })()}
+        {profileFooter}
       </div>
     </SidebarContext.Provider>
   );

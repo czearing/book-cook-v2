@@ -16,3 +16,4 @@ export * from "./RecipeCardGallery";
 export * from "./Sidebar";
 export * from "./Accordion";
 export * from "./AppShell";
+export * from "./Menu";

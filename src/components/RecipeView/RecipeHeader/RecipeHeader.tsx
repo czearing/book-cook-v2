@@ -61,7 +61,7 @@ export const RecipeHeader = ({
         role="img"
         aria-label={recipe.title}
       />
-      <div className={styles.main}>
+      <div className={`${styles.main} ${isEditable ? styles.editorAligned : ""}`}>
         <RecipeEmoji emoji={recipe.emoji} />
         {isEditable ? (
           <RecipeTitle
