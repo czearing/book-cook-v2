@@ -1,5 +1,5 @@
 import "./global.css";
-import { ThemeProvider } from "@/components";
+import { AppShell, ThemeProvider } from "@/components";
 
 export default function RootLayout({
   children,
@@ -9,7 +9,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body>
-        <ThemeProvider theme={"light"}>{children}</ThemeProvider>
+        <ThemeProvider theme={"light"}>
+          <AppShell>{children}</AppShell>
+        </ThemeProvider>
       </body>
     </html>
   );

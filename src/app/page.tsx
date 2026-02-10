@@ -1,11 +1,8 @@
-"use client";
-
-import { AppSidebar } from "@/components";
-
-export default function RecipePage() {
+export default function HomePage() {
   return (
-    <div style={{ minHeight: "100dvh", width: "100%", margin: 0, padding: 0 }}>
-      <AppSidebar />
-    </div>
+    <section>
+      <h1>Home</h1>
+      <p>Welcome back.</p>
+    </section>
   );
 }

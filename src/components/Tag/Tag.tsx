@@ -1,12 +1,8 @@
 import { clsx } from "clsx";
 
 import styles from "./Tag.module.css";
-import type { TagProps } from "./Tag.types";
+import type { TagContentProps, TagProps } from "./Tag.types";
 import { BodyText } from "../Typography";
-
-type TagContentProps = TagProps & {
-  interactive: boolean;
-};
 
 const TagContent = ({
   children,

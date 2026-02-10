@@ -34,3 +34,7 @@ export type TagProps = {
    */
   className?: string;
 };
+
+export type TagContentProps = TagProps & {
+  interactive: boolean;
+};

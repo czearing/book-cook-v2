@@ -1,11 +1,12 @@
 import type { CSSProperties } from "react";
 import { clsx } from "clsx";
 
-import { BodyText } from "../../Typography";
-import { useSidebarContext } from "../SidebarContext";
-import { Tooltip } from "../../Tooltip";
 import styles from "./SidebarItem.module.css";
 import type { SidebarItemProps } from "./SidebarItem.types";
+import { useSidebarContext } from "../SidebarContext";
+
+import { Tooltip } from "../../Tooltip";
+import { BodyText } from "../../Typography";
 
 export const SidebarItem = ({
   icon,

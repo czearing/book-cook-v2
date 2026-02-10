@@ -1,7 +1,7 @@
 "use client";
 
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { CaretDownIcon } from "@phosphor-icons/react";
+import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { clsx } from "clsx";
 
 import styles from "./Accordion.module.css";

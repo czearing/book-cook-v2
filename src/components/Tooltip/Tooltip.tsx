@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import { clsx } from "clsx";
 
@@ -21,10 +22,25 @@ export const Tooltip = ({
   className,
 }: TooltipProps) => {
   const shouldRenderContent = !disabled && content != null;
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!shouldRenderContent) {
+      setOpen(false);
+    }
+  }, [shouldRenderContent]);
 
   return (
     <TooltipPrimitive.Provider delayDuration={delay}>
-      <TooltipPrimitive.Root>
+      <TooltipPrimitive.Root
+        open={shouldRenderContent ? open : false}
+        onOpenChange={(nextOpen) => {
+          if (!shouldRenderContent) {
+            return;
+          }
+          setOpen(nextOpen);
+        }}
+      >
         <TooltipPrimitive.Trigger asChild>{children}</TooltipPrimitive.Trigger>
         {shouldRenderContent && (
           <TooltipPrimitive.Portal>

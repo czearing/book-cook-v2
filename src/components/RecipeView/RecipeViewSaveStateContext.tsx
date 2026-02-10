@@ -1,6 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
 import {
   createContext,
   useCallback,
@@ -11,11 +10,10 @@ import {
   useState,
 } from "react";
 
-type SaveStateContextValue = {
-  isDirty: boolean;
-  updateTitle: (title: string) => void;
-  markDataDirty: () => void;
-};
+import type {
+  RecipeViewSaveStateProviderProps,
+  SaveStateContextValue,
+} from "./RecipeViewSaveStateContext.types";
 
 const RecipeViewSaveStateContext = createContext<SaveStateContextValue | null>(
   null
@@ -25,11 +23,7 @@ export const RecipeViewSaveStateProvider = ({
   initialTitle,
   initialData,
   children,
-}: {
-  initialTitle: string;
-  initialData: string;
-  children: ReactNode;
-}) => {
+}: RecipeViewSaveStateProviderProps) => {
   const initial = useRef({ title: initialTitle });
   const current = useRef({ title: initialTitle });
   const dataDirty = useRef(false);

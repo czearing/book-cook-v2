@@ -8,12 +8,12 @@ import {
 import { SidebarSimpleIcon } from "@phosphor-icons/react";
 import { clsx } from "clsx";
 
-import { Avatar } from "../Avatar";
-import { BodyText } from "../Typography";
-import { SidebarContext } from "./SidebarContext";
-import { SidebarItem } from "./SidebarItem";
 import styles from "./Sidebar.module.css";
 import type { SidebarProps } from "./Sidebar.types";
+import { SidebarContext } from "./SidebarContext";
+import { SidebarItem } from "./SidebarItem";
+import { Avatar } from "../Avatar";
+import { BodyText } from "../Typography";
 
 const toCssSize = (value: number | string) =>
   typeof value === "number" ? `${value}px` : value;
@@ -65,8 +65,8 @@ export const Sidebar = ({
   const isCompact = useMediaQuery(`(max-width: ${collapseBreakpoint}px)`);
 
   useEffect(() => {
-    if (!isControlled && isCompact) {
-      setCollapsedState(true);
+    if (!isControlled) {
+      setCollapsedState(isCompact);
     }
   }, [isCompact, isControlled]);
 

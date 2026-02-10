@@ -5,8 +5,7 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import { $getSelection, $isRangeSelection } from "lexical";
 
 import styles from "./TextEditorPlaceholder.module.css";
-
-type PlaceholderState = { key: string; type: "empty" | "slash" };
+import type { PlaceholderState } from "./TextEditorPlaceholder.types";
 
 export function TextEditorPlaceholder() {
   const [editor] = useLexicalComposerContext();

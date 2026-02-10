@@ -5,11 +5,10 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 
 import { TextEditorAddButton } from "./TextEditorAddButton";
 import styles from "./TextEditorSideMenu.module.css";
+import type { Hit } from "./TextEditorSideMenu.types";
 
 const CANDIDATE_SELECTOR = ":scope > *:not(ul):not(ol), li";
 const CLOSEST_THRESHOLD = 12;
-
-type Hit = { block: HTMLElement; rect: DOMRect };
 
 // Hit-test blocks by Y, preferring the smallest line rect for list items.
 const findBlockAtY = (root: HTMLElement, y: number): Hit | null => {
