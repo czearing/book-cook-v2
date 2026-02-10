@@ -1,11 +1,13 @@
 .shell {
   display: flex;
-  min-height: 100dvh;
+  height: 100dvh;
   width: 100%;
+  overflow: hidden;
 }
 
 .main {
   flex: 1;
   min-width: 0;
-  padding: 24px 32px;
+  padding: 0;
+  overflow-y: auto;
 }

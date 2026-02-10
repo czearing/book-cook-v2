@@ -6,6 +6,7 @@ export type SidebarLeafItem = {
   id: string;
   label: string;
   icon: SidebarIcon;
+  path?: string;
 };
 
 export type SidebarSectionItem = {
@@ -18,4 +19,5 @@ export type SidebarSectionItem = {
 
 export type SidebarContentProps = {
   defaultActiveId?: string;
+  onNavigate?: (path: string) => void;
 };
