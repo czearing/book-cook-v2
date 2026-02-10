@@ -1,7 +1,14 @@
 import type { Recipe } from "@/components/RecipeView/RecipeView.types";
+import type { RecipeQueryFilters } from "./recipes.types";
+import { toRecipeSearchParams } from "./recipes.filters";
 
-export const fetchRecipeGallery = async (): Promise<Recipe[]> => {
-  const response = await fetch("/api/recipes", { cache: "no-store" });
+export const fetchRecipeGallery = async (
+  filters?: RecipeQueryFilters
+): Promise<Recipe[]> => {
+  const params = toRecipeSearchParams(filters);
+  const query = params.toString();
+  const url = query ? `/api/recipes?${query}` : "/api/recipes";
+  const response = await fetch(url, { cache: "no-store" });
   if (!response.ok) {
     throw new Error("Failed to fetch recipes.");
   }

@@ -17,3 +17,12 @@ export type RecipeRow = {
     name: string | null;
   } | null;
 };
+
+export type RecipeQueryFilters = {
+  query?: string;
+  tags?: string[];
+  ownerId?: string;
+  isPublic?: boolean;
+  limit?: number;
+  offset?: number;
+};

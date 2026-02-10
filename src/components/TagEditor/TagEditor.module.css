@@ -62,15 +62,8 @@
 }
 
 .addInput {
-  border: none;
-  outline: none;
-  padding: 2px 6px;
-  border-radius: 6px;
-  background: var(--ui-ControlHover);
-  color: var(--ui-TextSecondary);
-  font-size: 13px;
-  min-width: 80px;
-  min-height: var(--tag-height);
+  min-width: 120px;
+  flex: 0 0 auto;
 }
 
 .addButton {

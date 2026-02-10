@@ -24,6 +24,7 @@ import styles from "./TagEditor.module.css";
 import type { TagEditorProps } from "./TagEditor.types";
 import { useTagEditorState } from "./useTagEditorState";
 import { Tag } from "../Tag";
+import { Input } from "../Input";
 
 export const TagEditor = ({
   tags,
@@ -158,13 +159,15 @@ export const TagEditor = ({
       </DndContext>
 
       {isEditing && isAdding && (
-        <input
+        <Input
           className={styles.addInput}
+          size="sm"
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleInputKeyDown}
           autoFocus
           placeholder="Add tag"
+          aria-label="Add tag"
         />
       )}
 

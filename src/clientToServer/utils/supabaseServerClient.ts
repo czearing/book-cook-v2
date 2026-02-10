@@ -1,11 +1,13 @@
 import { createClient } from "@supabase/supabase-js";
 
 export const createSupabaseServerClient = () => {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_KEY;
 
   if (!url || !key) {
-    throw new Error("Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY.");
+    throw new Error(
+      "Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_KEY in the server env."
+    );
   }
 
   return createClient(url, key, {

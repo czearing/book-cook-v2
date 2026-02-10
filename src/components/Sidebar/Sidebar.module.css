@@ -122,6 +122,37 @@
   text-overflow: ellipsis;
 }
 
+.menuHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 8px 10px;
+}
+
+.menuHeaderText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.menuHeaderName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ui-TextPrimary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menuHeaderMeta {
+  font-size: 12px;
+  color: var(--ui-TextCaption);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (max-width: 900px) {
   .sidebar[data-sidebar-hydrated="false"] {
     width: var(--sidebar-collapsed-width, 72px);
