@@ -5,7 +5,10 @@ import { createSupabaseRouteHandlerClient } from "@/clientToServer/utils/supabas
 export const GET = async (request: NextRequest) => {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const response = NextResponse.redirect(origin);
+  const next = searchParams.get("next");
+  const redirectPath =
+    next && next.startsWith("/") && !next.startsWith("//") ? next : "/recipes";
+  const response = NextResponse.redirect(new URL(redirectPath, origin));
 
   if (code) {
     const supabase = createSupabaseRouteHandlerClient(request, response);

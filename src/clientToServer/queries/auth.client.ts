@@ -1,5 +1,5 @@
-import { createSupabaseBrowserClient } from "../utils/supabaseAuthBrowserClient";
 import type { AuthSessionState, AuthSignInOptions } from "./auth.types";
+import { createSupabaseBrowserClient } from "../utils/supabaseAuthBrowserClient";
 
 export const fetchAuthSession = async (): Promise<AuthSessionState> => {
   const supabase = createSupabaseBrowserClient();

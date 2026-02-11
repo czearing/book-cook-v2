@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { authKeys } from "../queries/auth.keys";
 import { signOut } from "../queries/auth.client";
+import { authKeys } from "../queries/auth.keys";
 
 export const useAuthSignOut = () => {
   const queryClient = useQueryClient();

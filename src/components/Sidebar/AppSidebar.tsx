@@ -1,52 +1,88 @@
 "use client";
 
+import { GearSixIcon, SignOutIcon } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 
-import { GearSixIcon, SignOutIcon } from "@phosphor-icons/react";
-
+import { useAuthSession } from "@/clientToServer/hooks/useAuthSession";
+import { useAuthSignOut } from "@/clientToServer/hooks/useAuthSignOut";
+import { getAuthUserProfile } from "@/clientToServer/utils/authUserProfile";
 import { Sidebar } from "./Sidebar";
-import { SidebarContent } from "./SidebarContent";
 import styles from "./Sidebar.module.css";
+import { SidebarContent } from "./SidebarContent";
 import { SidebarItem } from "./SidebarItem";
 import { Avatar } from "../Avatar";
 import { Menu, MenuContent, MenuItem, MenuSeparator, MenuTrigger } from "../Menu";
 
 export const AppSidebar = () => {
   const router = useRouter();
-  const userName = "Caleb Zearing";
-  const userHandle = "@czearing";
+  const { user } = useAuthSession();
+  const authProfile = getAuthUserProfile(user);
+  const { mutateAsync: signOut, isPending: isSigningOut } = useAuthSignOut();
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push("/");
+  };
 
   return (
     <Sidebar>
       <SidebarContent onNavigate={(path) => router.push(path)} />
       <div className={styles.profileFooter}>
-        <Menu>
-          <MenuTrigger asChild>
-            <SidebarItem
-              icon={<Avatar name={userName} size="sm" />}
-              label={userName}
-              labelStacked
-              className={styles.profileItem}
-            >
-              <span className={styles.profileName}>{userName}</span>
-              <span className={styles.profileMeta}>{userHandle}</span>
-            </SidebarItem>
-          </MenuTrigger>
-          <MenuContent side="top" align="end">
-            <div className={styles.menuHeader}>
-              <Avatar name={userName} size="md" />
-              <div className={styles.menuHeaderText}>
-                <span className={styles.menuHeaderName}>{userName}</span>
-                <span className={styles.menuHeaderMeta}>{userHandle}</span>
+        {authProfile && (
+          <Menu>
+            <MenuTrigger asChild>
+              <SidebarItem
+                icon={
+                  <Avatar
+                    name={authProfile.name}
+                    imageURL={authProfile.avatarUrl}
+                    size="sm"
+                  />
+                }
+                label={authProfile.name}
+                labelStacked
+                className={styles.profileItem}
+              >
+                <span className={styles.profileName}>{authProfile.name}</span>
+                {authProfile.email && (
+                  <span className={styles.profileMeta}>
+                    {authProfile.email}
+                  </span>
+                )}
+              </SidebarItem>
+            </MenuTrigger>
+            <MenuContent side="top" align="end">
+              <div className={styles.menuHeader}>
+                <Avatar
+                  name={authProfile.name}
+                  imageURL={authProfile.avatarUrl}
+                  size="md"
+                />
+                <div className={styles.menuHeaderText}>
+                  <span className={styles.menuHeaderName}>
+                    {authProfile.name}
+                  </span>
+                  {authProfile.email && (
+                    <span className={styles.menuHeaderMeta}>
+                      {authProfile.email}
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
-            <MenuSeparator />
-            <MenuItem startIcon={<GearSixIcon size={16} />}>Settings</MenuItem>
-            <MenuItem startIcon={<SignOutIcon size={16} />}>
-              Sign out
-            </MenuItem>
-          </MenuContent>
-        </Menu>
+              <MenuSeparator />
+              <MenuItem startIcon={<GearSixIcon size={16} />}>
+                Settings
+              </MenuItem>
+              <MenuItem
+                startIcon={<SignOutIcon size={16} />}
+                onSelect={handleSignOut}
+                disabled={isSigningOut}
+              >
+                Sign out
+              </MenuItem>
+            </MenuContent>
+          </Menu>
+        )}
       </div>
     </Sidebar>
   );

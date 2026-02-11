@@ -21,3 +21,4 @@ export * from "./Menu";
 export * from "./Dropdown";
 export * from "./Dialog";
 export * from "./Searchbox";
+export * from "./Auth";

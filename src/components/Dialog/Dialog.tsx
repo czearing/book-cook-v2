@@ -1,7 +1,7 @@
 "use client";
 
-import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { XIcon } from "@phosphor-icons/react";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { clsx } from "clsx";
 
 import styles from "./Dialog.module.css";
@@ -61,6 +61,7 @@ export const DialogContent = ({
   overlayClassName,
   size = "md",
   variant = "default",
+  motion = "default",
   withCloseButton = true,
   closeLabel = "Close dialog",
   withOverlay = true,
@@ -68,7 +69,9 @@ export const DialogContent = ({
   ...props
 }: DialogContentProps) => (
   <DialogPrimitive.Portal>
-    {withOverlay && <DialogOverlay className={overlayClassName} />}
+    {withOverlay && (
+      <DialogOverlay className={overlayClassName} data-motion={motion} />
+    )}
     <DialogPrimitive.Content
       className={clsx(
         styles.content,
@@ -77,6 +80,7 @@ export const DialogContent = ({
         className
       )}
       data-close-button={withCloseButton ? "" : undefined}
+      data-motion={motion}
       {...props}
     >
       {children}

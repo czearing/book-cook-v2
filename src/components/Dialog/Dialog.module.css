@@ -2,7 +2,6 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(2px);
   z-index: 40;
 }
 
@@ -23,10 +22,11 @@
   border-radius: 16px;
   padding: 24px;
   font-family: var(--font-sans);
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
   z-index: 50;
   display: grid;
   gap: 20px;
+  outline: none;
 }
 
 .variantSearch {
@@ -34,9 +34,8 @@
   flex-direction: column;
   gap: 0;
   padding: 0;
-  border-radius: 20px;
-  border: none;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.28);
+  border-radius: 999px;
+  overflow: hidden;
 }
 
 .variantSearch[data-state="open"] {
@@ -51,6 +50,18 @@
   animation: dialogIn var(--motion-default);
 }
 
+.overlay[data-motion="none"][data-state="open"] {
+  animation: none;
+}
+
+.content[data-motion="none"][data-state="open"] {
+  animation: none;
+}
+
+.content.variantSearch[data-state="open"] {
+  animation: none;
+}
+
 .sizeSm {
   width: min(92vw, 360px);
 }
@@ -61,6 +72,21 @@
 
 .sizeLg {
   width: min(94vw, 720px);
+}
+
+.content.variantSearch {
+  width: min(92vw, 560px);
+  padding: 0;
+  background: var(--ui-Canvas);
+  color: var(--ui-TextPrimary);
+  border: 1px solid var(--ui-ControlBorder);
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.18);
+}
+
+@supports (color: color-mix(in srgb, white, black)) {
+  .content.variantSearch {
+    border-color: color-mix(in srgb, var(--ui-ControlBorder) 35%, transparent);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -20,6 +20,7 @@ export type DialogOverlayProps = RadixDialogOverlayProps & {
 
 export type DialogSize = "sm" | "md" | "lg";
 export type DialogVariant = "default" | "search";
+export type DialogMotion = "default" | "none";
 
 export type DialogContentProps = RadixDialogContentProps & {
   /**
@@ -55,6 +56,12 @@ export type DialogContentProps = RadixDialogContentProps & {
    * @default true
    */
   withOverlay?: boolean;
+  /**
+   * Motion preset.
+   * Use "none" for instant-open dialogs (e.g. command palette search).
+   * @default "default"
+   */
+  motion?: DialogMotion;
 };
 
 export type DialogTitleProps = RadixDialogTitleProps & {

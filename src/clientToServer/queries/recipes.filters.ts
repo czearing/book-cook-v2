@@ -1,5 +1,13 @@
 import type { RecipeQueryFilters } from "./recipes.types";
 
+const normalizeOptionalString = (value: string | null | undefined) => {
+  const trimmed = value?.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+  return trimmed;
+};
+
 const normalizeTags = (tags?: string[]) => {
   if (!tags?.length) {
     return undefined;
@@ -16,9 +24,9 @@ const normalizeTags = (tags?: string[]) => {
 export const normalizeRecipeFilters = (
   filters?: RecipeQueryFilters
 ): RecipeQueryFilters => ({
-  query: filters?.query?.trim() || undefined,
+  query: normalizeOptionalString(filters?.query),
   tags: normalizeTags(filters?.tags),
-  ownerId: filters?.ownerId || undefined,
+  ownerId: normalizeOptionalString(filters?.ownerId),
   isPublic:
     typeof filters?.isPublic === "boolean" ? filters.isPublic : undefined,
   limit: typeof filters?.limit === "number" ? filters.limit : undefined,
@@ -57,13 +65,13 @@ export const toRecipeSearchParams = (filters?: RecipeQueryFilters) => {
 };
 
 export const fromRecipeSearchParams = (params: URLSearchParams) => {
-  const query = params.get("q")?.trim() || undefined;
+  const query = normalizeOptionalString(params.get("q"));
   const tags = params
     .get("tags")
     ?.split(",")
     .map((tag) => tag.trim())
     .filter(Boolean);
-  const ownerId = params.get("ownerId") || undefined;
+  const ownerId = normalizeOptionalString(params.get("ownerId"));
 
   const isPublicValue = params.get("isPublic");
   const isPublic =

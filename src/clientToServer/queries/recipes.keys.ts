@@ -1,5 +1,5 @@
-import type { RecipeQueryFilters } from "./recipes.types";
 import { normalizeRecipeFilters } from "./recipes.filters";
+import type { RecipeQueryFilters } from "./recipes.types";
 
 export const recipeKeys = {
   all: ["recipes"] as const,

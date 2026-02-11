@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { authKeys } from "../queries/auth.keys";
-import { fetchAuthSession } from "../queries/auth.client";
-import type { AuthSessionState } from "../queries/auth.types";
 import { useSupabaseClient } from "./useSupabaseClient";
+import { fetchAuthSession } from "../queries/auth.client";
+import { authKeys } from "../queries/auth.keys";
+import type { AuthSessionState } from "../queries/auth.types";
 
 export const useAuthSession = () => {
   const supabase = useSupabaseClient();

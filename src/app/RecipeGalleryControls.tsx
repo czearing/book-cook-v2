@@ -3,7 +3,6 @@
 import { MagnifyingGlassIcon, TagIcon } from "@phosphor-icons/react";
 
 import { Input } from "@/components";
-
 import styles from "./RecipeGalleryControls.module.css";
 import type { RecipeGalleryControlsProps } from "./RecipeGalleryControls.types";
 

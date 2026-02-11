@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
-import { AppSidebar } from "../Sidebar";
 import styles from "./AppShell.module.css";
+import { AppSidebar } from "../Sidebar";
 
 export type AppShellProps = {
   children: ReactNode;

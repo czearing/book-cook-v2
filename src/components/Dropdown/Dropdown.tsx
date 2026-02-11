@@ -1,7 +1,7 @@
 "use client";
 
-import * as Select from "@radix-ui/react-select";
 import { CaretDownIcon, CaretUpIcon, CheckIcon } from "@phosphor-icons/react";
+import * as Select from "@radix-ui/react-select";
 import { clsx } from "clsx";
 
 import styles from "./Dropdown.module.css";

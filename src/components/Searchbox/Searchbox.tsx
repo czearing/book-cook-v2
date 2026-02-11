@@ -1,6 +1,11 @@
 "use client";
 
-import type { ChangeEvent, KeyboardEvent, MutableRefObject } from "react";
+import type {
+  ChangeEvent,
+  KeyboardEvent,
+  MutableRefObject,
+  MouseEvent,
+} from "react";
 import { forwardRef, useId, useRef, useState } from "react";
 import { MagnifyingGlassIcon, XIcon } from "@phosphor-icons/react";
 import { clsx } from "clsx";
@@ -108,6 +113,18 @@ export const Searchbox = forwardRef<HTMLInputElement, SearchboxProps>(
     };
 
     const showClearButton = showClear && !disabled && Boolean(currentValue);
+    const hasSupporting = [description, error].some(Boolean);
+    const handleControlMouseDown = (event: MouseEvent<HTMLDivElement>) => {
+      const target = event.target as HTMLElement | null;
+      if (!target) {
+        return;
+      }
+      if (target.closest("button") || target.closest("input")) {
+        return;
+      }
+      event.preventDefault();
+      inputRef.current?.focus();
+    };
 
     const resolvedStartIcon = showStartIcon
       ? startIcon ?? <MagnifyingGlassIcon size={16} />
@@ -136,6 +153,7 @@ export const Searchbox = forwardRef<HTMLInputElement, SearchboxProps>(
             controlClassName
           )}
           role="search"
+          onMouseDown={handleControlMouseDown}
         >
           {resolvedStartIcon && (
             <span className={styles.icon} aria-hidden="true">
@@ -149,7 +167,7 @@ export const Searchbox = forwardRef<HTMLInputElement, SearchboxProps>(
             className={clsx(styles.input, inputClassName)}
             disabled={disabled}
             aria-invalid={error ? true : rest["aria-invalid"]}
-            aria-describedby={describedBy || undefined}
+            aria-describedby={describedBy ? describedBy : undefined}
             value={currentValue}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
@@ -171,7 +189,7 @@ export const Searchbox = forwardRef<HTMLInputElement, SearchboxProps>(
             </button>
           )}
         </div>
-        {(description || error) && (
+        {hasSupporting && (
           <div className={styles.supporting}>
             {description && (
               <p className={styles.description} id={descriptionId}>

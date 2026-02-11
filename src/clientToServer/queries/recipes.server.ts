@@ -1,7 +1,7 @@
 import type { Recipe } from "@/components/RecipeView/RecipeView.types";
-import { createSupabaseServerClient } from "../utils/supabaseServerClient";
-import type { RecipeQueryFilters, RecipeRow } from "./recipes.types";
 import { normalizeRecipeFilters } from "./recipes.filters";
+import type { RecipeQueryFilters, RecipeRow } from "./recipes.types";
+import { createSupabaseServerClient } from "../utils/supabaseServerClient";
 
 const mapRecipeRow = (row: RecipeRow): Recipe => ({
   _id: row.id,

@@ -1,6 +1,6 @@
 import type { Recipe } from "@/components/RecipeView/RecipeView.types";
-import type { RecipeQueryFilters } from "./recipes.types";
 import { toRecipeSearchParams } from "./recipes.filters";
+import type { RecipeQueryFilters } from "./recipes.types";
 
 export const fetchRecipeGallery = async (
   filters?: RecipeQueryFilters

@@ -1,26 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import { useSearchParams } from "next/navigation";
 import {
   BookOpenIcon,
   MagnifyingGlassIcon,
   PlusCircleIcon,
 } from "@phosphor-icons/react";
+import { useSearchParams } from "next/navigation";
 
 import type {
   SidebarContentProps,
   SidebarLeafItem,
 } from "./SidebarContent.types";
 import { SidebarItem } from "./SidebarItem";
-
-const loadSidebarSearchDialog = () => import("./SidebarSearchDialog");
-
-const SidebarSearchDialog = dynamic(
-  () => loadSidebarSearchDialog().then((mod) => mod.SidebarSearchDialog),
-  { ssr: false }
-);
+import { SidebarSearchDialog } from "./SidebarSearchDialog";
 
 const TOP_ITEMS: SidebarLeafItem[] = [
   { id: "search", label: "Search", icon: MagnifyingGlassIcon },
@@ -54,7 +47,7 @@ export const SidebarContent = ({
       params.set("q", trimmed);
     }
     const queryString = params.toString();
-    onNavigate?.(queryString ? `/?${queryString}` : "/");
+    onNavigate?.(queryString ? `/recipes?${queryString}` : "/recipes");
     setIsSearchOpen(false);
   };
 
@@ -76,16 +69,6 @@ export const SidebarContent = ({
           }
           if (item.path) {
             onNavigate?.(item.path);
-          }
-        }}
-        onMouseEnter={() => {
-          if (item.id === "search") {
-            loadSidebarSearchDialog();
-          }
-        }}
-        onFocus={() => {
-          if (item.id === "search") {
-            loadSidebarSearchDialog();
           }
         }}
       />

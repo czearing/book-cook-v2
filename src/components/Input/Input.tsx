@@ -47,6 +47,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     ]
       .filter(Boolean)
       .join(" ");
+    const hasSupporting = [description, error].some(Boolean);
 
     return (
       <div
@@ -82,7 +83,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             className={clsx(styles.input, inputClassName)}
             disabled={disabled}
             aria-invalid={error ? true : rest["aria-invalid"]}
-            aria-describedby={describedBy || undefined}
+            aria-describedby={describedBy ? describedBy : undefined}
           />
           {endIcon && (
             <span className={styles.icon} aria-hidden="true">
@@ -90,7 +91,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             </span>
           )}
         </div>
-        {(description || error) && (
+        {hasSupporting && (
           <div className={styles.supporting}>
             {description && (
               <p className={styles.description} id={descriptionId}>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
 
 import { useAuthSession } from "@/clientToServer/hooks/useAuthSession";
 import { useAuthSignInWithGoogle } from "@/clientToServer/hooks/useAuthSignInWithGoogle";
@@ -16,6 +15,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  GoogleSignInButton,
 } from "@/components";
 import styles from "./page.module.css";
 
@@ -30,7 +30,7 @@ export default function TestAuthPage() {
 
   const handleGoogle = async () => {
     await signInWithGoogle({
-      redirectTo: `${window.location.origin}/auth/callback`,
+      redirectTo: `${window.location.origin}/auth/callback?next=/recipes`,
     });
   };
 
@@ -65,25 +65,10 @@ export default function TestAuthPage() {
             </DialogDescription>
           </DialogHeader>
           <DialogBody>
-            <Button
-              type="button"
-              variant="secondary"
-              startIcon={
-                <Image
-                  src="/google-logo.svg"
-                  alt=""
-                  width={18}
-                  height={18}
-                  aria-hidden
-                  priority
-                />
-              }
+            <GoogleSignInButton
               isLoading={isGoogle}
               onClick={handleGoogle}
-              className={styles.googleButton}
-            >
-              {isGoogle ? "Redirecting…" : "Continue with Google"}
-            </Button>
+            />
           </DialogBody>
           <DialogFooter>
             <DialogClose asChild>

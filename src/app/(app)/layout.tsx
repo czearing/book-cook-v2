@@ -1,15 +1,16 @@
 import { redirect } from "next/navigation";
 
 import { createSupabaseServerComponentClient } from "@/clientToServer/utils/supabaseAuthServerClient";
-import { LandingPage } from "./LandingPage";
+import { AppShell } from "@/components";
+import type { AppLayoutProps } from "./layout.types";
 
-export default async function HomePage() {
+export default async function AppLayout({ children }: AppLayoutProps) {
   const supabase = await createSupabaseServerComponentClient();
   const { data } = await supabase.auth.getUser();
 
-  if (data.user) {
-    redirect("/recipes");
+  if (!data.user) {
+    redirect("/");
   }
 
-  return <LandingPage />;
+  return <AppShell>{children}</AppShell>;
 }

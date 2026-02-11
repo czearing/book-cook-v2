@@ -1,7 +1,7 @@
 "use client";
 
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { CaretRightIcon } from "@phosphor-icons/react";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { clsx } from "clsx";
 
 import styles from "./Menu.module.css";
@@ -70,21 +70,25 @@ export const MenuItem = ({
   inset = false,
   children,
   ...props
-}: MenuItemProps) => (
-  <DropdownMenu.Item
-    className={clsx(styles.item, inset && styles.inset, className)}
-    {...props}
-  >
-    {startIcon && <span className={styles.itemIcon}>{startIcon}</span>}
-    <span className={styles.itemLabel}>{children}</span>
-    {(shortcut || endIcon) && (
-      <span className={styles.itemMeta}>
-        {shortcut && <span className={styles.shortcut}>{shortcut}</span>}
-        {endIcon && <span className={styles.itemIcon}>{endIcon}</span>}
-      </span>
-    )}
-  </DropdownMenu.Item>
-);
+}: MenuItemProps) => {
+  const hasMeta = [shortcut, endIcon].some(Boolean);
+
+  return (
+    <DropdownMenu.Item
+      className={clsx(styles.item, inset && styles.inset, className)}
+      {...props}
+    >
+      {startIcon && <span className={styles.itemIcon}>{startIcon}</span>}
+      <span className={styles.itemLabel}>{children}</span>
+      {hasMeta && (
+        <span className={styles.itemMeta}>
+          {shortcut && <span className={styles.shortcut}>{shortcut}</span>}
+          {endIcon && <span className={styles.itemIcon}>{endIcon}</span>}
+        </span>
+      )}
+    </DropdownMenu.Item>
+  );
+};
 
 /**
  * Checkbox menu item with indicator.

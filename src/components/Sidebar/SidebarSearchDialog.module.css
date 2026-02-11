@@ -1,0 +1,93 @@
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  white-space: nowrap;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  outline: none;
+}
+
+.searchField {
+  flex: 1;
+  min-width: 0;
+}
+
+.searchControl {
+  border: none;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  min-height: 0;
+  box-shadow: none;
+  outline: none;
+}
+
+.searchControl:hover {
+  background: transparent;
+}
+
+.searchControl:focus-within {
+  background: transparent;
+  box-shadow: none;
+}
+
+.searchInput {
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ui-TextPrimary);
+}
+
+.searchInput::placeholder {
+  color: var(--ui-TextCaption);
+}
+
+.close {
+  height: 32px;
+  width: 32px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ui-TextSecondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background-color var(--motion-default),
+    color var(--motion-default),
+    box-shadow var(--motion-default);
+}
+
+.close:hover {
+  background: var(--ui-ControlHover);
+  color: var(--ui-TextPrimary);
+}
+
+.close:active {
+  background: var(--ui-ControlPressed);
+}
+
+.close:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--ui-Canvas),
+    0 0 0 4px var(--brand-Primary);
+}
+
+@media (max-width: 520px) {
+  .searchInput {
+    font-size: 16px;
+  }
+}

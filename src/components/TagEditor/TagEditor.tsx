@@ -23,8 +23,8 @@ import { SortableTag } from "./SortableTag";
 import styles from "./TagEditor.module.css";
 import type { TagEditorProps } from "./TagEditor.types";
 import { useTagEditorState } from "./useTagEditorState";
-import { Tag } from "../Tag";
 import { Input } from "../Input";
+import { Tag } from "../Tag";
 
 export const TagEditor = ({
   tags,

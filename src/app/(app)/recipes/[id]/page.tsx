@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 
-import { RecipePageClient } from "./RecipePageClient";
 import { fetchRecipeById } from "@/clientToServer/queries/recipes.server";
 import type { RecipePageProps } from "./page.types";
+import { RecipePageClient } from "./RecipePageClient";
 
 export const dynamic = "force-dynamic";
 
