@@ -1,5 +1,5 @@
 export type RecipeRouteContext = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };

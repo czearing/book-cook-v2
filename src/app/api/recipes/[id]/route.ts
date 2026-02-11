@@ -7,7 +7,16 @@ export const GET = async (
   _request: Request,
   context: RecipeRouteContext
 ) => {
-  const recipe = await fetchRecipeById(context.params.id);
+  const { id } = await context.params;
+  const recipeId = (() => {
+    try {
+      return decodeURIComponent(id);
+    } catch {
+      return id;
+    }
+  })();
+
+  const recipe = await fetchRecipeById(recipeId);
 
   if (!recipe) {
     return NextResponse.json({ message: "Not found" }, { status: 404 });

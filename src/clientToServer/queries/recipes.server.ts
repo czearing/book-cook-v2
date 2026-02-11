@@ -18,7 +18,11 @@ const mapRecipeRow = (row: RecipeRow): Recipe => ({
   creatorName: row.users?.name ?? undefined,
 });
 
-const baseRecipeSelect =
+// Note: omit `data` in the list query for perf (it's a potentially large markdown blob).
+const recipeListSelect =
+  "id, title, tags, created_at, published_at, emoji, image_url, is_public, saved_count, owner_id, users(name)";
+
+const recipeDetailSelect =
   "id, title, data, tags, created_at, published_at, emoji, image_url, is_public, saved_count, owner_id, users(name)";
 
 export const fetchRecipes = async (
@@ -30,7 +34,7 @@ export const fetchRecipes = async (
 
   let query = supabase
     .from("recipes")
-    .select(baseRecipeSelect)
+    .select(recipeListSelect)
     .order("created_at", { ascending: false });
 
   if (normalized.query) {
@@ -70,7 +74,7 @@ export const fetchRecipeById = async (id: string): Promise<Recipe | null> => {
   const supabase = createSupabaseServerClient();
   const { data, error } = await supabase
     .from("recipes")
-    .select(baseRecipeSelect)
+    .select(recipeDetailSelect)
     .eq("id", id)
     .maybeSingle();
 

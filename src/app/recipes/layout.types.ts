@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export type AppLayoutProps = {
+export type RecipesLayoutProps = {
   children: ReactNode;
 };
 

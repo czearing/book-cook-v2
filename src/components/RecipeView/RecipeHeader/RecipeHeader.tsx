@@ -37,6 +37,7 @@ export const RecipeHeader = ({
   onTagsChange,
 }: RecipeHeaderProps) => {
   const isEditable = viewingMode === "editor";
+  const showTags = isEditable || recipe.tags.length > 0;
   const titleRef = useRef<HTMLHeadingElement>(null);
   const saveState = useRecipeViewSaveState();
 
@@ -83,7 +84,7 @@ export const RecipeHeader = ({
                 {recipe.creatorName ?? recipe.owner}
               </span>
             </RecipePropertyRow>
-            {recipe.tags.length > 0 && (
+            {showTags && (
               <RecipePropertyRow icon={<TagIcon size={14} />} label="Tags">
                 <RecipeTags
                   tags={recipe.tags}

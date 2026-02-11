@@ -3,7 +3,8 @@ export type RecipeRow = {
   owner_id: string | null;
   is_public: boolean | null;
   title: string | null;
-  data: string | null;
+  // Optional because some queries intentionally omit the markdown blob for perf.
+  data?: string | null;
   tags: string[] | null;
   created_at: string | null;
   published_at: string | null;

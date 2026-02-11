@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { ListNode, ListItemNode } from "@lexical/list";
 import {
   HEADING,
@@ -59,8 +59,21 @@ const recipeTransformers = [
   ...TEXT_FORMAT_TRANSFORMERS,
 ];
 
-const normalizeMarkdown = (markdown: string) =>
-  markdown.replace(/^(#{1,6} .+)\n{2,}/gm, "$1\n");
+const hashMarkdownKey = (markdown: string) => {
+  // Cheap-ish stable key so Lexical can be re-initialized when upstream markdown
+  // changes (e.g. after an async fetch), without using the full markdown string.
+  const len = markdown.length;
+  const sample =
+    len > 8000
+      ? `${markdown.slice(0, 4000)}${markdown.slice(len - 4000)}`
+      : markdown;
+  let hash = 2166136261;
+  for (let i = 0; i < sample.length; i += 1) {
+    hash ^= sample.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return `${len}:${hash >>> 0}`;
+};
 
 /**
  * The TextEditor component provides a rich text editor using the Lexical framework.
@@ -69,6 +82,10 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
   const { text, viewingMode = "editor", onDirty } = props;
   const isEditable = viewingMode === "editor";
   const dirtyRef = useRef(false);
+  const composerKey = useMemo(
+    () => `${viewingMode}:${hashMarkdownKey(text)}`,
+    [text, viewingMode]
+  );
 
   useEffect(() => {
     dirtyRef.current = false;
@@ -80,18 +97,13 @@ export const TextEditor: React.FC<TextEditorProps> = (props) => {
     theme: editorTheme,
     editable: isEditable,
     editorState: () => {
-      $convertFromMarkdownString(
-        normalizeMarkdown(text),
-        recipeTransformers,
-        undefined,
-        true
-      );
+      $convertFromMarkdownString(text, recipeTransformers, undefined, true);
     },
     onError: (error: Error) => console.error(error),
   };
 
   return (
-    <LexicalComposer initialConfig={initialConfig}>
+    <LexicalComposer key={composerKey} initialConfig={initialConfig}>
       <div
         className={`${styles.container} ${
           isEditable ? styles.editable : styles.readOnly

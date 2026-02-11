@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { useRecipes } from "@/clientToServer/hooks/useRecipes";
-import { RecipeCardGallery } from "@/components";
+import { Button, RecipeCardGallery } from "@/components";
+import type { Recipe } from "@/components/RecipeView/RecipeView.types";
 import { RecipeGalleryControls } from "./RecipeGalleryControls";
 import styles from "./RecipeGalleryPage.module.css";
 
@@ -31,23 +32,55 @@ export const RecipeGalleryPage = () => {
     [tagsValue],
   );
 
-  const { data: recipes = [], isLoading } = useRecipes({
+  const {
+    recipes,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useRecipes({
     filters: { query: searchValue, tags },
   });
 
+  const onRecipeClick = useCallback(
+    (recipe: Recipe) =>
+      router.push(`/recipes/${encodeURIComponent(recipe._id)}`),
+    [router],
+  );
+
   return (
-    <section className={styles.page} aria-busy={isLoading}>
+    <section
+      className={styles.page}
+      aria-busy={isLoading || isFetchingNextPage}
+    >
       <RecipeGalleryControls
         searchValue={searchValue}
         tagsValue={tagsValue}
         onSearchChange={setSearchValue}
         onTagsChange={setTagsValue}
       />
-      <RecipeCardGallery
-        title="Featured recipes"
-        recipes={recipes}
-        onRecipeClick={(recipe) => router.push(`/recipes/${recipe._id}`)}
-      />
+      {recipes.length > 0 ? (
+        <>
+          <RecipeCardGallery
+            title="Featured recipes"
+            recipes={recipes}
+            onRecipeClick={onRecipeClick}
+          />
+          {hasNextPage ? (
+            <div className={styles.pager}>
+              <Button
+                variant="secondary"
+                isLoading={isFetchingNextPage}
+                onClick={() => fetchNextPage()}
+              >
+                Load more
+              </Button>
+            </div>
+          ) : null}
+        </>
+      ) : isLoading ? null : (
+        <p className={styles.empty}>No recipes found.</p>
+      )}
     </section>
   );
 };

@@ -9,12 +9,12 @@ export const useRecipe = (
   id: string | null | undefined,
   options?: UseRecipeOptions
 ) => {
-  const shouldFetch = options?.enabled ?? !options?.initialData;
-
   return useQuery<Recipe | null>({
     queryKey: recipeKeys.detail(id),
     queryFn: () => fetchRecipeById(id ?? ""),
-    enabled: Boolean(id) && shouldFetch,
+    // Default to fetching even when `initialData` is provided so the UI
+    // updates when a partial recipe (e.g. from a list query) is hydrated.
+    enabled: Boolean(id) && (options?.enabled ?? true),
     initialData: options?.initialData,
   });
 };
