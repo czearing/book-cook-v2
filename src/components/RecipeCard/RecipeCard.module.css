@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   background: var(--ui-Canvas);
-  border: 1px solid var(--ui-ControlHover);
+  border: 1px solid color-mix(in srgb, var(--ui-ControlBorder) 20%, transparent);
   border-radius: 14px;
   overflow: hidden;
   text-align: left;
@@ -11,7 +11,11 @@
   appearance: none;
   font: inherit;
   color: inherit;
-  transition: border-color var(--motion-default);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--ui-ControlBorder) 12%, transparent);
+  transition:
+    border-color var(--motion-default),
+    box-shadow var(--motion-default),
+    transform var(--motion-default);
 }
 
 .interactive {
@@ -21,11 +25,17 @@
 @media (hover: hover) and (pointer: fine) {
   .interactive:hover {
     border-color: var(--ui-ControlBorderHover);
+    box-shadow:
+      0 10px 24px -20px color-mix(in srgb, var(--ui-ControlBorderPressed) 70%, transparent),
+      0 6px 16px -14px color-mix(in srgb, var(--ui-ControlBorderPressed) 40%, transparent);
+    transform: translateY(-2px);
   }
 }
 
 .interactive:active {
-  border-color: var(--ui-ControlHover);
+  border-color: var(--ui-ControlBorder);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--ui-ControlBorder) 18%, transparent);
+  transform: translateY(0);
 }
 
 .interactive:focus {
@@ -38,8 +48,9 @@
 
 .interactive:focus-visible {
   outline: none;
-  outline: 2px solid var(--brand-Primary);
-  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--ui-Canvas),
+    0 0 0 4px var(--brand-Primary);
 }
 
 .media {
@@ -54,11 +65,14 @@
 }
 
 .mediaFallback {
-  background: linear-gradient(
-    135deg,
-    var(--brand-BackgroundDisabled),
-    var(--ui-ControlHover)
-  );
+  background:
+    radial-gradient(
+      120% 120% at 50% 8%,
+      color-mix(in srgb, var(--ui-Canvas) 88%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(135deg, var(--brand-BackgroundDisabled), var(--ui-ControlHover));
+  height: clamp(112px, 14vw, 144px);
 }
 
 .mediaImage {
@@ -66,14 +80,16 @@
 }
 
 .emoji {
-  font-size: 48px;
+  font-size: clamp(34px, 3.6vw, 44px);
 }
 
 .body {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 12px;
+  gap: 5px;
+  padding: 14px 14px 12px;
+  border-top: 1px solid color-mix(in srgb, var(--ui-ControlBorder) 12%, transparent);
+  background: var(--ui-Canvas);
 }
 
 .title {
@@ -96,8 +112,9 @@
 }
 
 .creator {
-  font-size: 13px;
-  line-height: 1.2;
+  font-size: 14px;
+  line-height: 1.25;
+  font-weight: 500;
   color: var(--ui-TextSecondary);
 }
 
@@ -108,17 +125,21 @@
 }
 
 .metaItem {
-  color: var(--ui-TextCaption);
+  color: var(--ui-TextLabel);
   font-size: 12px;
   line-height: 1.2;
 }
 
 .dot {
-  color: var(--ui-TextCaption);
+  color: var(--ui-TextLabel);
 }
 
 @media (max-width: 720px) {
   .body {
-    padding: 10px;
+    padding: 12px 12px 10px;
+  }
+
+  .mediaFallback {
+    height: 120px;
   }
 }

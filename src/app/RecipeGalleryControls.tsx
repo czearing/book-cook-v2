@@ -16,6 +16,7 @@ export const RecipeGalleryControls = ({
     <Input
       className={styles.field}
       fullWidth
+      size="lg"
       startIcon={<MagnifyingGlassIcon size={16} />}
       value={searchValue}
       onChange={(event) => onSearchChange(event.target.value)}
@@ -25,6 +26,7 @@ export const RecipeGalleryControls = ({
     <Input
       className={styles.field}
       fullWidth
+      size="lg"
       startIcon={<TagIcon size={16} />}
       value={tagsValue}
       onChange={(event) => onTagsChange(event.target.value)}

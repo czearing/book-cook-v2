@@ -1,10 +1,16 @@
 .controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 14px;
 }
 
 .field {
-  flex: 1 1 240px;
+  flex: 1 1 300px;
+  min-width: 240px;
+}
+
+@media (max-width: 900px) {
+  .controls {
+    flex-direction: column;
+  }
 }
