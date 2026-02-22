@@ -25,13 +25,8 @@ export const useMediaQuery = (query: string) => {
 
     setMatchesIfNeeded(mediaQueryList.matches);
 
-    if ("addEventListener" in mediaQueryList) {
-      mediaQueryList.addEventListener("change", handleChange);
-      return () => mediaQueryList.removeEventListener("change", handleChange);
-    }
-
-    mediaQueryList.addListener(handleChange);
-    return () => mediaQueryList.removeListener(handleChange);
+    mediaQueryList.addEventListener("change", handleChange);
+    return () => mediaQueryList.removeEventListener("change", handleChange);
   }, [query]);
 
   return matches;

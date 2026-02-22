@@ -6,7 +6,7 @@ export type SearchboxVariant = "default" | "ghost";
 export interface SearchboxProps
   extends Omit<
     InputHTMLAttributes<HTMLInputElement>,
-    "size" | "type" | "value" | "defaultValue"
+    "size" | "type" | "value" | "defaultValue" | "onSubmit"
   > {
   /**
    * Visible label rendered above the searchbox.

@@ -67,7 +67,7 @@ export const fetchRecipes = async (
     throw new Error(error.message);
   }
 
-  return (data as RecipeRow[]).map(mapRecipeRow);
+  return (data as unknown as RecipeRow[]).map(mapRecipeRow);
 };
 
 export const fetchRecipeById = async (id: string): Promise<Recipe | null> => {
@@ -86,5 +86,5 @@ export const fetchRecipeById = async (id: string): Promise<Recipe | null> => {
     return null;
   }
 
-  return mapRecipeRow(data as RecipeRow);
+  return mapRecipeRow(data as unknown as RecipeRow);
 };

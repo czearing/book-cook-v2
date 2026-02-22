@@ -69,7 +69,7 @@ const ColorSwatch = ({
 
 const ThemeVisualizer = () => {
   const { theme, setTheme } = useTheme();
-  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
+  const toggleTheme = () => setTheme?.(theme === "light" ? "dark" : "light");
 
   return (
     <div

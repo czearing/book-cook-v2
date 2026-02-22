@@ -90,6 +90,13 @@
 }
 
 /* Sizes */
+.sizeXs {
+  height: 24px;
+  padding: 0 6px;
+  font-size: 13px;
+  gap: 4px;
+}
+
 .sizeSm {
   height: 28px;
   padding: 0 10px;
@@ -126,6 +133,9 @@
   padding: 0;
   aspect-ratio: 1 / 1;
   width: auto;
+}
+.sizeXs.shapeSquare {
+  width: 24px;
 }
 .sizeSm.shapeSquare {
   width: 28px;

@@ -1,198 +1,130 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import {
-  DndContext,
-  DragOverlay,
-  KeyboardSensor,
-  PointerSensor,
-  TouchSensor,
-  closestCenter,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  SortableContext,
-  rectSortingStrategy,
-  sortableKeyboardCoordinates,
-} from "@dnd-kit/sortable";
-import { DotsSixVerticalIcon, PencilSimpleIcon, PlusIcon, XIcon } from "@phosphor-icons/react";
+import { PencilSimpleIcon, XIcon } from "@phosphor-icons/react";
 import { clsx } from "clsx";
+import { Command } from "cmdk";
 
-import { SortableTag } from "./SortableTag";
 import styles from "./TagEditor.module.css";
 import type { TagEditorProps } from "./TagEditor.types";
 import { useTagEditorState } from "./useTagEditorState";
-import { Input } from "../Input";
+import { Button } from "../Button";
 import { Tag } from "../Tag";
 
 export const TagEditor = ({
   tags,
+  availableTags = [],
   onTagsChange,
   onTagClick,
   editable = true,
   showEditControl,
 }: TagEditorProps) => {
-  const iconSizeSm = 12;
-  const iconSizeMd = 14;
   const {
     wrapperRef,
     isEditing,
     toggleEdit,
     draftTags,
     inputValue,
-    isAdding,
+    dropdownOpen,
+    addTag,
     removeTag,
-    startAdd,
     handleInputChange,
     handleInputKeyDown,
-    activeTag,
-    moveTag,
-    handleDragStartEvent,
-    handleDragCancelEvent,
-    handleDragEndEvent,
   } = useTagEditorState(tags, onTagsChange);
-  const dragIcon = isEditing ? <DotsSixVerticalIcon size={iconSizeSm} /> : undefined;
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 120, tolerance: 6 } }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
+
+  const isEmpty = !isEditing && tags.length === 0;
+  const controlsVisible = Boolean(showEditControl);
+
+  const suggestions = availableTags.filter(
+    (t) =>
+      !draftTags.some((d) => d.toLowerCase() === t.toLowerCase()) &&
+      t.toLowerCase().includes(inputValue.toLowerCase())
   );
-  const controlsVisible = Boolean(showEditControl) || tags.length === 0;
-  const isDragging = Boolean(activeTag);
-  const dragOverlayStyle = activeTag
-    ? { width: "max-content", height: "max-content" }
-    : undefined;
-  const [focusedIndex, setFocusedIndex] = useState(0);
-
-  useEffect(() => {
-    if (!isEditing) {
-      setFocusedIndex(0);
-      return;
-    }
-    setFocusedIndex((prev) =>
-      Math.max(0, Math.min(prev, Math.max(0, draftTags.length - 1)))
-    );
-  }, [draftTags.length, isEditing]);
-
-  const focusTag = (index: number) => {
-    setFocusedIndex(index);
-    const target = document.querySelector<HTMLElement>(
-      `[data-tag-index="${index}"]`
-    );
-    if (target) {
-      target.focus();
-      return;
-    }
-    requestAnimationFrame(() => {
-      const fallback = document.querySelector<HTMLElement>(
-        `[data-tag-index="${index}"]`
-      );
-      fallback?.focus();
-    });
-  };
-
-  const handleEditClick = () => {
-    if (!isEditing) {
-      toggleEdit();
-      if (tags.length === 0) {
-        startAdd();
-      }
-      return;
-    }
-    toggleEdit();
-  };
 
   return (
     <div
       ref={wrapperRef}
-      className={clsx(
-        styles.wrapper,
-        isEditing && styles.editing,
-        isDragging && styles.draggingList
-      )}
-      role="listbox"
-      aria-orientation="horizontal"
+      className={clsx(styles.wrapper, isEditing && styles.editing)}
     >
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={handleDragStartEvent}
-        onDragCancel={handleDragCancelEvent}
-        onDragEnd={handleDragEndEvent}
-      >
-        <SortableContext items={draftTags} strategy={rectSortingStrategy}>
-          {draftTags.map((tag, index) => (
-            <SortableTag
-              key={tag}
-              tag={tag}
-              index={index}
-              total={draftTags.length}
-              onMove={moveTag}
-              isFocused={focusedIndex === index}
-              onFocus={setFocusedIndex}
-              onFocusTag={focusTag}
-              isEditing={isEditing}
-              onTagClick={onTagClick}
-              onRemove={removeTag}
+      {draftTags.map((tag) => (
+        <Tag
+          key={tag}
+          onClick={!isEditing ? () => onTagClick?.(tag) : undefined}
+          endIcon={isEditing ? <XIcon size={12} /> : undefined}
+          endIconAriaLabel={`Remove ${tag}`}
+          onEndIconClick={() => removeTag(tag)}
+        >
+          {tag}
+        </Tag>
+      ))}
+
+      {isEditing && (
+        <div className={styles.comboboxWrapper}>
+          <Command shouldFilter={false} className={styles.command}>
+            <Command.Input
+              className={styles.comboboxInput}
+              value={inputValue}
+              onValueChange={handleInputChange}
+              onKeyDown={handleInputKeyDown}
+              autoFocus
+              placeholder="Add tag"
+              aria-label="Add tag"
             />
-          ))}
-        </SortableContext>
-        <DragOverlay
-          adjustScale={false}
-          dropAnimation={null}
-          className={styles.dragOverlay}
-          style={dragOverlayStyle}
-        >
-          {activeTag ? (
-            <Tag
-              startIcon={dragIcon}
-              endIcon={isEditing ? <XIcon size={iconSizeSm} /> : undefined}
-              endIconAriaLabel={`Remove ${activeTag}`}
-            >
-              {activeTag}
-            </Tag>
-          ) : null}
-        </DragOverlay>
-      </DndContext>
-
-      {isEditing && isAdding && (
-        <Input
-          className={styles.addInput}
-          size="sm"
-          value={inputValue}
-          onChange={handleInputChange}
-          onKeyDown={handleInputKeyDown}
-          autoFocus
-          placeholder="Add tag"
-          aria-label="Add tag"
-        />
-      )}
-
-      {isEditing && !isAdding && (
-        <button type="button" className={styles.addButton} onClick={startAdd}>
-          <PlusIcon size={iconSizeSm} /> Add
-        </button>
-      )}
-
-      {editable && (
-        <div
-          className={clsx(
-            styles.controls,
-            controlsVisible && styles.controlsVisible
-          )}
-        >
-          <button
-            type="button"
-            className={styles.iconButton}
-            onClick={handleEditClick}
-            aria-label="Edit tags"
-          >
-            <PencilSimpleIcon size={iconSizeMd} />
-          </button>
+            {dropdownOpen && (
+              <Command.List className={styles.dropdown}>
+                {suggestions.length === 0 && inputValue.trim() !== "" && (
+                  <Command.Item
+                    value={inputValue}
+                    onSelect={() => addTag(inputValue)}
+                    className={styles.dropdownItem}
+                  >
+                    Add &ldquo;{inputValue}&rdquo;
+                  </Command.Item>
+                )}
+                {suggestions.map((tag) => (
+                  <Command.Item
+                    key={tag}
+                    value={tag}
+                    onSelect={() => addTag(tag)}
+                    className={styles.dropdownItem}
+                  >
+                    {tag}
+                  </Command.Item>
+                ))}
+              </Command.List>
+            )}
+          </Command>
         </div>
+      )}
+
+      {editable && !isEditing && (
+        <>
+          {isEmpty ? (
+            <Button
+              variant="ghost"
+              size="xs"
+              onClick={() => toggleEdit(draftTags)}
+            >
+              Add tag
+            </Button>
+          ) : (
+            <div
+              className={clsx(
+                styles.controls,
+                controlsVisible && styles.controlsVisible
+              )}
+            >
+              <Button
+                variant="ghost"
+                size="xs"
+                shape="square"
+                onClick={() => toggleEdit(draftTags)}
+                aria-label="Edit tags"
+              >
+                <PencilSimpleIcon size={13} />
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

@@ -7,14 +7,14 @@ import type {
   DropdownMenuLabelProps,
   DropdownMenuRadioGroupProps,
   DropdownMenuRadioItemProps,
-  DropdownMenuRootProps,
+  DropdownMenuProps,
   DropdownMenuSeparatorProps,
   DropdownMenuSubContentProps,
   DropdownMenuSubTriggerProps,
   DropdownMenuTriggerProps,
 } from "@radix-ui/react-dropdown-menu";
 
-export type MenuProps = DropdownMenuRootProps;
+export type MenuProps = DropdownMenuProps;
 export type MenuTriggerProps = DropdownMenuTriggerProps;
 export type MenuGroupProps = DropdownMenuGroupProps;
 export type MenuRadioGroupProps = DropdownMenuRadioGroupProps;

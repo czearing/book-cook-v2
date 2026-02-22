@@ -1,10 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { DragCancelEvent, DragEndEvent, DragStartEvent } from "@dnd-kit/core";
-import { arrayMove } from "@dnd-kit/sortable";
 
-const normalizeTag = (value: string) => value.trim();
 const areTagsEqual = (a: string[], b: string[]) =>
   a.length === b.length && a.every((value, index) => value === b[index]);
 
@@ -16,8 +13,7 @@ export const useTagEditorState = (
   const [isEditing, setIsEditing] = useState(false);
   const [draftTags, setDraftTags] = useState(tags);
   const [inputValue, setInputValue] = useState("");
-  const [isAdding, setIsAdding] = useState(false);
-  const [activeTag, setActiveTag] = useState<string | null>(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     if (!isEditing) {
@@ -25,30 +21,43 @@ export const useTagEditorState = (
     }
   }, [tags, isEditing]);
 
-  const commitDraftTags = () => {
-    if (!onTagsChange) {return;}
-    if (!areTagsEqual(draftTags, tags)) {
-      onTagsChange(draftTags);
+  const commitDraftTags = (current: string[]) => {
+    if (!onTagsChange) {
+      return;
+    }
+    if (!areTagsEqual(current, tags)) {
+      onTagsChange(current);
     }
   };
 
-  const exitEditing = () => {
+  const exitEditing = (current: string[]) => {
     setIsEditing(false);
-    setIsAdding(false);
     setInputValue("");
-    commitDraftTags();
+    setDropdownOpen(false);
+    commitDraftTags(current);
   };
 
   useEffect(() => {
-    if (!isEditing) {return;}
+    if (!isEditing) {
+      return;
+    }
+    let latestDraft = draftTags;
+    const unsubscribeDraft = () => {
+      latestDraft = draftTags;
+    };
+    unsubscribeDraft();
+
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") {return;}
-      exitEditing();
+      if (event.key !== "Escape") {
+        return;
+      }
+      exitEditing(latestDraft);
     };
     const onOutside = (event: MouseEvent) => {
-      if (activeTag) {return;}
-      if (wrapperRef.current?.contains(event.target as Node)) {return;}
-      exitEditing();
+      if (wrapperRef.current?.contains(event.target as Node)) {
+        return;
+      }
+      exitEditing(latestDraft);
     };
     document.addEventListener("keydown", onKeyDown);
     document.addEventListener("pointerdown", onOutside);
@@ -56,11 +65,14 @@ export const useTagEditorState = (
       document.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("pointerdown", onOutside);
     };
-  }, [activeTag, exitEditing, isEditing]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEditing, draftTags]);
 
-  const addTag = () => {
-    const next = normalizeTag(inputValue);
-    if (!next) {return;}
+  const addTag = (value: string) => {
+    const next = value.trim();
+    if (!next) {
+      return;
+    }
     setDraftTags((items) => {
       if (items.some((tag) => tag.toLowerCase() === next.toLowerCase())) {
         return items;
@@ -68,68 +80,40 @@ export const useTagEditorState = (
       return [...items, next];
     });
     setInputValue("");
-    setIsAdding(false);
+    setDropdownOpen(false);
   };
 
   const removeTag = (value: string) => {
     setDraftTags((items) => items.filter((item) => item !== value));
   };
 
-  const startAdd = () => setIsAdding(true);
-
-  const cancelAdd = () => {
-    setIsAdding(false);
-    setInputValue("");
+  const toggleEdit = (currentDraft: string[]) => {
+    if (isEditing) {
+      exitEditing(currentDraft);
+    } else {
+      setIsEditing(true);
+    }
   };
 
-  const toggleEdit = () => setIsEditing((prev) => !prev);
+  const handleInputChange = (value: string) => {
+    setInputValue(value);
+    setDropdownOpen(value.length > 0);
+  };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setInputValue(event.target.value);
-
-  const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
+  const handleInputKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key === "Enter" && !dropdownOpen) {
       event.preventDefault();
-      addTag();
+      addTag(inputValue);
     }
     if (event.key === "Escape") {
-      cancelAdd();
+      if (dropdownOpen) {
+        setDropdownOpen(false);
+      } else {
+        exitEditing(draftTags);
+      }
     }
-  };
-
-  const handleDragEnd = ({ active, over }: DragEndEvent) => {
-    if (!over || active.id === over.id) {return;}
-    setDraftTags((items) => {
-      const fromIndex = items.indexOf(String(active.id));
-      const toIndex = items.indexOf(String(over.id));
-      if (fromIndex < 0 || toIndex < 0) {return items;}
-      return arrayMove(items, fromIndex, toIndex);
-    });
-  };
-
-  const moveTag = (fromIndex: number, toIndex: number) => {
-    setDraftTags((items) => {
-      if (fromIndex < 0 || toIndex < 0) {return items;}
-      if (fromIndex >= items.length || toIndex >= items.length) {return items;}
-      if (fromIndex === toIndex) {return items;}
-      return arrayMove(items, fromIndex, toIndex);
-    });
-  };
-
-  const handleDragStartEvent = ({ active }: DragStartEvent) => {
-    if (!isEditing) {
-      return;
-    }
-    setActiveTag(String(active.id));
-  };
-
-  const handleDragCancelEvent = (_: DragCancelEvent) => {
-    setActiveTag(null);
-  };
-
-  const handleDragEndEvent = (event: DragEndEvent) => {
-    handleDragEnd(event);
-    setActiveTag(null);
   };
 
   return {
@@ -138,15 +122,10 @@ export const useTagEditorState = (
     toggleEdit,
     draftTags,
     inputValue,
-    isAdding,
+    dropdownOpen,
+    addTag,
     removeTag,
-    startAdd,
     handleInputChange,
     handleInputKeyDown,
-    activeTag,
-    moveTag,
-    handleDragStartEvent,
-    handleDragCancelEvent,
-    handleDragEndEvent,
   };
 };

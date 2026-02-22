@@ -1,8 +1,13 @@
 export interface TagEditorProps {
   /**
-   * Tags to render in the editor.
+   * Tags currently applied to the recipe.
    */
   tags: string[];
+  /**
+   * Pool of existing tags to offer in the combobox dropdown.
+   * Defaults to an empty array (free-text entry only).
+   */
+  availableTags?: string[];
   /**
    * Called when tags are updated after editing.
    */

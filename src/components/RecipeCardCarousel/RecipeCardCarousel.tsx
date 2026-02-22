@@ -24,8 +24,8 @@ export const RecipeCardCarousel = ({
   const hasRecipes = recipes.length > 0;
 
   const options = {
-    align: "start",
-    containScroll: "trimSnaps",
+    align: "start" as const,
+    containScroll: "trimSnaps" as const,
     ...emblaOptions,
   };
 

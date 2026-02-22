@@ -20,7 +20,6 @@ export const SidebarSection = ({
   onOpenChange,
   className,
   style,
-  ...rest
 }: SidebarSectionProps) => {
   const { getSectionOpen, setSectionOpen } = useSidebarContext();
   const resolvedDepth = Math.max(0, depth);
@@ -88,7 +87,6 @@ export const SidebarSection = ({
       contentClassName={styles.sectionContent}
       data-sidebar-collapsible="true"
       style={{ ...style, ...indentStyle }}
-      {...rest}
     />
   );
 };

@@ -53,7 +53,7 @@ export const RecipeHeader = ({
       <div className={`${styles.main} ${isEditable ? styles.editorAligned : ""}`}>
         <RecipeEmoji emoji={recipe.emoji} />
         {isEditable ? (
-          <RecipeTitle
+          <h1
             ref={titleRef}
             className={`${styles.title} ${styles.editableTitle}`}
             contentEditable

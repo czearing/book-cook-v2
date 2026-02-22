@@ -13,6 +13,9 @@ import {
 } from "@phosphor-icons/react";
 import type { Meta, StoryObj } from "@storybook/react";
 
+import { Avatar } from "../Avatar";
+import { Button } from "../Button";
+
 import {
   Menu,
   MenuCheckboxItem,
@@ -26,9 +29,7 @@ import {
   MenuSubContent,
   MenuSubTrigger,
   MenuTrigger,
-} from "./Menu";
-import { Avatar } from "../Avatar";
-import { Button } from "../Button";
+} from ".";
 
 const meta: Meta<typeof Menu> = {
   title: "Components/Menu",

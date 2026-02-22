@@ -84,7 +84,7 @@ export const Searchbox = forwardRef<HTMLInputElement, SearchboxProps>(
     };
 
     const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-      if (event.key === "Enter" && !event.isComposing) {
+      if (event.key === "Enter" && !event.nativeEvent.isComposing) {
         if (onSubmit) {
           event.preventDefault();
           onSubmit(event.currentTarget.value);

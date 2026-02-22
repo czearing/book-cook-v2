@@ -12,6 +12,7 @@ const variantStyles = {
 };
 
 const sizeStyles = {
+  xs: styles.sizeXs,
   sm: styles.sizeSm,
   md: styles.sizeMd,
   lg: styles.sizeLg,
