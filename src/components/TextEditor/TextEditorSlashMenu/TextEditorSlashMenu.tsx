@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   LexicalTypeaheadMenuPlugin,
@@ -42,37 +42,32 @@ export function SlashMenu() {
 
   const checkForSlash = useBasicTypeaheadTriggerMatch("/", { minLength: 0 });
 
-  const onSelectOption = useCallback(
-    (
-      selectedOption: SlashOption,
-      nodeToRemove: TextNode | null, // <--- Fixed: No more 'any'
-      closeMenu: () => void
-    ) => {
-      editor.update(() => {
-        // Remove the "/" text
-        nodeToRemove?.remove();
+  const onSelectOption = (
+    selectedOption: SlashOption,
+    nodeToRemove: TextNode | null,
+    closeMenu: () => void
+  ) => {
+    editor.update(() => {
+      nodeToRemove?.remove();
 
-        const selection = $getSelection();
-        if (!$isRangeSelection(selection)) {
-          return;
-        }
+      const selection = $getSelection();
+      if (!$isRangeSelection(selection)) {
+        return;
+      }
 
-        // Clean switch statement for block transformation
-        switch (selectedOption.tag) {
-          case "h1":
-            $setBlocksType(selection, () => $createHeadingNode("h1"));
-            break;
-          case "h2":
-            $setBlocksType(selection, () => $createHeadingNode("h2"));
-            break;
-          default:
-            $setBlocksType(selection, () => $createParagraphNode());
-        }
-        closeMenu();
-      });
-    },
-    [editor]
-  );
+      switch (selectedOption.tag) {
+        case "h1":
+          $setBlocksType(selection, () => $createHeadingNode("h1"));
+          break;
+        case "h2":
+          $setBlocksType(selection, () => $createHeadingNode("h2"));
+          break;
+        default:
+          $setBlocksType(selection, () => $createParagraphNode());
+      }
+      closeMenu();
+    });
+  };
 
   return (
     <LexicalTypeaheadMenuPlugin<SlashOption>

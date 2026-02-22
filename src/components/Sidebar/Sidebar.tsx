@@ -14,45 +14,8 @@ import { SidebarContext } from "./SidebarContext";
 import { SidebarItem } from "./SidebarItem";
 import { Avatar } from "../Avatar";
 import { BodyText } from "../Typography";
-
-const toCssSize = (value: number | string) =>
-  typeof value === "number" ? `${value}px` : value;
-
-const useMediaQuery = (query: string) => {
-  const getMatches = () => {
-    if (typeof window === "undefined") {
-      return false;
-    }
-
-    return window.matchMedia(query).matches;
-  };
-
-  const [matches, setMatches] = useState(getMatches);
-
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return undefined;
-    }
-
-    const mediaQueryList = window.matchMedia(query);
-    const setMatchesIfNeeded = (next: boolean) => {
-      setMatches((prev) => (prev === next ? prev : next));
-    };
-    const handleChange = () => setMatchesIfNeeded(mediaQueryList.matches);
-
-    setMatchesIfNeeded(mediaQueryList.matches);
-
-    if ("addEventListener" in mediaQueryList) {
-      mediaQueryList.addEventListener("change", handleChange);
-      return () => mediaQueryList.removeEventListener("change", handleChange);
-    }
-
-    mediaQueryList.addListener(handleChange);
-    return () => mediaQueryList.removeListener(handleChange);
-  }, [query]);
-
-  return matches;
-};
+import { useMediaQuery } from "../../hooks/useMediaQuery";
+import { toCssSize } from "../../utils/toCssSize";
 
 export const Sidebar = ({
   className,

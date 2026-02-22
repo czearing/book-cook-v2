@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import { useAuthSession } from "@/clientToServer/hooks/useAuthSession";
 import { useAuthSignInWithGoogle } from "@/clientToServer/hooks/useAuthSignInWithGoogle";
@@ -26,7 +26,7 @@ export default function TestAuthPage() {
     useAuthSignInWithGoogle();
   const { mutateAsync: signOut, isPending: isSigningOut } = useAuthSignOut();
 
-  const authState = useMemo(() => ({ user, session }), [user, session]);
+  const authState = { user, session };
 
   const handleGoogle = async () => {
     await signInWithGoogle({

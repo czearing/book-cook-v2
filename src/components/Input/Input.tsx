@@ -1,8 +1,9 @@
-import { forwardRef, useId } from "react";
+import { forwardRef } from "react";
 import { clsx } from "clsx";
 
 import styles from "./Input.module.css";
 import type { InputProps } from "./Input.types";
+import { useFormFieldIds } from "../../hooks/useFormFieldIds";
 
 const sizeStyles = {
   sm: styles.sizeSm,
@@ -36,18 +37,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       ...rest
     } = props;
 
-    const generatedId = useId();
-    const inputId = id ?? `input-${generatedId}`;
-    const descriptionId = description ? `${inputId}-description` : undefined;
-    const errorId = error ? `${inputId}-error` : undefined;
-    const describedBy = [
-      rest["aria-describedby"],
-      descriptionId,
-      errorId,
-    ]
-      .filter(Boolean)
-      .join(" ");
-    const hasSupporting = [description, error].some(Boolean);
+    const { inputId, descriptionId, errorId, describedBy, hasSupporting } =
+      useFormFieldIds(id, description, error, rest["aria-describedby"], "input");
 
     return (
       <div

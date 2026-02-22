@@ -39,6 +39,11 @@
     "react-dropzone": "^14.3.8",
     "sonner": "^2.0.7"
   },
+  "dependenciesMeta": {
+    "unrs-resolver": {
+      "built": false
+    }
+  },
   "devDependencies": {
     "@storybook/addon-docs": "^10.1.7",
     "@storybook/nextjs": "^10.1.7",

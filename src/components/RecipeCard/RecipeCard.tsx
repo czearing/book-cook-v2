@@ -4,24 +4,8 @@ import Image from "next/image";
 import styles from "./RecipeCard.module.css";
 import type { RecipeCardProps } from "./RecipeCard.types";
 import { BodyText, MetaLabel } from "../Typography";
-
-const formatDate = (value: string) => {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(date);
-};
-
-const formatCount = (value: number) =>
-  new Intl.NumberFormat("en-US", {
-    notation: "compact",
-    maximumFractionDigits: 1,
-  }).format(value);
+import { formatDate } from "../../utils/formatDate";
+import { formatCount } from "../../utils/formatCount";
 
 export const RecipeCard = ({
   recipe,

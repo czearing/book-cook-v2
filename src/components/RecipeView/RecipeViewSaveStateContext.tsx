@@ -2,10 +2,8 @@
 
 import {
   createContext,
-  useCallback,
   useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -36,35 +34,29 @@ export const RecipeViewSaveStateProvider = ({
     setIsDirty(false);
   }, [initialTitle, initialData]);
 
-  const recompute = useCallback(() => {
+  const recompute = () => {
     const dirty =
       current.current.title !== initial.current.title || dataDirty.current;
     setIsDirty(dirty);
-  }, []);
+  };
 
-  const updateTitle = useCallback(
-    (title: string) => {
-      if (current.current.title === title) {
-        return;
-      }
-      current.current.title = title;
-      recompute();
-    },
-    [recompute]
-  );
+  const updateTitle = (title: string) => {
+    if (current.current.title === title) {
+      return;
+    }
+    current.current.title = title;
+    recompute();
+  };
 
-  const markDataDirty = useCallback(() => {
+  const markDataDirty = () => {
     if (dataDirty.current) {
       return;
     }
     dataDirty.current = true;
     setIsDirty(true);
-  }, []);
+  };
 
-  const value = useMemo(
-    () => ({ isDirty, updateTitle, markDataDirty }),
-    [isDirty, updateTitle, markDataDirty]
-  );
+  const value = { isDirty, updateTitle, markDataDirty };
 
   return (
     <RecipeViewSaveStateContext.Provider value={value}>

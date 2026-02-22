@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import type { Recipe } from "@/components/RecipeView/RecipeView.types";
@@ -34,10 +33,7 @@ export const useRecipes = (options?: UseRecipesOptions) => {
     refetchOnWindowFocus: false,
   });
 
-  const recipes = useMemo(
-    () => query.data?.pages.flat() ?? [],
-    [query.data?.pages],
-  );
+  const recipes = query.data?.pages.flat() ?? [];
 
   return { ...query, recipes };
 };

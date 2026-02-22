@@ -6,12 +6,13 @@ import type {
   MutableRefObject,
   MouseEvent,
 } from "react";
-import { forwardRef, useId, useRef, useState } from "react";
+import { forwardRef, useRef, useState } from "react";
 import { MagnifyingGlassIcon, XIcon } from "@phosphor-icons/react";
 import { clsx } from "clsx";
 
 import styles from "./Searchbox.module.css";
 import type { SearchboxProps } from "./Searchbox.types";
+import { useFormFieldIds } from "../../hooks/useFormFieldIds";
 
 const sizeStyles = {
   sm: styles.sizeSm,
@@ -55,19 +56,8 @@ export const Searchbox = forwardRef<HTMLInputElement, SearchboxProps>(
       onKeyDown,
       ...rest
     } = props;
-
-    const generatedId = useId();
-    const inputId = id ?? `searchbox-${generatedId}`;
-    const descriptionId = description ? `${inputId}-description` : undefined;
-    const errorId = error ? `${inputId}-error` : undefined;
-    const describedBy = [
-      rest["aria-describedby"],
-      descriptionId,
-      errorId,
-    ]
-      .filter(Boolean)
-      .join(" ");
-
+    const { inputId, descriptionId, errorId, describedBy, hasSupporting } =
+      useFormFieldIds(id, description, error, rest["aria-describedby"], "searchbox");
     const inputRef = useRef<HTMLInputElement | null>(null);
     const isControlled = value !== undefined;
     const [internalValue, setInternalValue] = useState(defaultValue);
@@ -113,7 +103,6 @@ export const Searchbox = forwardRef<HTMLInputElement, SearchboxProps>(
     };
 
     const showClearButton = showClear && !disabled && Boolean(currentValue);
-    const hasSupporting = [description, error].some(Boolean);
     const handleControlMouseDown = (event: MouseEvent<HTMLDivElement>) => {
       const target = event.target as HTMLElement | null;
       if (!target) {

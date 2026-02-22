@@ -15,20 +15,8 @@ import { RecipePropertyRow } from "./RecipePropertyRow";
 import { RecipeStats } from "./RecipeStats";
 import { RecipeTags } from "./RecipeTags";
 import { useRecipeViewSaveState } from "../RecipeViewSaveStateContext";
-
 import { RecipeTitle } from "../../Typography";
-
-const formatDate = (value: string) => {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(date);
-};
+import { formatDate } from "../../../utils/formatDate";
 
 export const RecipeHeader = ({
   recipe,

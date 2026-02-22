@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   DndContext,
   DragOverlay,
@@ -77,7 +77,7 @@ export const TagEditor = ({
     );
   }, [draftTags.length, isEditing]);
 
-  const focusTag = useCallback((index: number) => {
+  const focusTag = (index: number) => {
     setFocusedIndex(index);
     const target = document.querySelector<HTMLElement>(
       `[data-tag-index="${index}"]`
@@ -92,7 +92,7 @@ export const TagEditor = ({
       );
       fallback?.focus();
     });
-  }, []);
+  };
 
   const handleEditClick = () => {
     if (!isEditing) {

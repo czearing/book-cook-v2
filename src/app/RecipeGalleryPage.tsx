@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { useRecipes } from "@/clientToServer/hooks/useRecipes";
@@ -23,14 +23,10 @@ export const RecipeGalleryPage = () => {
     setTagsValue((prev) => (prev === tagsParam ? prev : tagsParam));
   }, [searchParams]);
 
-  const tags = useMemo(
-    () =>
-      tagsValue
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter(Boolean),
-    [tagsValue],
-  );
+  const tags = tagsValue
+    .split(",")
+    .map((tag) => tag.trim())
+    .filter(Boolean);
 
   const {
     recipes,
@@ -42,11 +38,8 @@ export const RecipeGalleryPage = () => {
     filters: { query: searchValue, tags },
   });
 
-  const onRecipeClick = useCallback(
-    (recipe: Recipe) =>
-      router.push(`/recipes/${encodeURIComponent(recipe._id)}`),
-    [router],
-  );
+  const onRecipeClick = (recipe: Recipe) =>
+    router.push(`/recipes/${encodeURIComponent(recipe._id)}`);
 
   return (
     <section

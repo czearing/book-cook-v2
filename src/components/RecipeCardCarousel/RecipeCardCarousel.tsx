@@ -1,7 +1,7 @@
 "use client";
 
 import type { KeyboardEvent } from "react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { clsx } from "clsx";
 import useEmblaCarousel from "embla-carousel-react";
 
@@ -23,26 +23,23 @@ export const RecipeCardCarousel = ({
 }: RecipeCardCarouselProps) => {
   const hasRecipes = recipes.length > 0;
 
-  const options = useMemo(
-    () => ({
-      align: "start",
-      containScroll: "trimSnaps",
-      ...emblaOptions,
-    }),
-    [emblaOptions]
-  );
+  const options = {
+    align: "start",
+    containScroll: "trimSnaps",
+    ...emblaOptions,
+  };
 
   const [viewportRef, emblaApi] = useEmblaCarousel(options);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
 
-  const updateScrollState = useCallback(() => {
+  const updateScrollState = () => {
     if (!emblaApi) {
       return;
     }
     setCanScrollPrev(emblaApi.canScrollPrev());
     setCanScrollNext(emblaApi.canScrollNext());
-  }, [emblaApi]);
+  };
 
   useEffect(() => {
     if (!emblaApi) {
@@ -57,36 +54,33 @@ export const RecipeCardCarousel = ({
     };
   }, [emblaApi, updateScrollState]);
 
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+  const scrollPrev = () => emblaApi?.scrollPrev();
+  const scrollNext = () => emblaApi?.scrollNext();
 
-  const handleKeyDown = useCallback(
-    (event: KeyboardEvent<HTMLDivElement>) => {
-      if (!emblaApi) {
-        return;
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (!emblaApi) {
+      return;
+    }
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      emblaApi.scrollPrev();
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      emblaApi.scrollNext();
+    }
+    if (event.key === "Home") {
+      event.preventDefault();
+      emblaApi.scrollTo(0);
+    }
+    if (event.key === "End") {
+      event.preventDefault();
+      const lastIndex = emblaApi.scrollSnapList().length - 1;
+      if (lastIndex >= 0) {
+        emblaApi.scrollTo(lastIndex);
       }
-      if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        emblaApi.scrollPrev();
-      }
-      if (event.key === "ArrowRight") {
-        event.preventDefault();
-        emblaApi.scrollNext();
-      }
-      if (event.key === "Home") {
-        event.preventDefault();
-        emblaApi.scrollTo(0);
-      }
-      if (event.key === "End") {
-        event.preventDefault();
-        const lastIndex = emblaApi.scrollSnapList().length - 1;
-        if (lastIndex >= 0) {
-          emblaApi.scrollTo(lastIndex);
-        }
-      }
-    },
-    [emblaApi]
-  );
+    }
+  };
 
   const controlsVisible = recipes.length > 1 && (canScrollPrev || canScrollNext);
   const resolvedAriaLabel = ariaLabel ?? title ?? "Recipe carousel";

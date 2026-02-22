@@ -164,7 +164,20 @@ export default config(
       "object-shorthand": "warn",
       "no-unused-expressions": "error",
       "no-implicit-coercion": "warn",
-      "no-restricted-imports": ["error", { patterns: ["node_modules/*"] }],
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: ["node_modules/*"],
+          paths: [
+            {
+              name: "react",
+              importNames: ["useMemo", "useCallback", "memo"],
+              message:
+                "React Compiler handles memoization automatically. Remove useMemo, useCallback, and memo.",
+            },
+          ],
+        },
+      ],
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",

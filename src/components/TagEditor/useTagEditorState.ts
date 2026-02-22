@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { DragCancelEvent, DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 
@@ -25,19 +25,19 @@ export const useTagEditorState = (
     }
   }, [tags, isEditing]);
 
-  const commitDraftTags = useCallback(() => {
+  const commitDraftTags = () => {
     if (!onTagsChange) {return;}
     if (!areTagsEqual(draftTags, tags)) {
       onTagsChange(draftTags);
     }
-  }, [draftTags, onTagsChange, tags]);
+  };
 
-  const exitEditing = useCallback(() => {
+  const exitEditing = () => {
     setIsEditing(false);
     setIsAdding(false);
     setInputValue("");
     commitDraftTags();
-  }, [commitDraftTags]);
+  };
 
   useEffect(() => {
     if (!isEditing) {return;}
@@ -58,7 +58,7 @@ export const useTagEditorState = (
     };
   }, [activeTag, exitEditing, isEditing]);
 
-  const addTag = useCallback(() => {
+  const addTag = () => {
     const next = normalizeTag(inputValue);
     if (!next) {return;}
     setDraftTags((items) => {
@@ -69,41 +69,35 @@ export const useTagEditorState = (
     });
     setInputValue("");
     setIsAdding(false);
-  }, [inputValue]);
+  };
 
-  const removeTag = useCallback((value: string) => {
+  const removeTag = (value: string) => {
     setDraftTags((items) => items.filter((item) => item !== value));
-  }, []);
+  };
 
-  const startAdd = useCallback(() => setIsAdding(true), []);
+  const startAdd = () => setIsAdding(true);
 
-  const cancelAdd = useCallback(() => {
+  const cancelAdd = () => {
     setIsAdding(false);
     setInputValue("");
-  }, []);
+  };
 
-  const toggleEdit = useCallback(() => setIsEditing((prev) => !prev), []);
+  const toggleEdit = () => setIsEditing((prev) => !prev);
 
-  const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) =>
-      setInputValue(event.target.value),
-    []
-  );
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setInputValue(event.target.value);
 
-  const handleInputKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        addTag();
-      }
-      if (event.key === "Escape") {
-        cancelAdd();
-      }
-    },
-    [addTag, cancelAdd]
-  );
+  const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      addTag();
+    }
+    if (event.key === "Escape") {
+      cancelAdd();
+    }
+  };
 
-  const handleDragEnd = useCallback(({ active, over }: DragEndEvent) => {
+  const handleDragEnd = ({ active, over }: DragEndEvent) => {
     if (!over || active.id === over.id) {return;}
     setDraftTags((items) => {
       const fromIndex = items.indexOf(String(active.id));
@@ -111,38 +105,32 @@ export const useTagEditorState = (
       if (fromIndex < 0 || toIndex < 0) {return items;}
       return arrayMove(items, fromIndex, toIndex);
     });
-  }, []);
+  };
 
-  const moveTag = useCallback((fromIndex: number, toIndex: number) => {
+  const moveTag = (fromIndex: number, toIndex: number) => {
     setDraftTags((items) => {
       if (fromIndex < 0 || toIndex < 0) {return items;}
       if (fromIndex >= items.length || toIndex >= items.length) {return items;}
       if (fromIndex === toIndex) {return items;}
       return arrayMove(items, fromIndex, toIndex);
     });
-  }, []);
+  };
 
-  const handleDragStartEvent = useCallback(
-    ({ active }: DragStartEvent) => {
-      if (!isEditing) {
-        return;
-      }
-      setActiveTag(String(active.id));
-    },
-    [isEditing]
-  );
+  const handleDragStartEvent = ({ active }: DragStartEvent) => {
+    if (!isEditing) {
+      return;
+    }
+    setActiveTag(String(active.id));
+  };
 
-  const handleDragCancelEvent = useCallback((_: DragCancelEvent) => {
+  const handleDragCancelEvent = (_: DragCancelEvent) => {
     setActiveTag(null);
-  }, []);
+  };
 
-  const handleDragEndEvent = useCallback(
-    (event: DragEndEvent) => {
-      handleDragEnd(event);
-      setActiveTag(null);
-    },
-    [handleDragEnd]
-  );
+  const handleDragEndEvent = (event: DragEndEvent) => {
+    handleDragEnd(event);
+    setActiveTag(null);
+  };
 
   return {
     wrapperRef,
