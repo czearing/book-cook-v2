@@ -8,6 +8,12 @@
 .main {
   flex: 1;
   min-width: 0;
-  padding: 0;
+  padding: 32px 40px;
   overflow-y: auto;
+}
+
+@media (max-width: 900px) {
+  .main {
+    padding: 24px 20px;
+  }
 }
