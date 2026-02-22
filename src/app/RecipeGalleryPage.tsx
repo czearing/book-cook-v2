@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { useRecipes } from "@/clientToServer/hooks/useRecipes";
-import { Button, RecipeCardGallery } from "@/components";
+import { Button, PageTitle, RecipeCardGallery } from "@/components";
 import type { Recipe } from "@/components/RecipeView/RecipeView.types";
 import { RecipeGalleryControls } from "./RecipeGalleryControls";
 import styles from "./RecipeGalleryPage.module.css";
@@ -45,7 +45,9 @@ export const RecipeGalleryPage = () => {
     <section
       className={styles.page}
       aria-busy={isLoading || isFetchingNextPage}
+      aria-labelledby="recipes-heading"
     >
+      <PageTitle id="recipes-heading">Recipes</PageTitle>
       <RecipeGalleryControls
         searchValue={searchValue}
         tagsValue={tagsValue}
@@ -55,7 +57,6 @@ export const RecipeGalleryPage = () => {
       {recipes.length > 0 ? (
         <>
           <RecipeCardGallery
-            title="Featured recipes"
             recipes={recipes}
             onRecipeClick={onRecipeClick}
           />
