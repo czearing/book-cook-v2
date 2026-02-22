@@ -1,4 +1,4 @@
-import type { ElementType, ReactNode } from "react";
+import type { ElementType, HTMLAttributes } from "react";
 
 type TextVariant =
   | "recipeTitle"
@@ -9,17 +9,8 @@ type TextVariant =
   | "bodyText"
   | "metaLabel";
 
-export interface TypographyProps<T extends ElementType = ElementType> {
-  /**
-   * The content of the Typography component
-   */
-  children: ReactNode;
-
-  /**
-   * Additional class names to apply to the Typography component
-   */
-  className?: string;
-
+export interface TypographyProps<T extends ElementType = ElementType>
+  extends HTMLAttributes<HTMLElement> {
   /**
    * The HTML element or React component to render as the Typography component
    */
