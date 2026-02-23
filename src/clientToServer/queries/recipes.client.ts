@@ -25,3 +25,29 @@ export const fetchRecipeById = async (id: string): Promise<Recipe | null> => {
   }
   return response.json();
 };
+
+export const updateRecipeData = async (
+  id: string,
+  fields: { data?: string; title?: string }
+): Promise<void> => {
+  const response = await fetch(`/api/recipes/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(fields),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to update recipe.");
+  }
+};
+
+export const createRecipe = async (title: string): Promise<{ id: string }> => {
+  const response = await fetch("/api/recipes", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title }),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to create recipe.");
+  }
+  return response.json() as Promise<{ id: string }>;
+};
