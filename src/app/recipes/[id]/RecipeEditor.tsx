@@ -39,7 +39,6 @@ function RecipeEditorInner({ recipe, onCancel }: InnerProps) {
   };
 
   const handleCancel = () => {
-    editorRef.current = null;
     setStatus("idle");
     onCancel();
   };
