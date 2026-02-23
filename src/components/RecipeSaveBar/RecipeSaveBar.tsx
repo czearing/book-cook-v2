@@ -13,9 +13,8 @@ import type { RecipeSaveBarProps } from "./RecipeSaveBar.types";
 export const RecipeSaveBar = ({ status, onSave, onCancel }: RecipeSaveBarProps) => {
   const saveState = useRecipeViewSaveState();
   const isDirty = saveState?.isDirty ?? false;
-  const debouncedIsDirty = saveState?.debouncedIsDirty ?? false;
 
-  if (!debouncedIsDirty && status === "idle") {
+  if (!isDirty && status === "idle") {
     return null;
   }
 
