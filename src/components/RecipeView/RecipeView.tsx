@@ -7,6 +7,7 @@ import { TextEditor } from "../TextEditor";
 export const RecipeView = ({
   recipe,
   viewingMode = "viewer",
+  editorRef,
 }: RecipeViewProps) => {
   const saveState = useRecipeViewSaveState();
 
@@ -18,6 +19,7 @@ export const RecipeView = ({
           text={recipe.data}
           viewingMode={viewingMode}
           onDirty={saveState?.markDataDirty}
+          editorRef={editorRef}
         />
       </div>
     </section>

@@ -44,6 +44,12 @@ export const Viewer: StoryObj = {
   render: () => <RecipeView recipe={sampleRecipe} />,
 };
 
+// The full production save UX (floating save bar) is wired in RecipeEditor.tsx:
+// RecipeViewSaveStateProvider wraps both RecipeView and RecipeSaveBar.
+// RecipeSaveBar reads isDirty via useRecipeViewSaveState() — the same hook
+// used by SaveStateIndicator below — and calls onSave when the user clicks.
+// onSave reads the Lexical editor via editorRef (passed through RecipeViewProps)
+// and converts to markdown with $convertToMarkdownString(recipeTransformers).
 export const Editable: StoryObj = {
   render: () => (
     <div style={{ height: "90vh" }}>

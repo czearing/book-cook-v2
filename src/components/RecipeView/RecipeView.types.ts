@@ -1,3 +1,6 @@
+import type { MutableRefObject } from "react";
+import type { LexicalEditor } from "lexical";
+
 export type Recipe = {
   /**
    * The id of the recipe
@@ -69,4 +72,9 @@ export type Recipe = {
 export type RecipeViewProps = {
   recipe: Recipe;
   viewingMode?: "editor" | "viewer";
+  /**
+   * Ref forwarded to the underlying TextEditor so callers can read editor
+   * state (e.g. export markdown on save).
+   */
+  editorRef?: MutableRefObject<LexicalEditor | null>;
 };
