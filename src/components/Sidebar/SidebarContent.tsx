@@ -8,6 +8,7 @@ import {
 } from "@phosphor-icons/react";
 import { useSearchParams } from "next/navigation";
 
+import { NewRecipeDialog } from "@/components/NewRecipeDialog";
 import type {
   SidebarContentProps,
   SidebarLeafItem,
@@ -29,6 +30,7 @@ export const SidebarContent = ({
 }: SidebarContentProps) => {
   const [activeId, setActiveId] = useState(defaultActiveId);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isNewRecipeOpen, setIsNewRecipeOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const searchParams = useSearchParams();
 
@@ -67,6 +69,10 @@ export const SidebarContent = ({
             setIsSearchOpen(true);
             return;
           }
+          if (item.id === "new-recipe") {
+            setIsNewRecipeOpen(true);
+            return;
+          }
           if (item.path) {
             onNavigate?.(item.path);
           }
@@ -87,6 +93,7 @@ export const SidebarContent = ({
           onSubmit={handleSearchSubmit}
         />
       )}
+      <NewRecipeDialog open={isNewRecipeOpen} onOpenChange={setIsNewRecipeOpen} />
     </>
   );
 };
