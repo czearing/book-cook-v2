@@ -38,6 +38,22 @@ export const RecipeHeader = ({
     }
   }, [recipe.title, isEditable]);
 
+  useEffect(() => {
+    if (!isEditable || !titleRef.current) {
+      return;
+    }
+    if (recipe.title !== "Untitled recipe") {
+      return;
+    }
+    titleRef.current.focus();
+    const range = document.createRange();
+    range.selectNodeContents(titleRef.current);
+    const selection = window.getSelection();
+    selection?.removeAllRanges();
+    selection?.addRange(range);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // intentionally runs once on mount only
+
   return (
     <header className={styles.header}>
       <div
