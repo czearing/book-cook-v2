@@ -8,7 +8,7 @@ import {
 } from "@phosphor-icons/react";
 import { useSearchParams } from "next/navigation";
 
-import { NewRecipeDialog } from "@/components/NewRecipeDialog";
+import { useCreateRecipe } from "@/clientToServer/hooks/useCreateRecipe";
 import type {
   SidebarContentProps,
   SidebarLeafItem,
@@ -30,9 +30,9 @@ export const SidebarContent = ({
 }: SidebarContentProps) => {
   const [activeId, setActiveId] = useState(defaultActiveId);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isNewRecipeOpen, setIsNewRecipeOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const searchParams = useSearchParams();
+  const mutation = useCreateRecipe();
 
   useEffect(() => {
     if (!isSearchOpen) {
@@ -56,6 +56,7 @@ export const SidebarContent = ({
   const renderLeaf = (item: SidebarLeafItem, depth = 0) => {
     const Icon = item.icon;
     const size = depth > 0 ? 16 : 18;
+    const isNewRecipe = item.id === "new-recipe";
     return (
       <SidebarItem
         key={item.id}
@@ -63,6 +64,7 @@ export const SidebarContent = ({
         icon={<Icon size={size} />}
         label={item.label}
         active={activeId === item.id}
+        disabled={isNewRecipe && mutation.isPending}
         onClick={() => {
           setActiveId(item.id);
           if (item.id === "search") {
@@ -70,7 +72,11 @@ export const SidebarContent = ({
             return;
           }
           if (item.id === "new-recipe") {
-            setIsNewRecipeOpen(true);
+            mutation.mutate("Untitled recipe", {
+              onSuccess: ({ id }) => {
+                onNavigate?.(`/recipes/${id}`);
+              },
+            });
             return;
           }
           if (item.path) {
@@ -93,7 +99,6 @@ export const SidebarContent = ({
           onSubmit={handleSearchSubmit}
         />
       )}
-      <NewRecipeDialog open={isNewRecipeOpen} onOpenChange={setIsNewRecipeOpen} />
     </>
   );
 };
