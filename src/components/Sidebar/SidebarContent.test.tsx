@@ -15,6 +15,7 @@ jest.mock("@/clientToServer/hooks/useCreateRecipe", () => ({
 
 jest.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(),
+  useRouter: () => ({ push: jest.fn() }),
 }));
 
 beforeEach(() => {
